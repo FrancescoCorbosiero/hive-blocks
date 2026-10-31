@@ -1,0 +1,96 @@
+/**
+ * Hive — design tokens and the few rules every Hive block shares.
+ *
+ * Loaded only on pages with a Hive block or feature (handle hive-base, a
+ * dependency of every block stylesheet). The settings (Hive → Aspetto) print
+ * --hive-accent, --hive-on-accent and --hive-round right after this file.
+ *
+ * Everything else follows the theme: fonts and text colour are inherited,
+ * and lines, muted text and tints are mixed from currentColor where they're
+ * used, so the blocks read well on light and dark themes alike.
+ */
+
+:root {
+    /* Brand (from the settings) */
+    --hive-accent: #721124;
+    --hive-on-accent: #ffffff;
+    --hive-round: 1;
+
+    /* Mixed from the surrounding text colour */
+    --hive-line: color-mix(in srgb, currentColor 14%, transparent);
+    --hive-tint: color-mix(in srgb, currentColor 5%, transparent);
+    --hive-muted: color-mix(in srgb, currentColor 68%, transparent);
+
+    /* The accent as text (pulled towards the surrounding text, so it stays
+       readable on dark themes too) and as a background tint */
+    --hive-accent-ink: color-mix(in srgb, var(--hive-accent) 55%, currentColor);
+    --hive-accent-tint: color-mix(in srgb, var(--hive-accent) 7%, transparent);
+
+    /* Status */
+    --hive-positive: #15803d;
+    --hive-caution: #b45309;
+
+    /* Shape: every radius follows --hive-round (1 rounded, 0 sharp) */
+    --hive-radius-sm: calc(6px * var(--hive-round));
+    --hive-radius-md: calc(10px * var(--hive-round));
+    --hive-radius-lg: calc(16px * var(--hive-round));
+    --hive-radius-pill: calc(999px * var(--hive-round));
+
+    /* Space */
+    --hive-space-1: 0.25rem;
+    --hive-space-2: 0.5rem;
+    --hive-space-3: 0.75rem;
+    --hive-space-4: 1rem;
+    --hive-space-5: 1.5rem;
+    --hive-space-6: 2rem;
+    --hive-space-7: 3rem;
+    --hive-space-8: 4rem;
+
+    /* Type: fluid sizes in the theme's fonts */
+    --hive-text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+    --hive-text-sm: clamp(0.875rem, 0.84rem + 0.18vw, 0.9375rem);
+    --hive-text-md: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+    --hive-text-lg: clamp(1.125rem, 1.06rem + 0.35vw, 1.25rem);
+    --hive-text-xl: clamp(1.25rem, 1.12rem + 0.65vw, 1.5rem);
+    --hive-text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem);
+    --hive-text-3xl: clamp(2rem, 1.6rem + 2vw, 3rem);
+
+    /* Motion */
+    --hive-ease: cubic-bezier(0.33, 1, 0.68, 1);
+    --hive-duration: 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --hive-duration: 0s;
+    }
+}
+
+.hive-block,
+.hive-block *,
+.hive-block *::before,
+.hive-block *::after {
+    box-sizing: border-box;
+}
+
+/* hidden wins over any display a theme or a block rule sets. */
+.hive-block [hidden] {
+    display: none !important;
+}
+
+.hive-block :focus-visible {
+    outline: 2px solid var(--hive-accent);
+    outline-offset: 2px;
+}
+
+.hive-visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}

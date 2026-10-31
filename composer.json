@@ -1,0 +1,21 @@
+{
+    "name": "francescocorbosiero/hive-blocks",
+    "description": "Hive Blocks: development tools only. The plugin itself has no Composer dependencies.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+        "wp-coding-standards/wpcs": "^3.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "platform": {
+            "php": "8.1"
+        }
+    },
+    "scripts": {
+        "lint": "phpcs"
+    }
+}

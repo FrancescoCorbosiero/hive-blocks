@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orari del negozio — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": { "@hive/calendar": "/assets/build/modules/calendar.js" } }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/store-hours/build/style.css">
+    <!-- A theme that styles content elements, as most do. -->
+    <style>
+        body { font-family: Georgia, serif; color: #222; }
+        h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; }
+        dl, dd { margin: 0 0 1.5em 2.5em; }
+        p { margin: 0 0 1.6em; }
+    </style>
+</head>
+<body>
+<main>
+    <!-- render.php's output for the default attributes, as cached on a Sunday: the server marked Sunday as today. -->
+    <section class="hive-block hive-hours wp-block-hive-store-hours" data-hive-hours="{&quot;rows&quot;:[{&quot;day&quot;:&quot;Lunedì&quot;,&quot;time&quot;:&quot;10.30 - 13.00 | 15.30 - 19.30&quot;},{&quot;day&quot;:&quot;Martedì&quot;,&quot;time&quot;:&quot;10.30 - 13.00 | 15.30 - 19.30&quot;},{&quot;day&quot;:&quot;Mercoledì&quot;,&quot;time&quot;:&quot;10.30 - 13.00 | 15.30 - 19.30&quot;},{&quot;day&quot;:&quot;Giovedì&quot;,&quot;time&quot;:&quot;10.30 - 13.00 | 15.30 - 19.30&quot;},{&quot;day&quot;:&quot;Venerdì&quot;,&quot;time&quot;:&quot;10.30 - 13.00 | 15.30 - 19.30&quot;},{&quot;day&quot;:&quot;Sabato&quot;,&quot;time&quot;:&quot;10.30 - 13.00 | 15.30 - 19.30&quot;},{&quot;day&quot;:&quot;Domenica&quot;,&quot;time&quot;:&quot;Chiuso&quot;}],&quot;tz&quot;:&quot;Europe\/Rome&quot;,&quot;holidays&quot;:true,&quot;closed&quot;:[]}">
+        <div class="hive-hours__inner">
+            <h2 class="hive-hours__title">Orari di apertura</h2>
+            <p class="hive-hours__status" data-hive-hours-status hidden>
+                <span class="hive-hours__dot" aria-hidden="true"></span>
+                <span data-hive-hours-text></span>
+            </p>
+            <dl class="hive-hours__list">
+                <div class="hive-hours__row" data-hive-day="1"><dt class="hive-hours__day">Lunedì <span class="hive-hours__badge" data-hive-today-badge hidden>Oggi</span></dt><dd class="hive-hours__time">10.30 - 13.00 | 15.30 - 19.30</dd></div>
+                <div class="hive-hours__row" data-hive-day="2"><dt class="hive-hours__day">Martedì <span class="hive-hours__badge" data-hive-today-badge hidden>Oggi</span></dt><dd class="hive-hours__time">10.30 - 13.00 | 15.30 - 19.30</dd></div>
+                <div class="hive-hours__row" data-hive-day="3"><dt class="hive-hours__day">Mercoledì <span class="hive-hours__badge" data-hive-today-badge hidden>Oggi</span></dt><dd class="hive-hours__time">10.30 - 13.00 | 15.30 - 19.30</dd></div>
+                <div class="hive-hours__row" data-hive-day="4"><dt class="hive-hours__day">Giovedì <span class="hive-hours__badge" data-hive-today-badge hidden>Oggi</span></dt><dd class="hive-hours__time">10.30 - 13.00 | 15.30 - 19.30</dd></div>
+                <div class="hive-hours__row" data-hive-day="5"><dt class="hive-hours__day">Venerdì <span class="hive-hours__badge" data-hive-today-badge hidden>Oggi</span></dt><dd class="hive-hours__time">10.30 - 13.00 | 15.30 - 19.30</dd></div>
+                <div class="hive-hours__row" data-hive-day="6"><dt class="hive-hours__day">Sabato <span class="hive-hours__badge" data-hive-today-badge hidden>Oggi</span></dt><dd class="hive-hours__time">10.30 - 13.00 | 15.30 - 19.30</dd></div>
+                <div class="hive-hours__row is-today" data-hive-day="0"><dt class="hive-hours__day">Domenica <span class="hive-hours__badge" data-hive-today-badge>Oggi</span></dt><dd class="hive-hours__time is-closed">Chiuso</dd></div>
+            </dl>
+        </div>
+    </section>
+</main>
+<script type="module" src="/blocks/store-hours/build/view.js"></script>
+</body>
+</html>

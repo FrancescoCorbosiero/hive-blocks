@@ -1,0 +1,21 @@
+{
+  "name": "hive-blocks",
+  "private": true,
+  "description": "Build and test tooling for Hive Blocks.",
+  "license": "GPL-2.0-or-later",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "dev": "node tools/build.mjs --watch",
+    "test": "node --import ./tests/js/hooks.mjs --test \"tests/js/**/*.test.mjs\" && php tests/php/run.php",
+    "test:browser": "playwright test --config tests/browser/playwright.config.mjs",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "esbuild": "0.28.2"
+  }
+}

@@ -1,0 +1,6 @@
+node_modules/
+vendor/
+test-results/
+playwright-report/
+tests/e2e/.artifacts/
+.DS_Store

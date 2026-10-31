@@ -1,0 +1,59 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/store-hours",
+    "title": "Orari del negozio",
+    "category": "hive",
+    "icon": "clock",
+    "description": "Orari di apertura con «Aperto ora · chiude alle 19:30», giusto anche su una pagina in cache.",
+    "keywords": ["orari", "apertura", "negozio", "hours"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Orari di apertura"
+        },
+        "hours": {
+            "type": "array",
+            "default": [
+                { "day": "Lunedì", "time": "10.30 - 13.00 | 15.30 - 19.30" },
+                { "day": "Martedì", "time": "10.30 - 13.00 | 15.30 - 19.30" },
+                { "day": "Mercoledì", "time": "10.30 - 13.00 | 15.30 - 19.30" },
+                { "day": "Giovedì", "time": "10.30 - 13.00 | 15.30 - 19.30" },
+                { "day": "Venerdì", "time": "10.30 - 13.00 | 15.30 - 19.30" },
+                { "day": "Sabato", "time": "10.30 - 13.00 | 15.30 - 19.30" },
+                { "day": "Domenica", "time": "Chiuso" }
+            ]
+        },
+        "note": {
+            "type": "string",
+            "default": ""
+        },
+        "closedOnHolidays": {
+            "type": "boolean",
+            "default": true
+        },
+        "closedDates": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "file:./build/view.js",
+    "render": "file:./render.php"
+}
