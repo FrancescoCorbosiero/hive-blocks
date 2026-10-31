@@ -54,6 +54,10 @@ foreach (['doing_it_wrong_run', 'deprecated_function_run', 'deprecated_argument_
     );
 }
 
+// Action Scheduler's loopback runner off too (see DISABLE_WP_CRON in serve.mjs): the
+// specs run the actions they need through the helpers below.
+add_filter('action_scheduler_allow_async_request_runner', '__return_false');
+
 /*
  * Helpers for the specs, on this test site only: the mail WordPress would
  * send (kept instead of sent), a subscriber's state, a size back in stock,
