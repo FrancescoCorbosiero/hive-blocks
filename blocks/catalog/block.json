@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/catalog",
+    "title": "Pagina del negozio",
+    "category": "hive",
+    "icon": "grid-view",
+    "description": "Il negozio o una sua collezione: intestazione, filtri, ordinamento, prodotti e pagine. Per i modelli del negozio dei temi a blocchi.",
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "canvas": { "type": "boolean", "default": false }
+    },
+    "supports": {
+        "html": false,
+        "inserter": false,
+        "reusable": false
+    },
+    "viewStyle": "hive-catalog",
+    "viewScriptModule": "@hive/catalog",
+    "render": "file:./render.php"
+}

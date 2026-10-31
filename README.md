@@ -42,6 +42,13 @@ Features that hook into WooCommerce; each can be switched off in **Hive → Modu
 | Schede prodotto | WooCommerce's product lists (shop, categories, search, related products) show Hive's cards in Hive's grid. |
 | Anteprima rapida | The eye button on a card opens photos, sizes, price and add to cart in a dialog. |
 | Aggiunta rapida | On a product with sizes, "Aggiungi al carrello" opens the size choice instead of the product page. |
+| Pagine del negozio | The shop and its category, brand, tag and attribute pages are Hive's: hero, filters (sizes matched on stock, price, categories, every attribute, in stock only), sort order, grid and pages, inside the theme's header and footer. Filters are plain URLs, swapped in place without reloading. |
+
+## Settings
+
+**Hive** in the admin menu: the accent and button colours, rounded or sharp
+corners, the size attribute, the WhatsApp number, sold-out products last,
+the filters as a sidebar or a panel on desktop, and the modules on or off.
 
 ## Caching and the CDN
 
@@ -51,6 +58,11 @@ can serve them. Product data for Quick View and Quick Add comes from
 long `s-maxage`: add a CDN rule that caches `/wp-json/hive/v1/` GET requests
 and they never reach PHP twice. `v` changes whenever products do, so a
 cached answer is never stale for long.
+
+Every filtered shop page is a plain URL (`?filter_taglia=42`,
+`?orderby=price`), the same for every visitor: the page cache and the CDN
+serve those too. The filter links carry `rel="nofollow"` so crawlers don't
+wander through every combination.
 
 ## Development
 

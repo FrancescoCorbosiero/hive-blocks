@@ -21,6 +21,7 @@ final class SettingsSchema
      *   choice  one of 'choices'
      *   key     a taxonomy or attribute name: a-z, 0-9, _ and -, up to 32
      *   phone   digits only, 6 to 15 (international format without +), or ''
+     *   bool    on or off
      *   flags   [key => bool], e.g. which modules are on
      */
     public const FIELDS = [
@@ -29,6 +30,8 @@ final class SettingsSchema
         'shape'          => ['type' => 'choice', 'default' => 'round', 'choices' => ['round', 'sharp']],
         'size_attribute' => ['type' => 'key', 'default' => 'pa_taglia'],
         'whatsapp'       => ['type' => 'phone', 'default' => ''],
+        'sold_out_last'  => ['type' => 'bool', 'default' => true],
+        'filters_layout' => ['type' => 'choice', 'default' => 'sidebar', 'choices' => ['sidebar', 'drawer']],
         'modules'        => ['type' => 'flags', 'default' => []],
     ];
 
@@ -69,6 +72,12 @@ final class SettingsSchema
             case 'phone':
                 $digits = is_string($value) ? (string) preg_replace('/\D/', '', $value) : '';
                 return 1 === preg_match('/^\d{6,15}$/', $digits) ? $digits : $field['default'];
+
+            case 'bool':
+                if (null === $value) {
+                    return $field['default'];
+                }
+                return true === $value || in_array($value, ['1', 1, 'true', 'yes', 'on'], true);
 
             case 'flags':
                 $flags = [];

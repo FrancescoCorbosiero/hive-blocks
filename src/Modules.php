@@ -19,6 +19,7 @@ final class Modules
         Modules\Cards::class,
         Modules\QuickView::class,
         Modules\QuickAdd::class,
+        Modules\Catalog::class,
     ];
 
     /** @return array<string, class-string<Module>> id → class */
