@@ -83,7 +83,8 @@ test('the page renders with Hive, and old email links answer through Hive', asyn
     const page = await browser.newPage();
     const errors = hiveErrors(page);
     await page.goto('/?pagename=golden-hive');
-    await expect(page.locator('.hive-hours__title')).toHaveText('Orari di prima');
+    // The page's own Orari (on classic themes the sidebar has the fixtures' Orari widget too).
+    await expect(page.locator('.hive-hours__title', { hasText: 'Orari di prima' })).toBeVisible();
     // The "Chi siamo" hero shows what golden-hive-blocks' showed: the eyebrow, text and values it had by default, no button.
     const hero = page.locator('.hive-hero');
     await expect(hero.locator('.hive-hero__title')).toHaveText('La nostra storia');
