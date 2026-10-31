@@ -154,6 +154,138 @@ return array(
 		'viewScriptModule' => 'file:./build/view.js',
 		'render' => 'file:./render.php',
 	),
+	'drop-calendar' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/drop-calendar',
+		'title' => 'Calendario dei drop',
+		'category' => 'hive',
+		'icon' => 'calendar-alt',
+		'description' => 'Le prossime uscite: i prodotti con una data di drop, in ordine, con «Esce tra 3 giorni», «Ricordamelo» e «Acquista ora» all’uscita.',
+		'keywords' => array(
+			'drop',
+			'calendario',
+			'uscite',
+			'release',
+			'countdown',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => 'Calendario drop',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Le prossime uscite',
+			),
+			'subtitle' => array(
+				'type' => 'string',
+				'default' => 'Segna la data: ti ricordiamo noi quando escono.',
+			),
+			'limit' => array(
+				'type' => 'number',
+				'default' => 6,
+			),
+			'showReleased' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'emptyText' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => '@hive/drop',
+		'render' => 'file:./render.php',
+	),
+	'drop-countdown' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/drop-countdown',
+		'title' => 'Conto alla rovescia del drop',
+		'category' => 'hive',
+		'icon' => 'clock',
+		'description' => 'Il conto alla rovescia di un’uscita: segue il drop di un prodotto (data, foto, prezzo, link) o una data scritta qui, con «Ricordamelo» e «Acquista ora» all’uscita. Senza scelta, il prossimo drop del negozio.',
+		'keywords' => array(
+			'drop',
+			'countdown',
+			'uscita',
+			'release',
+			'conto alla rovescia',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'productId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'productName' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'productImageId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'releaseDate' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => 'Prossimo drop',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Scopri di più',
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => '@hive/drop',
+		'render' => 'file:./render.php',
+	),
 	'product' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
