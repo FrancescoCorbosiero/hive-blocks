@@ -64,6 +64,28 @@ data. It brings over:
 Swatches, the gallery, the sticky bar and the stock meter are settings in
 Hive (Hive → Impostazioni → Pagina prodotto). Nothing to move.
 
+## What looks different
+
+On purpose, so you know what to expect when you check:
+
+- **No animation engine.** Reveal on scroll, parallax, mouse tracking,
+  particles, magnetic buttons and the carousel's crossfade and slow zoom
+  are gone (a motion add-on can come later). A hero's video starts once
+  the page has loaded, never with reduced motion or data saving, and has
+  a pause button. The trust badges' "carousel" is a band that scrolls by
+  hand on phones.
+- **Maps** always wait for "Mostra la mappa": no Google request, and no
+  Google cookie, before.
+- **Colours** come from Hive → Aspetto (accent and buttons). On dark
+  surfaces (a cover hero, the carousel, the banner) the main button is
+  light, so it shows. The floating WhatsApp button takes the accent.
+- **Default texts** that were English or misspelled are Italian and
+  correct where a block never had its own ("Autenticità certificata",
+  "Autenticità"); a Legit check button pointing nowhere (`#`) isn't drawn.
+  Heroes and calls to action keep exactly the texts they showed.
+- **A section around a shortcode** that prints nothing is not drawn at
+  all (golden-hive-blocks drew its heading anyway).
+
 ## After
 
 1. Deactivate **golden-hive-blocks** and **CommerceKit** (Plugins).
