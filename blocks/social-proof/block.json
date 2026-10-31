@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/social-proof",
+    "title": "Acquisti recenti",
+    "category": "hive",
+    "icon": "megaphone",
+    "description": "«Qualcuno ha appena acquistato»: un avviso in basso con gli ultimi ordini pagati (prodotto, città, da quanto), poche volte per visita. Mai nel carrello o al checkout.",
+    "keywords": ["social proof", "acquisti", "notifica", "popup", "ordini"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "days": { "type": "number", "default": 14 },
+        "limit": { "type": "number", "default": 10 },
+        "showCity": { "type": "boolean", "default": true },
+        "maxPerVisit": { "type": "number", "default": 3 },
+        "interval": { "type": "number", "default": 25000 },
+        "initialDelay": { "type": "number", "default": 8000 },
+        "displayDuration": { "type": "number", "default": 6000 },
+        "showVerified": { "type": "boolean", "default": true },
+        "title": { "type": "string", "default": "Qualcuno ha appena acquistato" }
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "multiple": false
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "file:./build/view.js",
+    "render": "file:./render.php"
+}

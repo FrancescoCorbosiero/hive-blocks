@@ -1,0 +1,100 @@
+/**
+ * Badge di fiducia. Every rule sits under .hive-badges, so each selector has
+ * two classes and outranks a theme's content rules (ul, li…). No motion:
+ * where the badges don't fit, the strip scrolls sideways by hand. Colours
+ * come from the tokens in assets/base.css.
+ */
+
+.hive-badges {
+    padding-block: var(--hive-space-3);
+    border-block: 1px solid var(--hive-line);
+    background: var(--hive-tint);
+
+    & .hive-badges__list {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 0 var(--hive-space-4);
+        overflow-x: auto;
+        list-style: none;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+    }
+
+    & .hive-badges__list::-webkit-scrollbar {
+        display: none;
+    }
+
+    & .hive-badges__item {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        gap: var(--hive-space-2);
+        margin: 0;
+        padding: var(--hive-space-1) var(--hive-space-4);
+        color: var(--hive-muted);
+        font-size: var(--hive-text-xs);
+        font-weight: 500;
+        line-height: 1.4;
+        white-space: nowrap;
+        scroll-snap-align: start;
+    }
+
+    & .hive-badges__item + .hive-badges__item {
+        border-inline-start: 1px solid var(--hive-line);
+    }
+
+    & .hive-badges__icon {
+        flex: none;
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+/* Wide enough: one centred row, wrapping rather than scrolling. */
+@media (min-width: 768px) {
+    .hive-badges .hive-badges__list {
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: var(--hive-space-2);
+        overflow-x: visible;
+    }
+
+    .hive-badges .hive-badges__item {
+        padding-inline: var(--hive-space-5);
+        font-size: var(--hive-text-sm);
+    }
+
+    .hive-badges .hive-badges__icon {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+}
+
+/* Fascia scura: a band in the buttons' colour, dots between the badges. */
+.hive-badges.hive-badges--dark {
+    border-block-color: transparent;
+    background: var(--hive-button);
+    color: var(--hive-on-button);
+
+    & .hive-badges__item + .hive-badges__item {
+        position: relative;
+        border-inline-start: 0;
+    }
+
+    & .hive-badges__item + .hive-badges__item::before {
+        content: "";
+        position: absolute;
+        inset-inline-start: -0.125rem;
+        top: 50%;
+        width: 0.25rem;
+        height: 0.25rem;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.5;
+        transform: translateY(-50%);
+    }
+}

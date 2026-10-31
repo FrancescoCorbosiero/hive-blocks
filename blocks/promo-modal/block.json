@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/promo-modal",
+    "title": "Popup promozionale",
+    "category": "hive",
+    "icon": "tickets-alt",
+    "description": "Un’offerta in una finestra: dopo qualche secondo o quando il visitatore sta per andarsene, una volta sola per visitatore. Si apre anche da un link a #ID.",
+    "keywords": ["promo", "popup", "sconto", "coupon", "modal"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "modalId": { "type": "string", "default": "promo-popup" },
+        "imageUrlId": { "type": "number", "default": 0 },
+        "badge": { "type": "string", "default": "Offerta esclusiva" },
+        "title": { "type": "string", "default": "10% di sconto" },
+        "text": { "type": "string", "default": "Iscriviti alla newsletter e ricevi subito il 10% di sconto sul tuo primo ordine!" },
+        "couponCode": { "type": "string", "default": "WELCOME10" },
+        "buttonText": { "type": "string", "default": "Ottieni lo sconto" },
+        "buttonUrl": { "type": "string", "default": "" },
+        "disclaimer": { "type": "string", "default": "Valido solo per nuovi clienti. Non cumulabile." },
+        "autoShow": { "type": "boolean", "default": true },
+        "trigger": { "type": "string", "default": "delay", "enum": ["delay", "exit"] },
+        "showDelay": { "type": "number", "default": 5000 },
+        "showOnce": { "type": "boolean", "default": true }
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "multiple": false
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "file:./build/view.js",
+    "render": "file:./render.php"
+}

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Guida alle taglie — fixture</title>
+    <!-- What WordPress prints: the import map, @hive/dialog's data, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@hive/dialog": "/assets/build/modules/dialog.js",
+            "@hive/dom": "/assets/build/modules/dom.js"
+        }
+    }
+    </script>
+    <script type="application/json" id="wp-script-module-data-@hive/dialog">{"style":"/assets/build/dialog.css"}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/size-chart-modal/build/style.css">
+    <!-- A theme that styles buttons and paragraphs, as most do. -->
+    <style>
+        body { margin: 0 auto; max-width: 900px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        p { margin: 0 0 1.6em; }
+        button { padding: 4px 8px; border: 0; border-radius: 0; background: orange; color: #fff; font-family: monospace; letter-spacing: 0.2em; text-transform: uppercase; }
+        button:hover { background: red; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php for the default attributes: no guide chosen, so the old block's table. -->
+    <div class="hive-block hive-size-chart-modal wp-block-hive-size-chart-modal" data-hive-size-chart="size-chart">
+        <button type="button" class="hive-size-chart-modal__button" data-hive-size-chart-open aria-haspopup="dialog">
+            <svg class="hive-size-chart-modal__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8.5 8.5 3 21 15.5 15.5 21zm2.8 0 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 2.7-2.7L8.5 5.8z"/></svg>
+            <span class="hive-size-chart-modal__label">Guida Taglie</span>
+        </button>
+        <template data-hive-size-chart-content data-title="Guida Taglie">
+            <p>Trova la tua taglia perfetta</p>
+            <figure>
+                <table>
+                    <thead>
+                        <tr><th>US</th><th>UK</th><th>EU</th><th>CM</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>6</td><td>5.5</td><td>38.5</td><td>24</td></tr>
+                        <tr><td>6.5</td><td>6</td><td>39</td><td>24.5</td></tr>
+                        <tr><td>7</td><td>6</td><td>40</td><td>25</td></tr>
+                        <tr><td>7.5</td><td>6.5</td><td>40.5</td><td>25.5</td></tr>
+                        <tr><td>8</td><td>7</td><td>41</td><td>26</td></tr>
+                        <tr><td>8.5</td><td>7.5</td><td>42</td><td>26.5</td></tr>
+                        <tr><td>9</td><td>8</td><td>42.5</td><td>27</td></tr>
+                        <tr><td>9.5</td><td>8.5</td><td>43</td><td>27.5</td></tr>
+                        <tr><td>10</td><td>9</td><td>44</td><td>28</td></tr>
+                        <tr><td>10.5</td><td>9.5</td><td>44.5</td><td>28.5</td></tr>
+                        <tr><td>11</td><td>10</td><td>45</td><td>29</td></tr>
+                        <tr><td>12</td><td>11</td><td>46</td><td>30</td></tr>
+                        <tr><td>13</td><td>12</td><td>47.5</td><td>31</td></tr>
+                    </tbody>
+                </table>
+            </figure>
+            <p><strong>Consiglio:</strong> Se sei tra due taglie, ti consigliamo di scegliere la taglia più grande.</p>
+        </template>
+    </div>
+    <!-- A guide from Hive → Guide alle taglie (post 77), under its own title. -->
+    <div class="hive-block hive-size-chart-modal wp-block-hive-size-chart-modal" data-hive-size-chart="guida-nike">
+        <button type="button" class="hive-size-chart-modal__button" data-hive-size-chart-open aria-haspopup="dialog">
+            <svg class="hive-size-chart-modal__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8.5 8.5 3 21 15.5 15.5 21zm2.8 0 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 1.1-1.1 1.1 1.1-1.1 1.1 1.4 1.4 2.7-2.7L8.5 5.8z"/></svg>
+            <span class="hive-size-chart-modal__label">Guida alle taglie Nike</span>
+        </button>
+        <template data-hive-size-chart-content data-title="Guida taglie Nike">
+            <figure class="wp-block-table"><table><thead><tr><th>EU</th><th>US</th><th>CM</th></tr></thead><tbody><tr><td>40</td><td>7</td><td>25</td></tr><tr><td>41</td><td>8</td><td>26</td></tr><tr><td>42</td><td>8,5</td><td>26,5</td></tr></tbody></table></figure><p>Le Dunk calzano regolari.</p>
+        </template>
+    </div>
+    <!-- No button: a link to #guida-abbigliamento opens it (guide 78 is a draft, so the table). -->
+    <div class="hive-block hive-size-chart-modal wp-block-hive-size-chart-modal" data-hive-size-chart="guida-abbigliamento" hidden="hidden">
+        <template data-hive-size-chart-content data-title="Taglie abbigliamento">
+            <figure>
+                <table>
+                    <thead>
+                        <tr><th>US</th><th>UK</th><th>EU</th><th>CM</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>6</td><td>5.5</td><td>38.5</td><td>24</td></tr>
+                        <tr><td>6.5</td><td>6</td><td>39</td><td>24.5</td></tr>
+                        <tr><td>7</td><td>6</td><td>40</td><td>25</td></tr>
+                        <tr><td>7.5</td><td>6.5</td><td>40.5</td><td>25.5</td></tr>
+                        <tr><td>8</td><td>7</td><td>41</td><td>26</td></tr>
+                        <tr><td>8.5</td><td>7.5</td><td>42</td><td>26.5</td></tr>
+                        <tr><td>9</td><td>8</td><td>42.5</td><td>27</td></tr>
+                        <tr><td>9.5</td><td>8.5</td><td>43</td><td>27.5</td></tr>
+                        <tr><td>10</td><td>9</td><td>44</td><td>28</td></tr>
+                        <tr><td>10.5</td><td>9.5</td><td>44.5</td><td>28.5</td></tr>
+                        <tr><td>11</td><td>10</td><td>45</td><td>29</td></tr>
+                        <tr><td>12</td><td>11</td><td>46</td><td>30</td></tr>
+                        <tr><td>13</td><td>12</td><td>47.5</td><td>31</td></tr>
+                    </tbody>
+                </table>
+            </figure>
+            <p><strong>Consiglio:</strong> Se sei tra due taglie, ti consigliamo di scegliere la taglia più grande.</p>
+        </template>
+    </div>
+    <p>Non sai quale taglia scegliere? <a href="#guida-abbigliamento">Apri la guida alle taglie</a>.</p>
+</main>
+<script type="module" src="/blocks/size-chart-modal/build/view.js"></script>
+</body>
+</html>

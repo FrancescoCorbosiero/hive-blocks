@@ -1,0 +1,75 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/authenticity-guarantee",
+    "title": "Garanzia di autenticità",
+    "category": "hive",
+    "icon": "awards",
+    "description": "La promessa di autenticità: un sigillo, i passaggi della verifica e un pulsante per saperne di più.",
+    "keywords": ["autenticità", "garanzia", "certificazione", "fiducia", "verificato"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "eyebrow": {
+            "type": "string",
+            "default": "La Nostra Promessa"
+        },
+        "title": {
+            "type": "string",
+            "default": "100% Autenticità Garantita"
+        },
+        "description": {
+            "type": "string",
+            "default": "Ogni articolo viene meticolosamente ispezionato e verificato dal nostro team di esperti prima di raggiungerti."
+        },
+        "badgeText": {
+            "type": "string",
+            "default": "Autenticità certificata"
+        },
+        "badgeSub": {
+            "type": "string",
+            "default": ""
+        },
+        "steps": {
+            "type": "array",
+            "default": [
+                {
+                    "title": "Ispezione Visiva",
+                    "text": "Ogni dettaglio viene esaminato dai nostri esperti certificati."
+                },
+                {
+                    "title": "Verifica Materiali",
+                    "text": "Controlliamo qualità dei materiali, cuciture e finiture."
+                },
+                {
+                    "title": "Certificazione",
+                    "text": "Solo i prodotti che superano tutti i controlli ricevono il nostro sigillo."
+                }
+            ]
+        },
+        "buttonText": {
+            "type": "string",
+            "default": "Scopri di Più"
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}

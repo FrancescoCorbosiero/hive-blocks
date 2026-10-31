@@ -1,0 +1,59 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/faq-schema",
+    "title": "Domande frequenti",
+    "category": "hive",
+    "icon": "editor-help",
+    "description": "Domande e risposte a fisarmonica, con i dati strutturati FAQPage per i risultati di Google.",
+    "keywords": ["faq", "domande", "risposte", "accordion", "schema", "seo"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Domande Frequenti"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": ""
+        },
+        "items": {
+            "type": "array",
+            "default": [
+                {
+                    "question": "I prodotti sono autentici?",
+                    "answer": "Sì, ogni articolo viene verificato dal nostro team di esperti prima della spedizione. Garantiamo il 100% di autenticità su tutti i prodotti."
+                },
+                {
+                    "question": "Quali sono i tempi di spedizione?",
+                    "answer": "Le spedizioni standard vengono elaborate in 1-2 giorni lavorativi. La consegna avviene in 3-5 giorni lavorativi in tutta Italia."
+                },
+                {
+                    "question": "Posso effettuare un reso?",
+                    "answer": "Certamente! Offriamo il reso gratuito entro 14 giorni dalla ricezione dell'ordine. Il prodotto deve essere nelle condizioni originali."
+                }
+            ]
+        },
+        "allowMultiple": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "supports": {
+        "align": ["wide"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}

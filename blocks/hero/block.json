@@ -1,0 +1,108 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/hero",
+    "title": "Hero",
+    "category": "hive",
+    "icon": "cover-image",
+    "description": "L’apertura di una pagina: un’immagine o un video dietro al testo, l’immagine accanto al testo, o la storia del negozio con i suoi valori.",
+    "keywords": ["hero", "copertina", "video", "chi siamo", "banner", "apertura"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "layout": { "type": "string", "enum": ["cover", "split", "about"], "default": "cover" },
+        "badge": { "type": "string", "default": "100% autentico" },
+        "eyebrow": { "type": "string", "default": "" },
+        "title": { "type": "string", "default": "Sneakers premium" },
+        "titleAccent": { "type": "string", "default": "" },
+        "headingLevel": { "type": "string", "enum": ["h1", "h2"], "default": "h2" },
+        "subtitle": { "type": "string", "default": "La tua destinazione per sneakers autentiche e verificate." },
+        "values": { "type": "array", "default": [] },
+        "buttonText": { "type": "string", "default": "Acquista ora" },
+        "buttonUrl": { "type": "string", "default": "" },
+        "buttonStyle": { "type": "string", "enum": ["solid", "outline"], "default": "solid" },
+        "secondaryButtonText": { "type": "string", "default": "Scopri di più" },
+        "secondaryButtonUrl": { "type": "string", "default": "" },
+        "imageId": { "type": "number", "default": 0 },
+        "imageUrl": { "type": "string", "default": "" },
+        "imagePosition": { "type": "string", "default": "center center" },
+        "videoUrl": { "type": "string", "default": "" },
+        "foregroundId": { "type": "number", "default": 0 },
+        "foregroundUrl": { "type": "string", "default": "" },
+        "overlay": { "type": "number", "default": 50 },
+        "height": { "type": "string", "enum": ["auto", "tall", "full"], "default": "tall" },
+        "mediaSide": { "type": "string", "enum": ["left", "right"], "default": "left" },
+        "tone": { "type": "string", "enum": ["auto", "dark"], "default": "auto" },
+        "aboveFold": { "type": "boolean", "default": true },
+        "showScrollIndicator": { "type": "boolean", "default": false },
+        "align": { "type": "string", "default": "full" }
+    },
+    "variations": [
+        {
+            "name": "cover",
+            "title": "Copertina",
+            "description": "Un’immagine, o un video con la sua copertina, a tutta pagina dietro al testo.",
+            "icon": "cover-image",
+            "isDefault": true,
+            "scope": ["inserter"],
+            "isActive": ["layout"],
+            "attributes": { "layout": "cover", "height": "full", "align": "full" }
+        },
+        {
+            "name": "split",
+            "title": "Diviso",
+            "description": "L’immagine da un lato, il testo dall’altro.",
+            "icon": "align-pull-left",
+            "scope": ["inserter"],
+            "isActive": ["layout"],
+            "attributes": {
+                "layout": "split",
+                "height": "tall",
+                "align": "full",
+                "badge": "",
+                "eyebrow": "Nuova collezione",
+                "title": "Il drop della settimana",
+                "subtitle": "Pezzi selezionati e autenticati dal nostro team. Disponibilità limitata.",
+                "buttonText": "Scopri ora",
+                "secondaryButtonText": ""
+            }
+        },
+        {
+            "name": "about",
+            "title": "Chi siamo",
+            "description": "La storia del negozio: il testo, i valori e un’immagine.",
+            "icon": "heart",
+            "scope": ["inserter"],
+            "isActive": ["layout"],
+            "attributes": {
+                "layout": "about",
+                "height": "auto",
+                "align": "wide",
+                "mediaSide": "right",
+                "aboveFold": false,
+                "badge": "",
+                "eyebrow": "Chi siamo",
+                "title": "Nati a Piacenza",
+                "subtitle": "Nasciamo dalla passione per le sneakers e lo streetwear. La nostra boutique in Stradone Farnese 3 è il punto di riferimento a Piacenza per chi cerca calzature e abbigliamento autentici, selezionati e verificati.",
+                "values": [
+                    { "title": "Autenticità", "text": "Ogni prodotto è verificato dal nostro team di esperti." },
+                    { "title": "Passione", "text": "Viviamo e respiriamo la cultura streetwear ogni giorno." },
+                    { "title": "Comunità", "text": "Siamo più di un negozio: siamo una famiglia di appassionati." }
+                ],
+                "buttonText": "",
+                "secondaryButtonText": ""
+            }
+        }
+    ],
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "spacing": {
+            "margin": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}

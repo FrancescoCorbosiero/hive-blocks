@@ -1,0 +1,56 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/hero-carousel",
+    "title": "Carosello",
+    "category": "hive",
+    "icon": "slides",
+    "description": "Slide a tutta pagina che scorrono di lato: immagine, testo e pulsante, con frecce, pallini e scorrimento automatico.",
+    "keywords": ["carosello", "slider", "slide", "hero", "banner"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "slides": {
+            "type": "array",
+            "default": [
+                {
+                    "image": "",
+                    "imageId": 0,
+                    "objectPosition": "center center",
+                    "eyebrow": "Nuova collezione",
+                    "title": "Sneakers premium autentiche",
+                    "subtitle": "Scopri le ultime uscite, verificate e certificate dal nostro team di esperti.",
+                    "buttonText": "Acquista ora",
+                    "buttonUrl": "#shop"
+                },
+                {
+                    "image": "",
+                    "imageId": 0,
+                    "objectPosition": "center center",
+                    "eyebrow": "Edizione limitata",
+                    "title": "Drop esclusivi ogni settimana",
+                    "subtitle": "Registrati per accedere in anteprima ai drop più ricercati.",
+                    "buttonText": "Scopri di più",
+                    "buttonUrl": "#drops"
+                }
+            ]
+        },
+        "autoplay": { "type": "number", "default": 6000 },
+        "layout": { "type": "string", "enum": ["left", "centered"], "default": "left" },
+        "showDots": { "type": "boolean", "default": true },
+        "showArrows": { "type": "boolean", "default": true },
+        "align": { "type": "string", "default": "full" }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "spacing": {
+            "margin": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "file:./build/view.js",
+    "render": "file:./render.php"
+}
