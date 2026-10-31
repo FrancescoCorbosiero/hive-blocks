@@ -302,7 +302,7 @@ function stickyBar(root, form) {
     const bar = root.querySelector('[data-hive-sticky]');
     const add = form?.querySelector('[data-hive-buy-add]');
     const none = { update() {}, added() {} };
-    if (!bar || !add || !('IntersectionObserver' in window)) return none;
+    if (!bar || !add) return none;
 
     const button = bar.querySelector('[data-hive-sticky-add]');
     const price = bar.querySelector('[data-hive-sticky-price]');
@@ -323,17 +323,24 @@ function stickyBar(root, form) {
         bar.dataset.state = `${past ? 'past' : 'before'}${end ? '-end' : ''}`;
     };
 
-    new IntersectionObserver(([entry]) => {
-        past = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-        show();
-    }).observe(add);
-
+    // Where the button and the end of the product's part are, read once a frame while scrolling.
+    // (Not an IntersectionObserver: a jump from below the button to past it never "intersects",
+    // after an anchor link or a restored scroll position say, and the bar would never show.)
     const sentinel = h('div', { class: 'hive-product__end', 'aria-hidden': 'true' });
     root.append(sentinel);
-    new IntersectionObserver(([entry]) => {
-        end = entry.isIntersecting || entry.boundingClientRect.top < 0;
+    let frame = 0;
+    const measure = () => {
+        frame = 0;
+        past = add.getBoundingClientRect().bottom < 0;
+        end = sentinel.getBoundingClientRect().top < window.innerHeight;
         show();
-    }).observe(sentinel);
+    };
+    const soon = () => {
+        frame ||= requestAnimationFrame(measure);
+    };
+    window.addEventListener('scroll', soon, { passive: true });
+    window.addEventListener('resize', soon, { passive: true });
+    measure();
 
     button.addEventListener('click', () => {
         if (variable && (!picked || !buyable)) {
