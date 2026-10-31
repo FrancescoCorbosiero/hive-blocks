@@ -57,7 +57,10 @@ final class ProductPage implements Module
         ProductExtras::register();
         add_filter('template_include', [self::class, 'template'], 99);
         add_action('wp_enqueue_scripts', [self::class, 'early_assets'], 5);
+        // Again right before the scripts print: some setups enqueue them later than wp_enqueue_scripts.
         add_action('wp_enqueue_scripts', [self::class, 'drop_gallery_scripts'], 99);
+        add_action('wp_print_scripts', [self::class, 'drop_gallery_scripts'], 1);
+        add_action('wp_print_footer_scripts', [self::class, 'drop_gallery_scripts'], 1);
         add_filter('script_module_data_@hive/product', [self::class, 'module_data']);
     }
 

@@ -319,6 +319,8 @@ function stickyBar(root, form) {
         const on = past && !end;
         bar.classList.toggle('is-visible', on);
         bar.inert = !on;
+        // Why it shows or not, for whoever looks at the page.
+        bar.dataset.state = `${past ? 'past' : 'before'}${end ? '-end' : ''}`;
     };
 
     new IntersectionObserver(([entry]) => {
