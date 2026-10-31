@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/whatsapp-button",
+    "title": "Pulsante WhatsApp",
+    "category": "hive",
+    "icon": "whatsapp",
+    "description": "Un pulsante fisso nell’angolo in basso a destra che apre la chat WhatsApp del negozio, con il messaggio già scritto.",
+    "keywords": ["whatsapp", "chat", "contatto", "pulsante"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "phoneNumber": {
+            "type": "string",
+            "default": ""
+        },
+        "message": {
+            "type": "string",
+            "default": "Ciao! Vorrei avere informazioni su..."
+        },
+        "buttonText": {
+            "type": "string",
+            "default": "Chatta con noi"
+        },
+        "iconOnly": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "multiple": false
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}

@@ -1,0 +1,371 @@
+/**
+ * Instagram. Every selector has two classes, so a theme's content rules
+ * (h2, ul, img, a…) don't reach the block. The heading follows the theme's
+ * text colour; what sits on the photos (overlay, tags, badges) sets its own
+ * colours from the tokens, as dialogs do.
+ */
+
+.hive-block.hive-instagram-feed {
+    padding-block: var(--hive-space-7);
+}
+
+.hive-instagram-feed {
+    & .hive-instagram-feed__header {
+        max-width: 40rem;
+        margin: 0 auto var(--hive-space-6);
+        padding: 0;
+        text-align: center;
+    }
+
+    & .hive-instagram-feed__title {
+        margin: 0 0 var(--hive-space-2);
+        padding: 0;
+        color: inherit;
+        font-size: var(--hive-text-3xl);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        text-align: center;
+    }
+
+    & .hive-instagram-feed__subtitle {
+        margin: 0;
+        padding: 0;
+        color: var(--hive-muted);
+        font-size: var(--hive-text-lg);
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    /* The grid */
+
+    & .hive-instagram-feed__grid {
+        display: grid;
+        grid-template-columns: repeat(var(--hive-columns, 3), minmax(0, 1fr));
+        gap: var(--hive-space-2);
+        margin: 0 0 var(--hive-space-6);
+        padding: 0;
+        list-style: none;
+    }
+
+    & .hive-instagram-feed__item {
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    & .hive-instagram-feed__frame {
+        position: relative;
+        display: block;
+        aspect-ratio: 1 / 1;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+        border-radius: var(--hive-radius-md);
+        background: var(--hive-tint);
+        color: inherit;
+        text-decoration: none;
+    }
+
+    & .hive-instagram-feed__image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        object-fit: cover;
+        transition: transform calc(3 * var(--hive-duration)) var(--hive-ease);
+    }
+
+    & .hive-instagram-feed__placeholder {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        color: var(--hive-muted);
+    }
+
+    & .hive-instagram-feed__glyph {
+        flex: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    & .hive-instagram-feed__placeholder .hive-instagram-feed__glyph {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    /* A photo that links to its post: on hover or focus it zooms a little, under "Vedi su Instagram". */
+
+    & .hive-instagram-feed__overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--hive-space-2);
+        background: color-mix(in srgb, var(--hive-ink) 55%, transparent);
+        color: var(--hive-surface);
+        opacity: 0;
+        transition: opacity var(--hive-duration) var(--hive-ease);
+    }
+
+    & .hive-instagram-feed__overlay .hive-instagram-feed__glyph {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    & .hive-instagram-feed__overlay-text {
+        font-size: var(--hive-text-xs);
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        line-height: 1.2;
+        text-transform: uppercase;
+    }
+
+    & .hive-instagram-feed__frame--link:hover {
+        background: var(--hive-tint);
+        color: inherit;
+    }
+
+    & .hive-instagram-feed__frame--link:hover .hive-instagram-feed__overlay,
+    & .hive-instagram-feed__frame--link:focus-visible .hive-instagram-feed__overlay {
+        opacity: 1;
+    }
+
+    & .hive-instagram-feed__frame--link:hover .hive-instagram-feed__image {
+        transform: scale(1.06);
+    }
+
+    /* "Acquista il look": the products tagged on a photo */
+
+    & .hive-instagram-feed__badge {
+        position: absolute;
+        z-index: 2;
+        top: 0.625rem;
+        left: 0.625rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.3125rem 0.625rem;
+        border-radius: var(--hive-radius-pill);
+        background: color-mix(in srgb, var(--hive-ink) 62%, transparent);
+        color: var(--hive-surface);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        line-height: 1.2;
+        text-transform: uppercase;
+        pointer-events: none;
+        backdrop-filter: blur(6px);
+    }
+
+    & .hive-instagram-feed__bag {
+        flex: none;
+        width: 0.8125rem;
+        height: 0.8125rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    & .hive-instagram-feed__spot {
+        position: absolute;
+        z-index: 3;
+        top: var(--hive-y, 50%);
+        left: var(--hive-x, 50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        margin: -1rem 0 0 -1rem;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--hive-ink);
+        text-decoration: none;
+    }
+
+    & .hive-instagram-feed__dot {
+        width: 0.875rem;
+        height: 0.875rem;
+        border-radius: 50%;
+        background: var(--hive-surface);
+        box-shadow: 0 2px 8px rgb(0 0 0 / 0.35);
+        animation: hive-instagram-feed-pulse 2.2s var(--hive-ease) infinite;
+    }
+
+    & .hive-instagram-feed__spot:hover {
+        background: transparent;
+    }
+
+    & .hive-instagram-feed__spot:hover .hive-instagram-feed__dot,
+    & .hive-instagram-feed__spot:focus-visible .hive-instagram-feed__dot {
+        background: var(--hive-accent);
+        box-shadow: 0 0 0 5px color-mix(in srgb, var(--hive-surface) 90%, transparent);
+        animation: none;
+    }
+
+    & .hive-instagram-feed__tag {
+        position: absolute;
+        bottom: calc(100% + 0.375rem);
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+        width: max-content;
+        max-width: 12.5rem;
+        padding: 0.5rem 0.625rem;
+        border-radius: var(--hive-radius-sm);
+        background: var(--hive-surface);
+        color: var(--hive-ink);
+        box-shadow: 0 10px 28px rgb(0 0 0 / 0.25);
+        font-size: 0.75rem;
+        line-height: 1.3;
+        text-align: start;
+        opacity: 0;
+        transform: translate(-50%, 4px);
+        transition:
+            opacity var(--hive-duration) var(--hive-ease),
+            transform var(--hive-duration) var(--hive-ease);
+        pointer-events: none;
+    }
+
+    & .hive-instagram-feed__tag-name {
+        font-weight: 700;
+    }
+
+    & .hive-instagram-feed__tag-price {
+        color: var(--hive-accent-ink);
+        font-weight: 700;
+    }
+
+    & .hive-instagram-feed__spot:hover .hive-instagram-feed__tag,
+    & .hive-instagram-feed__spot:focus-visible .hive-instagram-feed__tag {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    /* Near an edge of the photo the tag opens inward, so the photo never cuts it. */
+
+    & .hive-instagram-feed__spot--below .hive-instagram-feed__tag {
+        top: calc(100% + 0.375rem);
+        bottom: auto;
+    }
+
+    & .hive-instagram-feed__spot--left .hive-instagram-feed__tag {
+        right: -0.25rem;
+        left: auto;
+        transform: translate(0, 4px);
+    }
+
+    & .hive-instagram-feed__spot--right .hive-instagram-feed__tag {
+        left: -0.25rem;
+        transform: translate(0, 4px);
+    }
+
+    & .hive-instagram-feed__spot--left:hover .hive-instagram-feed__tag,
+    & .hive-instagram-feed__spot--left:focus-visible .hive-instagram-feed__tag,
+    & .hive-instagram-feed__spot--right:hover .hive-instagram-feed__tag,
+    & .hive-instagram-feed__spot--right:focus-visible .hive-instagram-feed__tag {
+        transform: translate(0, 0);
+    }
+
+    & .hive-instagram-feed__post {
+        position: absolute;
+        z-index: 2;
+        right: 0.625rem;
+        bottom: 0.625rem;
+        display: grid;
+        place-items: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: var(--hive-radius-pill);
+        background: color-mix(in srgb, var(--hive-ink) 55%, transparent);
+        color: var(--hive-surface);
+        text-decoration: none;
+        transition: background-color var(--hive-duration) var(--hive-ease);
+    }
+
+    & .hive-instagram-feed__post:visited,
+    & .hive-instagram-feed__post:hover {
+        color: var(--hive-surface);
+    }
+
+    & .hive-instagram-feed__post:hover {
+        background: color-mix(in srgb, var(--hive-ink) 80%, transparent);
+    }
+
+    & .hive-instagram-feed__post .hive-instagram-feed__glyph {
+        width: 1.0625rem;
+        height: 1.0625rem;
+    }
+
+    /* "Seguici" */
+
+    & .hive-instagram-feed__cta {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    /* base.css colours the button; its hover background is set here too, over a theme's a:hover. */
+    & .hive-instagram-feed__button:hover {
+        background: color-mix(in srgb, var(--hive-button) 82%, var(--hive-on-button));
+    }
+
+    & .hive-instagram-feed__button .hive-instagram-feed__glyph {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .hive-instagram-feed .hive-instagram-feed__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Touch screens: a tap on a tag opens the product at once, so its label stays hidden. */
+@media (hover: none) {
+    .hive-instagram-feed .hive-instagram-feed__tag {
+        display: none;
+    }
+}
+
+@keyframes hive-instagram-feed-pulse {
+    0% {
+        box-shadow:
+            0 0 0 0 color-mix(in srgb, var(--hive-surface) 75%, transparent),
+            0 2px 8px rgb(0 0 0 / 0.35);
+    }
+    70%,
+    100% {
+        box-shadow:
+            0 0 0 12px transparent,
+            0 2px 8px rgb(0 0 0 / 0.35);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hive-instagram-feed .hive-instagram-feed__dot {
+        animation: none;
+    }
+}

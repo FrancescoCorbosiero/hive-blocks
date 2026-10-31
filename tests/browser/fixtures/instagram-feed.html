@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Instagram — fixture</title>
+    <!-- What WordPress prints: the import map (@hive/cards for the tags, Quick View behind it), the modules' data, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@hive/buy": "/assets/build/modules/buy.js",
+            "@hive/cards": "/assets/build/modules/cards.js",
+            "@hive/dialog": "/assets/build/modules/dialog.js",
+            "@hive/dom": "/assets/build/modules/dom.js",
+            "@hive/picker": "/assets/build/modules/picker.js",
+            "@hive/quick-add": "/assets/build/modules/quick-add.js",
+            "@hive/quick-view": "/assets/build/modules/quick-view.js",
+            "@hive/shop": "/assets/build/modules/shop.js",
+            "@hive/variations": "/assets/build/modules/variations.js"
+        }
+    }
+    </script>
+    <script type="application/json" id="wp-script-module-data-@hive/shop">{"api":"/api/","v":7,"cart":"/cart-endpoint","cartUrl":"/carrello/","whatsapp":"393331234567"}</script>
+    <script type="application/json" id="wp-script-module-data-@hive/dialog">{"style":"/assets/build/dialog.css"}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/instagram-feed/build/style.css">
+    <!-- A theme that styles the content's headings, lists, pictures and links, as most do. -->
+    <style>
+        body { margin: 0 auto; max-width: 1100px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; }
+        p { margin: 0 0 1.6em; }
+        .entry-content ul { margin: 0 0 1.5em 3em; padding-left: 1.5em; list-style: disc; }
+        .entry-content li { margin-bottom: 0.5em; }
+        .entry-content img { height: auto; border: 4px solid lime; border-radius: 20px; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content a:hover { background: yellow; color: #c00; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php with four photos: one linking to its post; an old block's photo kept only by its address
+         (found in the media library, with the library's text) linking to the profile; one tagging two products
+         ("Acquista il look"); an empty cell. -->
+    <section class="hive-block hive-instagram-feed wp-block-hive-instagram-feed">
+        <div class="hive-instagram-feed__header">
+            <h2 class="hive-instagram-feed__title">Seguici su Instagram</h2>
+            <p class="hive-instagram-feed__subtitle">Le ultime dal nostro feed @resellpiacenza</p>
+        </div>
+        <ul class="hive-instagram-feed__grid" style="--hive-columns:4" role="list">
+            <li class="hive-instagram-feed__item">
+                <a class="hive-instagram-feed__frame hive-instagram-feed__frame--link" href="https://www.instagram.com/p/dunk-panda/" target="_blank" rel="noopener noreferrer">
+                    <img width="600" height="600" src="/tests/browser/fixtures/sneaker.svg" class="hive-instagram-feed__image" alt="Dunk Panda in negozio" loading="lazy" decoding="async" sizes="(max-width: 767px) 50vw, 25vw" />
+                    <span class="hive-instagram-feed__overlay"><svg class="hive-instagram-feed__glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="hive-instagram-feed__overlay-text">Vedi su Instagram</span></span>
+                </a>
+            </li>
+            <li class="hive-instagram-feed__item">
+                <a class="hive-instagram-feed__frame hive-instagram-feed__frame--link" href="https://www.instagram.com/resellpiacenza/" target="_blank" rel="noopener noreferrer">
+                    <img width="600" height="600" src="/tests/browser/fixtures/sneaker-2.svg" class="hive-instagram-feed__image" alt="Foto dalla libreria" loading="lazy" decoding="async" sizes="(max-width: 767px) 50vw, 25vw" />
+                    <span class="hive-instagram-feed__overlay"><svg class="hive-instagram-feed__glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="hive-instagram-feed__overlay-text">Vedi su Instagram</span></span>
+                </a>
+            </li>
+            <li class="hive-instagram-feed__item">
+                <div class="hive-instagram-feed__frame hive-instagram-feed__frame--shop">
+                    <img width="600" height="600" src="/tests/browser/fixtures/sneaker-3.svg" class="hive-instagram-feed__image" alt="Il look della settimana" loading="lazy" decoding="async" sizes="(max-width: 767px) 50vw, 25vw" />
+                    <span class="hive-instagram-feed__badge" aria-hidden="true"><svg class="hive-instagram-feed__bag" viewBox="0 0 24 24" focusable="false"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Acquista il look</span>
+                    <a class="hive-instagram-feed__spot hive-instagram-feed__spot--right" href="/prodotto/nike-dunk-low-panda/" data-hive-quick-view="101" style="--hive-x:30%;--hive-y:60%" aria-label="Nike Dunk Low Panda, da 150,00 €">
+                        <span class="hive-instagram-feed__dot" aria-hidden="true"></span>
+                        <span class="hive-instagram-feed__tag" aria-hidden="true">
+                            <strong class="hive-instagram-feed__tag-name">Nike Dunk Low Panda</strong>
+                            <span class="hive-instagram-feed__tag-price">da 150,00 €</span>
+                        </span>
+                    </a>
+                    <a class="hive-instagram-feed__spot hive-instagram-feed__spot--below hive-instagram-feed__spot--left" href="/prodotto/calzini-hive/" data-hive-quick-view="202" style="--hive-x:80%;--hive-y:20%" aria-label="Calzini Hive, 15,00 €">
+                        <span class="hive-instagram-feed__dot" aria-hidden="true"></span>
+                        <span class="hive-instagram-feed__tag" aria-hidden="true">
+                            <strong class="hive-instagram-feed__tag-name">Calzini Hive</strong>
+                            <span class="hive-instagram-feed__tag-price">15,00 €</span>
+                        </span>
+                    </a>
+                    <a class="hive-instagram-feed__post" href="https://www.instagram.com/p/look/" target="_blank" rel="noopener noreferrer" aria-label="Vedi il post su Instagram">
+                        <svg class="hive-instagram-feed__glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>
+                    </a>
+                </div>
+            </li>
+            <li class="hive-instagram-feed__item">
+                <a class="hive-instagram-feed__frame hive-instagram-feed__frame--link" href="https://www.instagram.com/resellpiacenza/" target="_blank" rel="noopener noreferrer">
+                    <span class="hive-instagram-feed__placeholder"><svg class="hive-instagram-feed__glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></span>
+                    <span class="hive-instagram-feed__overlay"><svg class="hive-instagram-feed__glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="hive-instagram-feed__overlay-text">Vedi su Instagram</span></span>
+                </a>
+            </li>
+        </ul>
+        <p class="hive-instagram-feed__cta">
+            <a class="hive-button hive-instagram-feed__button" href="https://www.instagram.com/resellpiacenza/" target="_blank" rel="noopener noreferrer">
+                <svg class="hive-instagram-feed__glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg> @resellpiacenza
+            </a>
+        </p>
+    </section>
+</main>
+<!-- Enqueued by render.php for the tags (Assets::use_module). -->
+<script type="module" src="/assets/build/modules/cards.js"></script>
+</body>
+</html>

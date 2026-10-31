@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/shortcode-wrapper",
+    "title": "Sezione con shortcode",
+    "category": "hive",
+    "icon": "shortcode",
+    "description": "Una sezione intorno a uno shortcode (un rail di prodotti, una lista di WooCommerce…), con occhiello, titolo e pulsante. Lo Store Hub (Vetrina) può modificarla o spegnerla.",
+    "keywords": ["shortcode", "sezione", "prodotti", "rail", "woocommerce"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "eyebrow": {
+            "type": "string",
+            "default": ""
+        },
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "shortcode": {
+            "type": "string",
+            "default": ""
+        },
+        "backgroundColor": {
+            "type": "string",
+            "default": "white"
+        },
+        "buttonText": {
+            "type": "string",
+            "default": ""
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "hidden": {
+            "type": ["string", "boolean"],
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {
+        "attributes": {
+            "eyebrow": "Selezione",
+            "title": "Nuovi arrivi",
+            "shortcode": "[hive_product_rail limit=\"4\"]"
+        }
+    },
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}
