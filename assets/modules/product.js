@@ -68,6 +68,7 @@ function buyForm(form, { onVariation, onAdded }) {
     let picked = null;
     let buyable = !variable;
     let busy = false;
+    let added = 0;
 
     const say = (text, { error = false, link = null } = {}) => {
         if (!status) return;
@@ -209,10 +210,15 @@ function buyForm(form, { onVariation, onAdded }) {
                     return;
                 }
                 cartUpdated(data, add, { form: true });
+                // Ready for the next one at once; "✓ Aggiunto" stays a moment, unless another add starts.
+                restore();
                 if (add) add.textContent = ADDED;
                 say('Aggiunto al carrello.', { link: config.cartUrl ? { href: config.cartUrl, text: 'Vai al carrello' } : null });
                 onAdded();
-                setTimeout(restore, 2000);
+                const shown = ++added;
+                setTimeout(() => {
+                    if (shown === added && !busy) restore();
+                }, 2000);
             } catch {
                 // Something in between failed: post the form the ordinary way.
                 restore();

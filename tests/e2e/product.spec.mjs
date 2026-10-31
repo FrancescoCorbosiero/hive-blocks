@@ -83,13 +83,21 @@ test('WooCommerce’s own refusal shows on the page: no more than the stock', as
     await page.goto(dunk);
     await swatch(page, '40').click();
     await expect(page.locator('input.qty')).toHaveAttribute('max', '2');
-    for (let i = 0; i < 2; i++) {
+    const add = async () => {
+        const answer = page.waitForResponse((response) => response.url().includes('wc-ajax=hive_add_to_cart'));
         await page.locator('[data-hive-buy-add]').click();
-        await expect(status(page)).toContainText('Aggiunto al carrello.');
-    }
-    await page.locator('[data-hive-buy-add]').click();
+        return (await answer).json();
+    };
+    // Two adds, one after the other: the form is ready again as soon as WooCommerce answers.
+    expect((await add()).error).toBeUndefined();
+    expect((await add()).error).toBeUndefined();
+    expect((await cart(page)).items[0].quantity).toBe(2);
+
+    // A third is more than the stock: WooCommerce refuses, and the page says why.
+    const refused = await add();
+    expect(refused.error).toBe(true);
     await expect(status(page)).toHaveClass(/is-error/);
-    await expect(status(page)).not.toBeEmpty();
+    await expect(status(page)).toContainText(refused.messages[0].slice(0, 20));
     expect((await cart(page)).items[0].quantity).toBe(2);
 });
 
@@ -97,10 +105,17 @@ test('the sticky bar takes over once the button scrolls away', async ({ page }) 
     await page.setViewportSize({ width: 1280, height: 640 });
     await page.goto(dunk);
     const bar = page.locator('[data-hive-sticky]');
+    const button = page.locator('[data-hive-buy-add]');
     await expect(bar).not.toHaveClass(/is-visible/);
-    await page.locator('.hive-product__details').scrollIntoViewIfNeeded();
-    await page.mouse.wheel(0, 300);
-    await expect(bar).toHaveClass(/is-visible/);
+
+    // Just past the button: it's above the screen, the end of the product's part is below it.
+    const layout = await button.evaluate((node) => {
+        window.scrollTo({ top: node.getBoundingClientRect().bottom + window.scrollY + 40, behavior: 'instant' });
+        const end = node.closest('[data-hive-product]').getBoundingClientRect();
+        return { scrollY: Math.round(window.scrollY), viewport: window.innerHeight, page: document.documentElement.scrollHeight, productEnd: Math.round(end.bottom) };
+    });
+    await expect(button).not.toBeInViewport();
+    await expect(bar, JSON.stringify(layout)).toHaveClass(/is-visible/);
     await bar.getByRole('button', { name: 'Scegli la taglia' }).click();
     await expect(status(page)).toHaveText('Scegli la taglia.');
     await expect(page.locator('[data-hive-buy-add]')).toBeInViewport();
