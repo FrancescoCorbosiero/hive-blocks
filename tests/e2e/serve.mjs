@@ -30,6 +30,9 @@ mkdirSync(path.join(artifacts, 'screenshots'), { recursive: true });
 
 const blueprint = {
     $schema: 'https://playground.wordpress.net/blueprint-schema.json',
+    // In the blueprint as well as on the command line: without it, Playground
+    // runs its newest PHP whatever --php says (tests/e2e/env.spec.mjs checks).
+    preferredVersions: { php, wp },
     steps: [
         // Records PHP issues raised through Hive (tests/e2e/mu-plugin.php).
         {
