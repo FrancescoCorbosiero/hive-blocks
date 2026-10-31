@@ -12,6 +12,10 @@
  *   "Ti consigliamo" (upsells) and "Potrebbe piacerti anche" (related) as
  *     Hive rails
  *   the sticky add-to-cart bar (Hive → Pagina prodotto)
+ *   step by step: "Venduto 3 volte" (SocialProof), a drop's countdown in
+ *     place of the buying part until the release (Drops), "Avvisami", the
+ *     delivery estimate, WhatsApp and share, the band under the product,
+ *     colorways and recently viewed (ProductExtras)
  *
  * WooCommerce's product page hooks are fired in their usual places, without
  * WooCommerce's own callbacks Hive replaces and without the theme's (Hooks).
@@ -25,6 +29,7 @@
 namespace Hive\Shop;
 
 use Hive\Assets;
+use Hive\Modules;
 use Hive\Settings;
 
 defined('ABSPATH') || exit;
@@ -78,29 +83,42 @@ final class ProductPage
             return $html;
         }
 
-        $guide     = SizeGuides::for_product($product);
-        $state     = Card::state($product);
-        $html     .= sprintf('<div id="product-%d" class="hive-product__top">', $product->get_id());
-        $html     .= '<div class="hive-product__media">';
-        $html     .= Hooks::run('woocommerce_before_single_product_summary', self::REPLACED['woocommerce_before_single_product_summary']);
-        $html     .= Gallery::render($product, $layout, Card::badge_list($product, $state));
-        $html     .= '</div>';
-        $html     .= '<div class="hive-product__summary" data-hive-product-summary>';
-        $html     .= self::heading($product);
-        $html     .= Hooks::run('woocommerce_single_product_summary', self::REPLACED['woocommerce_single_product_summary'], null, 29);
-        $html     .= BuyForm::render($product, $guide ? SizeGuides::button($guide) : '');
-        $html     .= Hooks::run('woocommerce_single_product_summary', self::REPLACED['woocommerce_single_product_summary'], 30);
-        $html     .= Hooks::run('woocommerce_share');
-        $html     .= self::details($product);
-        $html     .= '</div></div>';
+        $guide   = SizeGuides::for_product($product);
+        $state   = Card::state($product);
+        // A drop not out yet: its countdown takes the buying part's place until the release.
+        $drop    = Modules::enabled('drops') ? Drops::panel($product) : '';
+        $waiting = '' !== $drop && Drops::locked($product->get_id());
 
+        $html .= sprintf('<div id="product-%d" class="hive-product__top">', $product->get_id());
+        $html .= '<div class="hive-product__media">';
+        $html .= Hooks::run('woocommerce_before_single_product_summary', self::REPLACED['woocommerce_before_single_product_summary']);
+        $html .= Gallery::render($product, $layout, Card::badge_list($product, $state));
+        $html .= '</div>';
+        $html .= '<div class="hive-product__summary" data-hive-product-summary>';
+        $html .= self::heading($product);
+        $html .= Hooks::run('woocommerce_single_product_summary', self::REPLACED['woocommerce_single_product_summary'], null, 29);
+        $html .= $drop;
+        if (!$waiting) {
+            $html .= BuyForm::render($product, $guide ? SizeGuides::button($guide) : '');
+            $html .= ProductExtras::wait_form($product);
+            $html .= ProductExtras::delivery($product);
+        } elseif ($guide) {
+            $html .= '<p class="hive-buy-form__guide">' . SizeGuides::button($guide) . '</p>';
+        }
+        $html .= ProductExtras::actions($product);
+        $html .= Hooks::run('woocommerce_single_product_summary', self::REPLACED['woocommerce_single_product_summary'], 30);
+        $html .= Hooks::run('woocommerce_share');
+        $html .= self::details($product);
+        $html .= '</div></div>';
+
+        $html .= ProductExtras::band($product);
         $html .= Hooks::run('woocommerce_after_single_product_summary', self::REPLACED['woocommerce_after_single_product_summary']);
         $html .= self::rails($product);
         $html .= Hooks::run('woocommerce_after_single_product');
         if ($guide) {
             $html .= SizeGuides::template($guide);
         }
-        if (Settings::get('sticky_bar') && $product->is_type(['simple', 'variable']) && $product->is_purchasable() && $product->is_in_stock()) {
+        if (!$waiting && Settings::get('sticky_bar') && $product->is_type(['simple', 'variable']) && $product->is_purchasable() && $product->is_in_stock()) {
             $html .= self::sticky_bar($product);
         }
         $html .= '</div>' . ($canvas ? '</main>' : '');
@@ -129,6 +147,9 @@ final class ProductPage
         $price = $product->get_price_html();
         if ('' !== $price) {
             $html .= '<div class="hive-product__price" data-hive-price>' . wp_kses_post($price) . '</div>';
+        }
+        if (Settings::get('sold_count')) {
+            $html .= SocialProof::line($product);
         }
 
         $excerpt = (string) apply_filters('woocommerce_short_description', get_post_field('post_excerpt', $product->get_id()));
@@ -257,10 +278,10 @@ final class ProductPage
         echo Hooks::run('woocommerce_product_meta_start') . Hooks::run('woocommerce_product_meta_end'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- what the plugins print, as on WooCommerce's own page.
     }
 
-    /** Upsells, then related products, as Hive rails. */
+    /** Colorways, upsells, related products, then the shopper's own "Visti di recente", as Hive rails. */
     private static function rails(\WC_Product $product): string
     {
-        $html    = '';
+        $html    = ProductExtras::colorways($product);
         $upsells = array_slice(array_map('intval', $product->get_upsell_ids()), 0, self::RAIL_LIMIT);
         if ($upsells) {
             $html .= Rail::render(['title' => 'Ti consigliamo', 'ids' => implode(',', $upsells), 'limit' => self::RAIL_LIMIT, 'show_all' => false]);
@@ -269,6 +290,7 @@ final class ProductPage
         if ($related) {
             $html .= Rail::render(['title' => 'Potrebbe piacerti anche', 'ids' => implode(',', $related), 'limit' => self::RAIL_LIMIT, 'show_all' => false]);
         }
+        $html .= ProductExtras::recent_slot($product);
         return '' !== $html ? '<div class="hive-product__rails">' . $html . '</div>' : '';
     }
 

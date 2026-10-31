@@ -23,6 +23,7 @@ final class SettingsSchema
      *   phone   digits only, 6 to 15 (international format without +), or ''
      *   bool    on or off
      *   int     a whole number between 'min' and 'max'
+     *   time    'HH:MM', 24 hours
      *   flags   [key => bool], e.g. which modules are on
      */
     public const FIELDS = [
@@ -36,6 +37,14 @@ final class SettingsSchema
         'gallery'        => ['type' => 'choice', 'default' => 'slider', 'choices' => ['slider', 'grid']],
         'sticky_bar'     => ['type' => 'bool', 'default' => true],
         'stock_low'      => ['type' => 'int', 'default' => 5, 'min' => 0, 'max' => 50],
+        'sold_count'     => ['type' => 'bool', 'default' => true],
+        'delivery'       => ['type' => 'bool', 'default' => false],
+        'delivery_cutoff' => ['type' => 'time', 'default' => '13:00'],
+        'delivery_min'   => ['type' => 'int', 'default' => 2, 'min' => 0, 'max' => 30],
+        'delivery_max'   => ['type' => 'int', 'default' => 5, 'min' => 0, 'max' => 30],
+        'band'           => ['type' => 'bool', 'default' => true],
+        'colorways'      => ['type' => 'bool', 'default' => true],
+        'recent'         => ['type' => 'bool', 'default' => true],
         'modules'        => ['type' => 'flags', 'default' => []],
     ];
 
@@ -82,6 +91,9 @@ final class SettingsSchema
                     return max($field['min'], min($field['max'], (int) $value));
                 }
                 return $field['default'];
+
+            case 'time':
+                return is_string($value) && 1 === preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', trim($value)) ? trim($value) : $field['default'];
 
             case 'bool':
                 if (null === $value) {

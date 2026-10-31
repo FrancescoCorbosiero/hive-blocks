@@ -257,9 +257,10 @@ final class BuyForm
                 $note = self::money($row['price']);
             }
             $html .= sprintf(
-                '<button type="button" class="%s" data-value="%s" aria-pressed="%s"%s><span class="hive-swatch__value">%s</span>%s%s</button>',
+                '<button type="button" class="%s" data-value="%s" data-key="%s" aria-pressed="%s"%s><span class="hive-swatch__value">%s</span>%s%s</button>',
                 esc_attr(implode(' ', $classes)),
                 esc_attr($row['value']),
+                esc_attr(SizeRules::key($row['label'])),
                 $row['value'] === $selected ? 'true' : 'false',
                 'none' === $row['state'] ? ' disabled' : '',
                 esc_html($row['label']),

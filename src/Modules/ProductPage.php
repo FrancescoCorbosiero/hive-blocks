@@ -25,6 +25,7 @@ namespace Hive\Modules;
 use Hive\Module;
 use Hive\Plugin;
 use Hive\Shop\BuyForm;
+use Hive\Shop\ProductExtras;
 
 defined('ABSPATH') || exit;
 
@@ -53,6 +54,7 @@ final class ProductPage implements Module
     public static function boot(): void
     {
         BuyForm::register();
+        ProductExtras::register();
         add_filter('template_include', [self::class, 'template'], 99);
         add_action('wp_enqueue_scripts', [self::class, 'early_assets'], 5);
         add_action('wp_enqueue_scripts', [self::class, 'drop_gallery_scripts'], 99);

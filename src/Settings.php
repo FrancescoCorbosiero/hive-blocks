@@ -84,6 +84,9 @@ final class Settings
         add_settings_field('hive-gallery', 'Galleria su desktop', [self::class, 'gallery_field'], self::PAGE, 'product');
         add_settings_field('hive-sticky-bar', 'Barra di acquisto fissa', [self::class, 'sticky_bar_field'], self::PAGE, 'product', ['label_for' => 'hive-sticky-bar']);
         add_settings_field('hive-stock-low', 'Poche scorte', [self::class, 'stock_low_field'], self::PAGE, 'product', ['label_for' => 'hive-stock-low']);
+        add_settings_field('hive-sold-count', 'Venduto di recente', [self::class, 'sold_count_field'], self::PAGE, 'product', ['label_for' => 'hive-sold-count']);
+        add_settings_field('hive-delivery', 'Stima di consegna', [self::class, 'delivery_field'], self::PAGE, 'product');
+        add_settings_field('hive-below', 'Sotto il prodotto', [self::class, 'below_field'], self::PAGE, 'product');
 
         $modules = Modules::all();
         if ($modules) {
@@ -241,6 +244,49 @@ final class Settings
             esc_attr(self::OPTION),
             (int) self::get('stock_low'),
             'Da quanti pezzi in giù la pagina dice «Solo 3 disponibili», con una barra. 0 non lo dice mai. Vale per i prodotti e le taglie di cui WooCommerce gestisce le scorte.'
+        );
+    }
+
+    public static function sold_count_field(): void
+    {
+        self::checkbox('sold_count', 'hive-sold-count', '«Venduto 3 volte negli ultimi 30 giorni» sotto il prezzo, contato dagli ordini pagati, da 2 vendite in su.');
+    }
+
+    public static function delivery_field(): void
+    {
+        echo '<fieldset><legend class="screen-reader-text">Stima di consegna</legend>';
+        self::checkbox('delivery', 'hive-delivery', '«Ordina entro 2 h 15 min e spediamo oggi · Consegna stimata mar 21 – gio 23 ott»');
+        printf(
+            '<p><label>Ordini spediti in giornata fino alle <input type="time" name="%1$s[delivery_cutoff]" value="%2$s" step="60"></label></p><p><label>Consegna in <input type="number" name="%1$s[delivery_min]" value="%3$d" min="0" max="30" class="small-text"></label> <label>– <input type="number" name="%1$s[delivery_max]" value="%4$d" min="0" max="30" class="small-text"> giorni lavorativi dalla spedizione</label></p>',
+            esc_attr(self::OPTION),
+            esc_attr((string) self::get('delivery_cutoff')),
+            (int) self::get('delivery_min'),
+            (int) self::get('delivery_max')
+        );
+        echo '<p class="description">Calcolata nel browser, all’ora di chi guarda: salta weekend e festività nazionali.</p></fieldset>';
+    }
+
+    public static function below_field(): void
+    {
+        echo '<fieldset><legend class="screen-reader-text">Sotto il prodotto</legend>';
+        self::checkbox('band', 'hive-band', '«Non trovi la tua taglia?» (le taglie esaurite, su WhatsApp) e «Acquista con fiducia»');
+        echo '<br>';
+        self::checkbox('colorways', 'hive-colorways', '«Altre colorway»: gli altri prodotti dello stesso modello (attributo Modello)');
+        echo '<br>';
+        self::checkbox('recent', 'hive-recent', '«Visti di recente»: i prodotti aperti da chi guarda, ricordati nel suo browser');
+        echo '</fieldset>';
+    }
+
+    /** A switch: the hidden 0 posts it when unticked, so turning it off is saved. */
+    private static function checkbox(string $key, string $id, string $label): void
+    {
+        printf(
+            '<input type="hidden" name="%1$s[%2$s]" value="0"><label><input type="checkbox" id="%3$s" name="%1$s[%2$s]" value="1"%4$s> %5$s</label>',
+            esc_attr(self::OPTION),
+            esc_attr($key),
+            esc_attr($id),
+            checked((bool) self::get($key), true, false),
+            esc_html($label)
         );
     }
 

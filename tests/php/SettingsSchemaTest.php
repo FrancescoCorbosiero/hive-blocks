@@ -13,6 +13,14 @@ $defaults = [
     'gallery'        => 'slider',
     'sticky_bar'     => true,
     'stock_low'      => 5,
+    'sold_count'     => true,
+    'delivery'       => false,
+    'delivery_cutoff' => '13:00',
+    'delivery_min'   => 2,
+    'delivery_max'   => 5,
+    'band'           => true,
+    'colorways'      => true,
+    'recent'         => true,
     'modules'        => [],
 ];
 
@@ -44,6 +52,9 @@ check(SettingsSchema::sanitize(['stock_low' => '500'])['stock_low'], 50, 'a numb
 check(SettingsSchema::sanitize(['stock_low' => '-2'])['stock_low'], 5, 'not a whole number: the default');
 check(SettingsSchema::sanitize(['stock_low' => 'tre'])['stock_low'], 5, 'not a number: the default');
 check(SettingsSchema::sanitize(['gallery' => 'grid'])['gallery'], 'grid', 'the gallery as a grid');
+check(SettingsSchema::sanitize(['delivery_cutoff' => '09:30'])['delivery_cutoff'], '09:30', 'a time');
+check(SettingsSchema::sanitize(['delivery_cutoff' => '25:00'])['delivery_cutoff'], '13:00', 'not a time: the default');
+check(SettingsSchema::sanitize(['delivery_cutoff' => '9:30'])['delivery_cutoff'], '13:00', 'a time needs two digits for the hour');
 
 check(
     SettingsSchema::sanitize(['modules' => ['quick-add' => '1', 'gallery' => '0', 'Bad Key' => '1', 3 => '1']])['modules'],

@@ -21,6 +21,8 @@ final class Modules
         Modules\QuickAdd::class,
         Modules\Catalog::class,
         Modules\ProductPage::class,
+        Modules\Drops::class,
+        Modules\Alerts::class,
     ];
 
     /** @return array<string, class-string<Module>> id → class */
