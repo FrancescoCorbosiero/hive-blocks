@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carosello — fixture</title>
+    <!-- What WordPress prints for the block: base.css with the tokens, the block's CSS. -->
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/hero-carousel/build/style.css">
+    <!-- A theme that styles content elements, as most do, loaded after the block's CSS. -->
+    <style>
+        body { margin: 0; font-family: Georgia, serif; color: #222; background: #fff; }
+        .site-header { padding: 16px; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; font-weight: 400; text-align: center; text-transform: none; color: #333; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content img { max-width: 100%; height: auto; border-radius: 12px; }
+        .entry-content a { color: #1d4ed8; text-decoration: underline; }
+        .entry-content button { background: #eee; color: #333; border-radius: 0; padding: 4px; width: auto; height: auto; }
+    </style>
+</head>
+<body>
+<header class="site-header"><a href="/">ResellPiacenza</a></header>
+<main class="entry-content">
+    <!-- render.php for three slides with pictures, autoplay every 6 seconds, dots and arrows. -->
+    <section class="hive-block hive-hero-carousel wp-block-hive-hero-carousel alignfull" aria-roledescription="carosello" aria-label="In evidenza" data-hive-carousel="6000">
+        <div class="hive-hero-carousel__controls" data-hive-carousel-controls hidden>
+            <button type="button" class="hive-hero-carousel__toggle is-on" data-hive-carousel-toggle aria-label="Ferma lo scorrimento automatico" hidden>
+                <svg class="hive-hero-carousel__pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+                <svg class="hive-hero-carousel__play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="hive-hero-carousel__dots">
+                <button type="button" class="hive-hero-carousel__dot" data-hive-carousel-go="0" aria-controls="hive-carousel-1-1" aria-label="Vai alla slide 1" aria-current="true"></button>
+                <button type="button" class="hive-hero-carousel__dot" data-hive-carousel-go="1" aria-controls="hive-carousel-1-2" aria-label="Vai alla slide 2"></button>
+                <button type="button" class="hive-hero-carousel__dot" data-hive-carousel-go="2" aria-controls="hive-carousel-1-3" aria-label="Vai alla slide 3"></button>
+            </div>
+            <div class="hive-hero-carousel__arrows">
+                <button type="button" class="hive-hero-carousel__arrow" data-hive-carousel-step="-1" aria-label="Slide precedente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 6-6 6 6 6"/></svg></button>
+                <button type="button" class="hive-hero-carousel__arrow" data-hive-carousel-step="1" aria-label="Slide successiva"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 6 6 6-6 6"/></svg></button>
+            </div>
+        </div>
+        <div class="hive-hero-carousel__track" data-hive-carousel-track>
+            <div class="hive-hero-carousel__slide" id="hive-carousel-1-1" role="group" aria-roledescription="slide" aria-label="1 di 3">
+                <div class="hive-hero-carousel__media"><img width="600" height="600" src="/tests/browser/fixtures/sneaker.svg" class="hive-hero-carousel__image" alt="" decoding="async" sizes="100vw" style="object-position:center center" loading="eager" fetchpriority="high" /></div>
+                <div class="hive-hero-carousel__content">
+                    <p class="hive-hero-carousel__eyebrow">Luxury meets pop</p>
+                    <h2 class="hive-hero-carousel__title">AP x Swatch</h2>
+                    <p class="hive-hero-carousel__subtitle">L’alta orologeria incontra la cultura pop.</p>
+                    <p class="hive-hero-carousel__cta"><a class="hive-button hive-hero-carousel__button" href="/orologi/">Scopri AP x Swatch</a></p>
+                </div>
+            </div>
+            <div class="hive-hero-carousel__slide" id="hive-carousel-1-2" role="group" aria-roledescription="slide" aria-label="2 di 3">
+                <div class="hive-hero-carousel__media"><img width="600" height="600" src="/tests/browser/fixtures/sneaker-2.svg" class="hive-hero-carousel__image" alt="" decoding="async" sizes="auto, 100vw" style="object-position:left center" loading="lazy" /></div>
+                <div class="hive-hero-carousel__content">
+                    <p class="hive-hero-carousel__eyebrow">Next-gen sneakers</p>
+                    <h2 class="hive-hero-carousel__title">Nike Mind</h2>
+                    <p class="hive-hero-carousel__subtitle">Il futuro del footwear è qui.</p>
+                    <p class="hive-hero-carousel__cta"><a class="hive-button hive-hero-carousel__button" href="/marchio/nike/">Esplora Nike Mind</a></p>
+                </div>
+            </div>
+            <div class="hive-hero-carousel__slide" id="hive-carousel-1-3" role="group" aria-roledescription="slide" aria-label="3 di 3">
+                <div class="hive-hero-carousel__media"><img width="600" height="600" src="/tests/browser/fixtures/sneaker-3.svg" class="hive-hero-carousel__image" alt="" decoding="async" sizes="auto, 100vw" style="object-position:center center" loading="lazy" /></div>
+                <div class="hive-hero-carousel__content">
+                    <p class="hive-hero-carousel__eyebrow">Crtz rules the world</p>
+                    <h2 class="hive-hero-carousel__title">Corteiz</h2>
+                    <p class="hive-hero-carousel__subtitle">Il brand londinese che ha rivoluzionato lo streetwear.</p>
+                    <p class="hive-hero-carousel__cta"><a class="hive-button hive-hero-carousel__button" href="/marchio/corteiz/">Esplora Corteiz</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <p class="after">Dopo il carosello.</p>
+    <div style="height: 150vh"></div>
+</main>
+<script type="module" src="/blocks/hero-carousel/build/view.js"></script>
+</body>
+</html>
