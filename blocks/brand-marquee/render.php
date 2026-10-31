@@ -1,8 +1,9 @@
 <?php
 /**
  * Brand in scorrimento — server render. The brands typed in the block (a
- * logo, a name, a link) or else the store's own (Hive\Shop\Showcase): the
- * chosen ones, or every brand with products, with its logo and its page.
+ * logo from the media library or, known only by its URL, by URL; a name; a
+ * link) or else the store's own (Hive\Shop\Showcase): the chosen ones, or
+ * every brand with products, with its logo and its page.
  *
  * The loop is CSS only (style.css): two identical tracks, each long enough
  * to cover the screen (a short list is repeated, Core\Marquee), sliding by
@@ -15,6 +16,7 @@
  * @package Hive
  */
 
+use Hive\Content\Media;
 use Hive\Core\Marquee;
 use Hive\Shop\Showcase;
 
@@ -28,9 +30,10 @@ foreach ((array) ($attributes['brands'] ?? []) as $typed) {
     $item = [
         'name' => trim(wp_strip_all_tags((string) ($typed['name'] ?? ''))),
         'logo' => (int) ($typed['logoId'] ?? 0),
+        'src'  => trim((string) ($typed['logo'] ?? '')),
         'url'  => trim((string) ($typed['url'] ?? '')),
     ];
-    if ('' !== $item['name'] || $item['logo']) {
+    if ('' !== $item['name'] || $item['logo'] || '' !== $item['src']) {
         $items[] = $item;
     }
 }
@@ -49,10 +52,9 @@ $classes = 'hive-block hive-brand-marquee' . ('right' === ($attributes['directio
 // Each brand drawn once: a logo (or its name), a link when it has one.
 $drawn = [];
 foreach ($items as $item) {
-    $logo = $item['logo'] ? wp_get_attachment_image(
-        $item['logo'],
-        'medium',
-        false,
+    $logo = Media::image(
+        (int) $item['logo'],
+        (string) ($item['src'] ?? ''),
         [
             'class'    => 'hive-brand-marquee__logo',
             'alt'      => $item['name'],
@@ -60,7 +62,7 @@ foreach ($items as $item) {
             'decoding' => 'async',
             'sizes'    => '10rem',
         ]
-    ) : '';
+    );
     $inner   = '' !== $logo ? $logo : '<span class="hive-brand-marquee__name">' . esc_html($item['name']) . '</span>';
     $drawn[] = [
         'inner' => $inner,
