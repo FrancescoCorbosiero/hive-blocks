@@ -45,7 +45,7 @@ staging first, are in [SWITCH-OVER.md](SWITCH-OVER.md).
 | Carosello (`hive/hero-carousel`) | Full-width slides that move sideways (CSS scroll snapping), with arrows, dots and autoplay that pauses on hover, focus, out of view and with reduced motion. Only the first picture loads with the page. |
 | Invito all'azione (`hive/cta`) | A call to action: a full-width **Banner**, or **Immagine e testo**, with its button. |
 | Prodotto in evidenza (`hive/product-spotlight`) | One product up front: photo, brand, name, price and the card's button (add to cart, or the sizes). With none chosen, the newest featured product that can be bought. |
-| Slider categorie (`hive/category-slider`) | The store's categories with their pictures, in a row that scrolls sideways. |
+| Slider categorie (`hive/category-slider`) | The store's categories with their pictures, or tiles typed in the block (a brand, a collection: picture, name, link), in a row that scrolls sideways. |
 | Brand in scorrimento (`hive/brand-marquee`) | The brands' logos in a band that moves by itself (CSS only), still under the mouse, for keyboard users and with reduced motion. |
 | Conto alla rovescia del drop (`hive/drop-countdown`) | The countdown to a release: a product's drop (date, photo, price, link) or a date written in, with "Ricordamelo" and "Acquista ora" once it's out, even on a page cached before. |
 | Calendario dei drop (`hive/drop-calendar`) | The next releases in order, with "Esce tra 3 giorni", "Ricordamelo" and "Acquista ora" once out; the last week's fill what's left. |

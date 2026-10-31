@@ -16,4 +16,10 @@ return [
         . '<!-- wp:hive/social-proof /-->'
         . '<!-- wp:hive/promo-modal /-->',
     ],
+    // Typed in the block, as on the store's homepage: tiles (picture by URL, name, link) and logos by URL.
+    'blocchi-c-riquadri' => [
+        'Blocchi C riquadri',
+        '<!-- wp:hive/category-slider {"title":"","imageRatio":"9 / 16","items":[{"name":"Asics","image":"/wp-content/plugins/hive-blocks/tests/browser/fixtures/sneaker.svg","url":"/marchio/asics"},{"name":"Nocta","image":"/wp-content/plugins/hive-blocks/tests/browser/fixtures/sneaker-2.svg","url":"/marchio/nike/nike-nocta/"}]} /-->'
+        . '<!-- wp:hive/brand-marquee {"title":"SHOP BY BRAND","brands":[{"name":"Nike","logo":"/wp-content/plugins/hive-blocks/tests/browser/fixtures/sneaker.svg","url":"/marchio/nike"},{"name":"Jordan","logo":"","url":"/marchio/jordan"}]} /-->',
+    ],
 ];
