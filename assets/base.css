@@ -90,6 +90,20 @@
     outline-offset: 2px;
 }
 
+/*
+ * Pictures a plugin wraps in <picture> (Modern Image Formats' AVIF/WebP
+ * sources, say) lay out as if the <img> stood alone: the wrapper makes no
+ * box, so Hive's sizing and positioning reach the image, and its <source>s
+ * none either (in a flex row an empty one would still take a gap).
+ */
+.hive-block picture {
+    display: contents;
+}
+
+.hive-block picture > source {
+    display: none;
+}
+
 /* Buttons: the colour from the settings (Hive → Aspetto), the theme's font. */
 .hive-button {
     display: inline-flex;
