@@ -179,6 +179,13 @@ $hive_pages = [
     'widget-hive' => ['Widget Hive', '<!-- wp:paragraph --><p>Il blocco Hive è solo nella barra laterale.</p><!-- /wp:paragraph -->', ''],
 ];
 
+// More pages, one file per group of blocks: tests/e2e/pages/*.php each return [slug => [title, content]].
+foreach (glob(__DIR__ . '/pages/*.php') ?: [] as $hive_file) {
+    foreach ((array) require $hive_file as $hive_slug => [$hive_title, $hive_content]) {
+        $hive_pages[$hive_slug] = [$hive_title, $hive_content, 'template-fullwidth.php'];
+    }
+}
+
 foreach ($hive_pages as $hive_slug => [$hive_title, $hive_content, $hive_template]) {
     $hive_id = wp_insert_post(
         [

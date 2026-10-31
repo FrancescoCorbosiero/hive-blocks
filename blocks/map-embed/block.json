@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/map-embed",
+    "title": "Mappa",
+    "category": "hive",
+    "icon": "location",
+    "description": "Una mappa di Google Maps che si carica solo quando il visitatore la apre: pagina più leggera e nessun cookie di Google prima.",
+    "keywords": ["mappa", "google", "maps", "posizione", "negozio"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "embedCode": {
+            "type": "string",
+            "default": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2819.1!2d9.6884327!3d45.0482437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4780dd3b7d8a913b%3A0x26e569f7b44a6448!2sResellpiacenza!5e0!3m2!1sit!2sit!4v1\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+        },
+        "height": {
+            "type": "number",
+            "default": 450
+        },
+        "borderRadius": {
+            "type": "number",
+            "default": 12
+        },
+        "address": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "hive-map",
+    "viewStyle": "hive-map",
+    "viewScriptModule": "@hive/map",
+    "render": "file:./render.php"
+}

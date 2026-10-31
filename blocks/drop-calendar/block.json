@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/drop-calendar",
+    "title": "Calendario dei drop",
+    "category": "hive",
+    "icon": "calendar-alt",
+    "description": "Le prossime uscite: i prodotti con una data di drop, in ordine, con «Esce tra 3 giorni», «Ricordamelo» e «Acquista ora» all’uscita.",
+    "keywords": ["drop", "calendario", "uscite", "release", "countdown"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "eyebrow": { "type": "string", "default": "Calendario drop" },
+        "title": { "type": "string", "default": "Le prossime uscite" },
+        "subtitle": { "type": "string", "default": "Segna la data: ti ricordiamo noi quando escono." },
+        "limit": { "type": "number", "default": 6 },
+        "showReleased": { "type": "boolean", "default": true },
+        "emptyText": { "type": "string", "default": "" }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "@hive/drop",
+    "render": "file:./render.php"
+}

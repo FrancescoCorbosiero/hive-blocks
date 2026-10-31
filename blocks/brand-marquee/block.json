@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/brand-marquee",
+    "title": "Brand in scorrimento",
+    "category": "hive",
+    "icon": "images-alt",
+    "description": "I loghi dei brand del negozio in una fascia che scorre da sola e si ferma sotto il mouse.",
+    "keywords": ["brand", "marche", "loghi", "marquee", "logo"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "title": { "type": "string", "default": "I nostri brand" },
+        "brand": { "type": "string", "default": "" },
+        "brands": {
+            "type": "array",
+            "default": [],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "logoId": { "type": "number" },
+                    "url": { "type": "string" }
+                }
+            }
+        },
+        "speed": { "type": "number", "default": 50 },
+        "direction": { "type": "string", "default": "left", "enum": ["left", "right"] }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}
