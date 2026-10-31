@@ -25,6 +25,7 @@
 namespace Hive;
 
 use Hive\Core\Migrate\Blocks as BlockRules;
+use Hive\Core\Migrate\Commerce;
 use Hive\Core\Migrate\Heroes;
 use Hive\Core\Migrate\Settings as SettingsRules;
 use Hive\Core\Migrate\Shortcodes;
@@ -107,6 +108,34 @@ final class Migration
         foreach (['parallax-section', 'hero-split', 'about-hero', 'cta-banner', 'cta-image'] as $name) {
             $map['golden-hive/' . $name]['resolve'] = static fn(array $attrs): array => self::media_ids($attrs);
         }
+        $map['golden-hive/product-spotlight']['resolve'] = static function (array $attrs, array $old): array {
+            $attrs = self::media_ids($attrs, [['imageUrl', 'imageUrlId']], $old);
+            $found = self::product_of((string) ($old['buttonUrl'] ?? ''), (string) ($old['title'] ?? ''));
+            if ($found) {
+                $attrs['productId'] = $found;
+            } else {
+                $attrs[BlockRules::NOTE] = sprintf('Prodotto in evidenza «%s»: nessun prodotto trovato dal link o dal nome, sceglilo', (string) ($old['title'] ?? ''));
+            }
+            return $attrs;
+        };
+        $map['golden-hive/category-slider']['resolve'] = static function (array $attrs, array $old): array {
+            $found = Commerce::category_slugs(is_array($old['categories'] ?? null) ? $old['categories'] : [], [self::class, 'category_slug']);
+            if ($found['slugs']) {
+                $attrs['category'] = implode(',', $found['slugs']);
+            }
+            if ($found['missing']) {
+                $attrs[BlockRules::NOTE] = 'Slider categorie: non trovate tra le categorie del negozio ' . implode(', ', $found['missing']);
+            }
+            return Commerce::padding($attrs, $old);
+        };
+        $map['golden-hive/brand-marquee']['resolve'] = static function (array $attrs): array {
+            if (isset($attrs['brands']) && is_array($attrs['brands'])) {
+                $attrs['brands'] = Commerce::brand_items($attrs['brands'], static fn(string $url): int => (int) attachment_url_to_postid($url));
+            }
+            return $attrs;
+        };
+        $map['golden-hive/drop-countdown']['resolve'] = static fn(array $attrs, array $old): array => Commerce::countdown(self::media_ids($attrs, [['productImage', 'productImageId']], $old), $old);
+        $map['golden-hive/promo-modal']['resolve'] = static fn(array $attrs, array $old): array => self::media_ids($attrs, [['imageUrl', 'imageUrlId']], $old);
         $map['golden-hive/hero-carousel']['resolve'] = static function (array $attrs): array {
             if (isset($attrs['slides']) && is_array($attrs['slides'])) {
                 foreach ($attrs['slides'] as $i => $slide) {
@@ -118,6 +147,32 @@ final class Migration
             return $attrs;
         };
         return (array) apply_filters('hive_migration_block_map', $map);
+    }
+
+    /** A product from an old block's link to it, or its exact name. */
+    private static function product_of(string $url, string $title): int
+    {
+        $id = '' !== $url ? url_to_postid($url) : 0;
+        if ($id && 'product' === get_post_type($id)) {
+            return $id;
+        }
+        if ('' === trim($title)) {
+            return 0;
+        }
+        $found = get_posts(['post_type' => 'product', 'post_status' => 'publish', 'title' => trim($title), 'numberposts' => 1, 'fields' => 'ids']);
+        return $found ? (int) $found[0] : 0;
+    }
+
+    /** A product category's slug, from a link to it or its name. */
+    public static function category_slug(string $name, string $url): ?string
+    {
+        $base = function_exists('wc_get_permalink_structure') ? (string) (wc_get_permalink_structure()['category_rewrite_slug'] ?? '') : '';
+        $slug = '' !== $url ? Commerce::category_in_url($url, '' !== $base ? $base : 'product-category') : null;
+        $term = null !== $slug ? get_term_by('slug', $slug, 'product_cat') : false;
+        if (!$term instanceof \WP_Term && '' !== $name) {
+            $term = get_term_by('name', $name, 'product_cat');
+        }
+        return $term instanceof \WP_Term ? $term->slug : null;
     }
 
     /**
@@ -146,8 +201,7 @@ final class Migration
     private const SAME_NAME = [
         'store-hours', 'newsletter', 'shortcode-wrapper', 'whatsapp-button', 'social-buttons', 'instagram-feed', 'size-chart-modal',
         'trust-badges', 'authenticity-guarantee', 'legit-check', 'faq-schema', 'trustpilot-widget',
-        'product-spotlight', 'category-slider', 'brand-marquee', 'drop-countdown', 'drop-calendar', 'social-proof', 'promo-modal',
-        'hero-carousel',
+        'drop-calendar', 'hero-carousel',
     ];
 
     /** Blocks ported with some attributes gone (Hive does it another way). */
@@ -157,6 +211,50 @@ final class Migration
         'golden-hive/map-embed'    => ['name' => 'hive/map-embed', 'drop' => ['clickToLoad']],
         // The picture is the media library's (mapImageId), with its sizes.
         'golden-hive/store-visit'  => ['name' => 'hive/store-visit', 'drop' => ['mapImage']],
+        // A real product now (its price, its button); the typed price and link go. Its
+        // badges were defaults the editor never saved.
+        'golden-hive/product-spotlight' => [
+            'name'  => 'hive/product-spotlight',
+            'fill'  => ['condition' => 'Nuovo', 'authenticity' => 'Verified'],
+            'attrs' => ['category' => 'eyebrow'],
+            'drop'  => ['imageUrl', 'currentPrice', 'originalPrice', 'buttonUrl'],
+        ],
+        // The store's own categories (by slug) instead of a typed list; its padding as spacing.
+        'golden-hive/category-slider'   => [
+            'name' => 'hive/category-slider',
+            'fill' => [
+                'categories'    => [
+                    ['name' => 'Sneakers', 'image' => '', 'url' => '#sneakers'],
+                    ['name' => 'Streetwear', 'image' => '', 'url' => '#streetwear'],
+                    ['name' => 'Accessori', 'image' => '', 'url' => '#accessori'],
+                    ['name' => 'Limited Edition', 'image' => '', 'url' => '#limited'],
+                ],
+                'paddingTop'    => 40,
+                'paddingBottom' => 40,
+            ],
+            'drop' => ['categories', 'showDots', 'autoplay', 'loop'],
+        ],
+        // Logos from the media library; it always pauses under the mouse.
+        'golden-hive/brand-marquee'     => [
+            'name' => 'hive/brand-marquee',
+            'fill' => [
+                'brands' => [
+                    ['name' => 'Nike', 'logo' => '', 'url' => ''],
+                    ['name' => 'Adidas', 'logo' => '', 'url' => ''],
+                    ['name' => 'Jordan', 'logo' => '', 'url' => ''],
+                    ['name' => 'New Balance', 'logo' => '', 'url' => ''],
+                    ['name' => 'Puma', 'logo' => '', 'url' => ''],
+                ],
+            ],
+            'drop' => ['pauseOnHover'],
+        ],
+        'golden-hive/drop-countdown'    => [
+            'name' => 'hive/drop-countdown',
+            'fill' => ['backgroundColor' => '#0a0a0a'],
+            'drop' => ['productImage'],
+        ],
+        'golden-hive/social-proof'      => ['name' => 'hive/social-proof', 'drop' => ['notifications']],
+        'golden-hive/promo-modal'       => ['name' => 'hive/promo-modal', 'drop' => ['imageUrl']],
     ];
 
     /**
@@ -394,8 +492,9 @@ final class Migration
                 continue;
             }
             $count   = [];
-            $content = serialize_blocks(BlockRules::rewrite(parse_blocks($post->post_content), $map, $codes, $count));
-            $left    = array_merge(BlockRules::names_in($content), self::hand_written($content));
+            $notes   = [];
+            $content = serialize_blocks(BlockRules::rewrite(parse_blocks($post->post_content), $map, $codes, $count, $notes));
+            $left    = array_merge(BlockRules::names_in($content), self::hand_written($content), $notes);
             $title   = get_the_title($post) ?: '(senza titolo)';
             if ($content === $post->post_content) {
                 if ($left) {

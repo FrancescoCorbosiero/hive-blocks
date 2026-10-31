@@ -35,13 +35,20 @@ defined('ABSPATH') || exit;
 final class Blocks
 {
     /**
+     * An attribute a 'resolve' sets to say what a person has to finish
+     * (a product to pick, a date to rewrite): collected, never saved.
+     */
+    public const NOTE = 'hiveMigrationNote';
+
+    /**
      * @param list<array<string, mixed>>   $blocks     parse_blocks() output.
      * @param array<string, array>         $map        Old block name => what it becomes.
      * @param array<string, string>        $shortcodes Old shortcode tag => new tag ('' removes it).
      * @param array<string, int>           $count      Filled with how many of each old block were rewritten.
+     * @param list<string>                 $notes      Filled with what a person has to finish (see NOTE).
      * @return list<array<string, mixed>>
      */
-    public static function rewrite(array $blocks, array $map, array $shortcodes, array &$count = []): array
+    public static function rewrite(array $blocks, array $map, array $shortcodes, array &$count = [], array &$notes = []): array
     {
         $out = [];
         foreach ($blocks as $block) {
@@ -52,10 +59,14 @@ final class Blocks
                     continue;
                 }
                 $block = self::block($block, $map[$name]);
+                if (isset($block['attrs'][self::NOTE])) {
+                    $notes[] = (string) $block['attrs'][self::NOTE];
+                    unset($block['attrs'][self::NOTE]);
+                }
             }
             $block['attrs'] = self::attrs_shortcodes((array) ($block['attrs'] ?? []), $shortcodes);
             if (!empty($block['innerBlocks'])) {
-                $block['innerBlocks'] = self::rewrite($block['innerBlocks'], $map, $shortcodes, $count);
+                $block['innerBlocks'] = self::rewrite($block['innerBlocks'], $map, $shortcodes, $count, $notes);
             }
             if (isset($block['innerHTML']) && is_string($block['innerHTML'])) {
                 $block['innerHTML'] = Shortcodes::rename($block['innerHTML'], $shortcodes);
