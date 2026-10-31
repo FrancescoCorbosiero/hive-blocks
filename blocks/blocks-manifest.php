@@ -25,6 +25,78 @@ return array(
 		'viewScriptModule' => '@hive/catalog',
 		'render' => 'file:./render.php',
 	),
+	'newsletter' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/newsletter',
+		'title' => 'Newsletter',
+		'category' => 'hive',
+		'icon' => 'email-alt',
+		'description' => 'Iscrizione alla newsletter, con gli avvisi per la propria taglia (e i marchi) se chi si iscrive li vuole: confermati via email.',
+		'keywords' => array(
+			'newsletter',
+			'email',
+			'iscrizione',
+			'avvisi',
+			'taglia',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Resta connesso',
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Iscriviti per drop esclusivi, early access e news sulle ultime release.',
+			),
+			'placeholder' => array(
+				'type' => 'string',
+				'default' => 'La tua email',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Iscriviti',
+			),
+			'disclaimer' => array(
+				'type' => 'string',
+				'default' => 'Rispettiamo la tua privacy. Puoi cancellarti in qualsiasi momento.',
+			),
+			'askSize' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'sizeLabel' => array(
+				'type' => 'string',
+				'default' => 'Avvisami quando arriva la mia taglia',
+			),
+			'askBrands' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
 	'product' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -151,6 +223,57 @@ return array(
 		'editorStyle' => 'hive-shop',
 		'viewStyle' => 'hive-shop',
 		'viewScriptModule' => '@hive/rail',
+		'render' => 'file:./render.php',
+	),
+	'search' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/search',
+		'title' => 'Cerca',
+		'category' => 'hive',
+		'icon' => 'search',
+		'description' => 'Apre la ricerca istantanea dei prodotti: i risultati mentre scrivi, le ricerche popolari e le ultime fatte. Per l’intestazione del sito.',
+		'keywords' => array(
+			'ricerca',
+			'search',
+			'cerca',
+			'prodotti',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'look' => array(
+				'type' => 'string',
+				'enum' => array(
+					'field',
+					'button',
+					'icon',
+				),
+				'default' => 'field',
+			),
+			'label' => array(
+				'type' => 'string',
+				'default' => 'Cerca',
+			),
+			'placeholder' => array(
+				'type' => 'string',
+				'default' => 'Cerca sneakers, marchi, modelli…',
+			),
+			'popular' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => false,
+			'spacing' => array(
+				'margin' => true,
+			),
+		),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => '@hive/search',
 		'render' => 'file:./render.php',
 	),
 	'store-hours' => array(

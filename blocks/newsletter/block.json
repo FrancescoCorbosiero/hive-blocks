@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/newsletter",
+    "title": "Newsletter",
+    "category": "hive",
+    "icon": "email-alt",
+    "description": "Iscrizione alla newsletter, con gli avvisi per la propria taglia (e i marchi) se chi si iscrive li vuole: confermati via email.",
+    "keywords": ["newsletter", "email", "iscrizione", "avvisi", "taglia"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "title": { "type": "string", "default": "Resta connesso" },
+        "text": { "type": "string", "default": "Iscriviti per drop esclusivi, early access e news sulle ultime release." },
+        "placeholder": { "type": "string", "default": "La tua email" },
+        "buttonText": { "type": "string", "default": "Iscriviti" },
+        "disclaimer": { "type": "string", "default": "Rispettiamo la tua privacy. Puoi cancellarti in qualsiasi momento." },
+        "askSize": { "type": "boolean", "default": true },
+        "sizeLabel": { "type": "string", "default": "Avvisami quando arriva la mia taglia" },
+        "askBrands": { "type": "boolean", "default": false }
+    },
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "color": { "background": true, "text": true },
+        "spacing": { "margin": true, "padding": true }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "file:./build/view.js",
+    "render": "file:./render.php"
+}

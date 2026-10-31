@@ -133,7 +133,20 @@ $hive_drop->update_meta_data('_hive_drop_lock', 'yes');
 $hive_drop->save();
 
 // Settings the product page's extras need: a WhatsApp number, the delivery estimate.
-update_option('hive_settings', array_merge((array) get_option('hive_settings', []), ['whatsapp' => '393331234567', 'delivery' => true]));
+update_option(
+    'hive_settings',
+    array_merge(
+        (array) get_option('hive_settings', []),
+        [
+            'whatsapp'     => '393331234567',
+            'delivery'     => true,
+            // Hive → Velocità: a file to preload everywhere, a page to prerender.
+            'preload'      => '/wp-content/uploads/hive-hero.webp',
+            'preload_home' => false,
+            'prerender'    => '/?product=calzini-hive',
+        ]
+    )
+);
 
 // A simple product, and a sold-out one.
 $hive_simple_ids = [];

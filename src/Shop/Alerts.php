@@ -53,7 +53,6 @@ final class Alerts
 
     public static function register(): void
     {
-        add_action('init', [self::class, 'post_type']);
         add_action('wc_ajax_' . self::AJAX, [self::class, 'signup']);
         add_action('template_redirect', [self::class, 'link'], 0);
         add_action('woocommerce_variation_set_stock_status', [self::class, 'variation_stock'], 10, 3);
@@ -61,9 +60,15 @@ final class Alerts
         add_action('transition_post_status', [self::class, 'published'], 20, 3);
         add_action('hive_drop_released', [self::class, 'released']);
         add_action(self::HOOK, [self::class, 'run']);
+        add_filter('script_module_data_@hive/product', [self::class, 'module_data']);
+    }
+
+    /** The list of people, whatever is switched on (the newsletter writes to it too): Hive → Iscritti. */
+    public static function register_list(): void
+    {
+        add_action('init', [self::class, 'post_type']);
         add_filter('manage_' . self::TYPE . '_posts_columns', [self::class, 'columns']);
         add_action('manage_' . self::TYPE . '_posts_custom_column', [self::class, 'column'], 10, 2);
-        add_filter('script_module_data_@hive/product', [self::class, 'module_data']);
     }
 
     public static function post_type(): void
@@ -754,6 +759,7 @@ final class Alerts
     {
         $date = $columns['date'] ?? null;
         unset($columns['date']);
+        $columns['hive_news']   = 'Newsletter';
         $columns['hive_alerts'] = 'Avvisi taglia';
         $columns['hive_wait']   = 'Lista d’attesa';
         if (null !== $date) {
@@ -765,6 +771,11 @@ final class Alerts
     public static function column(string $column, int $post_id): void
     {
         $state = (string) get_post_meta($post_id, '_hive_alerts', true);
+        if ('hive_news' === $column) {
+            $since = (int) get_post_meta($post_id, '_hive_newsletter', true);
+            echo $since ? esc_html('Sì, dal ' . wp_date('j M Y', $since)) : '—';
+            return;
+        }
         if ('hive_alerts' === $column) {
             if ('off' === $state) {
                 echo 'Disattivati';

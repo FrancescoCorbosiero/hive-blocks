@@ -21,6 +21,11 @@ $defaults = [
     'band'           => true,
     'colorways'      => true,
     'recent'         => true,
+    'speculation'    => 'wordpress',
+    'preload'        => '',
+    'preload_home'   => true,
+    'prerender'      => '',
+    'prefetch'       => '',
     'modules'        => [],
 ];
 
@@ -55,6 +60,12 @@ check(SettingsSchema::sanitize(['gallery' => 'grid'])['gallery'], 'grid', 'the g
 check(SettingsSchema::sanitize(['delivery_cutoff' => '09:30'])['delivery_cutoff'], '09:30', 'a time');
 check(SettingsSchema::sanitize(['delivery_cutoff' => '25:00'])['delivery_cutoff'], '13:00', 'not a time: the default');
 check(SettingsSchema::sanitize(['delivery_cutoff' => '9:30'])['delivery_cutoff'], '13:00', 'a time needs two digits for the hour');
+check(
+    SettingsSchema::sanitize(['preload' => "https://a.test/hero.jpg\n\njavascript:alert(1)\n/wp-content/font.woff2|font\n<script>\nhttps://a.test/x y.jpg"])['preload'],
+    "https://a.test/hero.jpg\n/wp-content/font.woff2|font",
+    'links only, one per line'
+);
+check(SettingsSchema::sanitize(['speculation' => 'prerender'])['speculation'], 'prerender', 'prerender on hover');
 
 check(
     SettingsSchema::sanitize(['modules' => ['quick-add' => '1', 'gallery' => '0', 'Bad Key' => '1', 3 => '1']])['modules'],

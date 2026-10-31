@@ -16,6 +16,7 @@ final class Plugin
     {
         Settings::register();
         Cache::register();
+        Speed::register();
         Assets::register();
         Blocks::register();
 
@@ -28,6 +29,8 @@ final class Plugin
             Shop\Ordering::register();
             Shop\SizeGuides::register();
             Shop\SocialProof::register();
+            Shop\Alerts::register_list();
+            Shop\Newsletter::register();
             Modules::register();
         }
     }
