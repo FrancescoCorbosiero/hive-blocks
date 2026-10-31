@@ -32,7 +32,12 @@ set_error_handler(
     static function (int $level, string $message, string $file = '', int $line = 0): bool {
         if (error_reporting() & $level) {
             $hive = str_contains($file, '/plugins/hive-blocks/') && !str_contains($file, '/plugins/hive-blocks/tests/');
-            hive_e2e_record("PHP error $level: $message", $hive ? "$file:$line" : hive_e2e_where());
+            // A deprecation in another plugin's own code (WooCommerce's bundled libraries on a newer
+            // PHP, say) is about how that code is written, not about Hive's call into it.
+            $theirs = !$hive && str_contains($file, '/plugins/') && in_array($level, [E_DEPRECATED, E_USER_DEPRECATED], true);
+            if (!$theirs) {
+                hive_e2e_record("PHP error $level: $message", $hive ? "$file:$line" : hive_e2e_where());
+            }
         }
         return false; // PHP and WordPress go on handling it as usual.
     }
@@ -119,6 +124,14 @@ add_action(
                     do_action(Hive\Shop\Alerts::HOOK);
                     return ['mails' => (array) get_option('hive_e2e_mails', [])];
                 },
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/env',
+            $open + [
+                'methods'  => 'GET',
+                'callback' => static fn() => ['php' => PHP_VERSION, 'wp' => get_bloginfo('version'), 'wc' => defined('WC_VERSION') ? WC_VERSION : ''],
             ]
         );
         register_rest_route(
