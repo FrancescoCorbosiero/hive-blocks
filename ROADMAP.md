@@ -35,10 +35,15 @@ switch-over (step 9).
    reloading; sizes matched on stock; counts cached per catalog generation.
    Sorting, pagination, sold-out last, category pages following their
    homepage rail, archive hero.
-4. **Product page I, replacing CommerceKit:** gallery (Product Gallery),
-   size swatches with price and sale badge (Attribute Swatches), sticky
-   add-to-cart bar (Sticky Add to Cart), stock meter (Stock Meter), size
-   guides (Size Guides).
+4. **Product page I, replacing CommerceKit** (0.4.0, done): the product
+   page drawn by Hive (module Pagina prodotto), as the shop's pages are;
+   gallery (Product Gallery) with CSS swiping, thumbnails or a grid, full
+   screen with zoom; size buttons with price and sale mark over
+   WooCommerce's own variation form (Attribute Swatches); sticky add-to-cart
+   bar (Sticky Add to Cart); stock meter (Stock Meter); size guides by
+   category, brand or product (Size Guides); add to cart without leaving the
+   page, through WooCommerce's own form handler. WooCommerce's product hooks
+   still fire, without the theme's callbacks.
 5. **Product page II:** waitlist per size (Waitlist), merged with the size
    alerts; drops (release date, lock, countdown, calendar); social proof
    from real orders; WhatsApp, share, delivery estimate; colorways and

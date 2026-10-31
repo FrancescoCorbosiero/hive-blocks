@@ -20,6 +20,7 @@ final class Modules
         Modules\QuickView::class,
         Modules\QuickAdd::class,
         Modules\Catalog::class,
+        Modules\ProductPage::class,
     ];
 
     /** @return array<string, class-string<Module>> id → class */

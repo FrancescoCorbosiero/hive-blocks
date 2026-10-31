@@ -2,5 +2,5 @@
 	'dependencies' => array(
 		'@hive/dom',
 	),
-	'version' => 'fddd6e5d5047bc066e0c',
+	'version' => '373aad97fb28cc0c88f6',
 );

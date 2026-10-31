@@ -32,13 +32,35 @@ foreach (['40', '41', '42'] as $hive_size) {
 $hive_category = wp_insert_term('Sneakers', 'product_cat');
 $hive_category = is_wp_error($hive_category) ? 0 : (int) $hive_category['term_id'];
 
-// A pair in three sizes: 40 on sale, 41 sold out, 42 at full price.
+/** A plain-colour PNG, written without an image library (the product photos). */
+function hive_e2e_png(string $file, array $rgb, int $size = 600): void
+{
+    $row   = "\0" . str_repeat(chr($rgb[0]) . chr($rgb[1]) . chr($rgb[2]), $size);
+    $chunk = static fn(string $type, string $body): string => pack('N', strlen($body)) . $type . $body . pack('N', crc32($type . $body));
+    file_put_contents($file, "\x89PNG\r\n\x1a\n" . $chunk('IHDR', pack('NNCCCCC', $size, $size, 8, 2, 0, 0, 0)) . $chunk('IDAT', (string) gzcompress(str_repeat($row, $size), 9)) . $chunk('IEND', ''));
+}
+
+require_once ABSPATH . 'wp-admin/includes/image.php';
+$hive_upload = wp_upload_dir();
+$hive_photos = [];
+foreach ([[236, 236, 236], [29, 78, 216], [185, 28, 28]] as $hive_index => $hive_rgb) {
+    $hive_file = $hive_upload['path'] . '/hive-dunk-' . $hive_index . '.png';
+    hive_e2e_png($hive_file, $hive_rgb);
+    $hive_photo = wp_insert_attachment(['post_mime_type' => 'image/png', 'post_title' => 'Dunk ' . $hive_index, 'post_status' => 'inherit'], $hive_file);
+    wp_update_attachment_metadata($hive_photo, wp_generate_attachment_metadata($hive_photo, $hive_file));
+    $hive_photos[] = $hive_photo;
+}
+
+// A pair in three sizes and three photos: 40 on sale with 2 left, 41 sold out, 42 at full price.
 $hive_dunk = new WC_Product_Variable();
 $hive_dunk->set_name('Nike Dunk Low Panda');
 $hive_dunk->set_slug('nike-dunk-low-panda');
 $hive_dunk->set_status('publish');
 $hive_dunk->set_category_ids([$hive_category]);
 $hive_dunk->set_short_description('La Dunk più amata.');
+$hive_dunk->set_description(str_repeat('<p>La Dunk Low nasce sui campi da basket nel 1985 e diventa un’icona dello skate: pelle liscia bianca e nera, suola in gomma, il profilo basso che si porta con tutto.</p>', 8));
+$hive_dunk->set_image_id($hive_photos[0]);
+$hive_dunk->set_gallery_image_ids([$hive_photos[1], $hive_photos[2]]);
 $hive_size_attribute = new WC_Product_Attribute();
 $hive_size_attribute->set_id($hive_attribute);
 $hive_size_attribute->set_name('pa_taglia');
@@ -54,10 +76,26 @@ foreach ([['40', '180', '150', 'instock'], ['41', '160', '', 'outofstock'], ['42
     $hive_variation->set_regular_price($hive_regular);
     $hive_variation->set_sale_price($hive_sale);
     $hive_variation->set_stock_status($hive_stock);
+    if ('40' === $hive_size) {
+        $hive_variation->set_manage_stock(true);
+        $hive_variation->set_stock_quantity(2);
+    }
     $hive_variation->set_status('publish');
     $hive_variation->save();
 }
 WC_Product_Variable::sync($hive_dunk_id);
+
+// A size guide for the Sneakers category.
+$hive_guide = wp_insert_post(
+    [
+        'post_type'    => 'hive_size_guide',
+        'post_status'  => 'publish',
+        'post_title'   => 'Guida taglie sneakers',
+        'post_content' => '<!-- wp:table --><figure class="wp-block-table"><table><thead><tr><th>EU</th><th>US</th><th>CM</th></tr></thead><tbody><tr><td>40</td><td>7</td><td>25</td></tr><tr><td>41</td><td>8</td><td>26</td></tr><tr><td>42</td><td>8,5</td><td>26,5</td></tr></tbody></table></figure><!-- /wp:table -->',
+    ]
+);
+update_post_meta($hive_guide, '_hive_guide_cats', [$hive_category]);
+delete_transient('hive_size_guides');
 
 // A simple product, and a sold-out one.
 foreach ([['Calzini Hive', 'calzini-hive', '15', 'instock'], ['Felpa esaurita', 'felpa-esaurita', '89', 'outofstock']] as [$hive_name, $hive_slug, $hive_price, $hive_stock]) {

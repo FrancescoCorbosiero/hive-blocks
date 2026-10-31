@@ -6,6 +6,8 @@
  *   addToCart(id, n)  through WooCommerce's own wc-ajax=add_to_cart (a
  *                     variation id works too), then the mini cart refreshes
  *                     with the fragments WooCommerce returns
+ *   cartUpdated()     the same refresh, for an answer got another way (the
+ *                     product page's form)
  *   settings          cart URL, WhatsApp number
  *
  * Site data comes from the module data WordPress prints
@@ -62,12 +64,24 @@ export async function addToCart(id, quantity = 1, source = null) {
         throw error;
     }
 
+    cartUpdated(data, source, { id, quantity });
+    return data;
+}
+
+/**
+ * After a product went into the cart: WooCommerce's fresh fragments in
+ * place (mini cart, cart count), then the events the theme's mini cart,
+ * WooCommerce's scripts and Hive listen to.
+ *
+ * @param {{fragments?: Object, cart_hash?: string}} data WooCommerce's answer.
+ * @param {Element|null} source The button that added it.
+ * @param {Object} detail For the hive:added-to-cart event.
+ */
+export function cartUpdated(data, source = null, detail = {}) {
     applyFragments(data.fragments);
-    document.dispatchEvent(new CustomEvent('hive:added-to-cart', { detail: { id, quantity, data } }));
-    // The theme's mini cart and WooCommerce's own scripts listen to this jQuery event.
+    document.dispatchEvent(new CustomEvent('hive:added-to-cart', { detail: { ...detail, data } }));
     const $ = window.jQuery;
     if ($) $(document.body).trigger('added_to_cart', [data.fragments, data.cart_hash, source ? $(source) : undefined]);
-    return data;
 }
 
 /** Puts WooCommerce's fresh fragments (mini cart, cart count) in place of the old ones. */
