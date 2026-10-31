@@ -1,0 +1,204 @@
+/**
+ * Invito all'azione. Every rule sits under .hive-cta, so each selector has
+ * two classes or more and outranks a theme's content rules. Both layouts
+ * sit on a dark surface from the tokens (--hive-ink behind, --hive-surface
+ * for the text, the main button light):
+ *
+ *   --banner  full width and centred; the picture faint behind a gradient
+ *             that warms towards the accent colour; the glow a thin accent
+ *             line at the top
+ *   --split   the picture fading into the text's side (--reverse: on the right)
+ */
+
+.hive-cta {
+    --hive-button: var(--hive-surface);
+    --hive-on-button: var(--hive-ink);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--hive-ink);
+    color: var(--hive-surface);
+
+    /* The section decides the alignment, not a theme's p or h2 rules. */
+    & .hive-cta__eyebrow,
+    & .hive-cta__title,
+    & .hive-cta__text,
+    & .hive-cta__actions {
+        text-align: inherit;
+    }
+
+    & .hive-cta__eyebrow {
+        margin: 0 0 var(--hive-space-4);
+        padding: 0;
+        color: color-mix(in srgb, currentColor 85%, transparent);
+        font-size: var(--hive-text-xs);
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        line-height: 1.4;
+        text-transform: uppercase;
+    }
+
+    & .hive-cta__title {
+        margin: 0 0 var(--hive-space-5);
+        padding: 0;
+        color: inherit;
+        font-size: calc(1.25 * var(--hive-text-3xl));
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        line-height: 1.05;
+        text-transform: uppercase;
+        text-wrap: balance;
+        overflow-wrap: break-word;
+    }
+
+    & .hive-cta__text {
+        margin: 0 0 var(--hive-space-6);
+        padding: 0;
+        color: var(--hive-muted);
+        font-size: var(--hive-text-lg);
+        line-height: 1.7;
+    }
+
+    & .hive-cta__body > :last-child {
+        margin-bottom: 0;
+    }
+
+    & .hive-cta__actions {
+        margin: 0;
+        padding: 0;
+    }
+
+    & .hive-cta__button {
+        min-height: 3rem;
+        padding: 0.875rem 1.75rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    & .hive-cta__image {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        max-height: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        object-fit: cover;
+    }
+
+    /* Banner ------------------------------------------------------------ */
+
+    &.hive-cta--banner {
+        padding: clamp(var(--hive-space-8), 10vw, 8rem) var(--hive-space-5);
+        text-align: center;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(
+                135deg,
+                color-mix(in srgb, var(--hive-ink) 90%, transparent) 0%,
+                color-mix(in srgb, var(--hive-ink) 60%, transparent) 40%,
+                color-mix(in srgb, var(--hive-accent) 25%, transparent) 100%
+            );
+        }
+
+        & .hive-cta__media {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            opacity: 0.4;
+        }
+
+        & .hive-cta__body {
+            max-width: 50rem;
+            margin-inline: auto;
+        }
+
+        & .hive-cta__text {
+            max-width: 37.5rem;
+            margin-inline: auto;
+        }
+
+        & .hive-cta__glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 15rem;
+            height: 1px;
+            translate: -50% 0;
+            background: linear-gradient(90deg, transparent, var(--hive-accent), transparent);
+            box-shadow:
+                0 0 1.25rem color-mix(in srgb, var(--hive-accent) 40%, transparent),
+                0 0 2.5rem color-mix(in srgb, var(--hive-accent) 20%, transparent);
+        }
+    }
+
+    /* Image and text ---------------------------------------------------- */
+
+    &.hive-cta--split {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+
+        & .hive-cta__media {
+            position: relative;
+            min-height: 18.75rem;
+        }
+
+        /* The picture fades into the text: downwards on phones, sideways from tablets up. */
+        & .hive-cta__media::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 50%;
+            background: linear-gradient(to top, var(--hive-ink), transparent);
+        }
+
+        & .hive-cta__body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: var(--hive-space-7) var(--hive-space-5);
+            text-align: start;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .hive-cta.hive-cta--split.has-image {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-height: clamp(28rem, 45vw, 37.5rem);
+    }
+
+    .hive-cta.hive-cta--split .hive-cta__media {
+        min-height: 0;
+    }
+
+    .hive-cta.hive-cta--split .hive-cta__media::after {
+        inset: 0 0 0 auto;
+        width: 50%;
+        height: auto;
+        background: linear-gradient(to right, transparent, var(--hive-ink));
+    }
+
+    .hive-cta.hive-cta--split.hive-cta--reverse .hive-cta__media {
+        order: 2;
+    }
+
+    .hive-cta.hive-cta--split.hive-cta--reverse .hive-cta__media::after {
+        inset: 0 auto 0 0;
+        background: linear-gradient(to left, transparent, var(--hive-ink));
+    }
+
+    .hive-cta.hive-cta--split .hive-cta__body {
+        padding: clamp(var(--hive-space-7), 6vw, 6rem);
+    }
+}

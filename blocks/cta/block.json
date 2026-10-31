@@ -1,0 +1,62 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/cta",
+    "title": "Invito all’azione",
+    "category": "hive",
+    "icon": "megaphone",
+    "description": "Un invito all’azione: un banner a tutta larghezza, o un’immagine accanto al testo, con il pulsante.",
+    "keywords": ["cta", "banner", "promo", "offerta", "invito"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "layout": { "type": "string", "enum": ["banner", "split"], "default": "banner" },
+        "eyebrow": { "type": "string", "default": "Offerta speciale" },
+        "title": { "type": "string", "default": "Spedizione gratuita su tutti gli ordini" },
+        "text": { "type": "string", "default": "Approfitta della spedizione gratuita sugli ordini sopra i 99 €. Solo per poco tempo." },
+        "buttonText": { "type": "string", "default": "Acquista ora" },
+        "buttonUrl": { "type": "string", "default": "" },
+        "imageId": { "type": "number", "default": 0 },
+        "imageUrl": { "type": "string", "default": "" },
+        "reverse": { "type": "boolean", "default": false },
+        "showGlow": { "type": "boolean", "default": true },
+        "align": { "type": "string", "default": "full" }
+    },
+    "variations": [
+        {
+            "name": "banner",
+            "title": "Banner",
+            "description": "A tutta larghezza su fondo scuro, con un’immagine dietro se vuoi.",
+            "icon": "megaphone",
+            "isDefault": true,
+            "scope": ["inserter"],
+            "isActive": ["layout"],
+            "attributes": { "layout": "banner" }
+        },
+        {
+            "name": "split",
+            "title": "Immagine e testo",
+            "description": "L’immagine da un lato, il testo e il pulsante dall’altro.",
+            "icon": "align-pull-left",
+            "scope": ["inserter"],
+            "isActive": ["layout"],
+            "attributes": {
+                "layout": "split",
+                "eyebrow": "Nuovi arrivi",
+                "title": "Streetwear selezionato per te",
+                "text": "Ogni capo è scelto con cura per garantirti stile, qualità e autenticità."
+            }
+        }
+    ],
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "spacing": {
+            "margin": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}
