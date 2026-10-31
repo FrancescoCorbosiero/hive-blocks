@@ -1,7 +1,8 @@
 // The shop's pages drawn by Hive (module "Pagine del negozio"), on a real
 // WooCommerce store, classic and block themes alike. Products from
-// tests/e2e/fixtures.php, all in "Sneakers": a pair in sizes 40, 41 (sold
-// out) and 42; a simple product; a sold-out one.
+// tests/e2e/fixtures.php: in "Sneakers" a pair in sizes 40, 41 (sold out)
+// and 42, its other colorway, a simple product, a sold-out one; outside it,
+// a drop not out yet.
 import { expect, test } from '@playwright/test';
 import { hiveErrors } from './helpers.mjs';
 
@@ -12,7 +13,7 @@ test('the shop is Hive’s page inside the theme’s header and footer; sold out
     await page.goto('/?post_type=product');
     await expect(page.locator('header').first()).toBeVisible();
     await expect(page.locator('.hive-catalog h1.hive-catalog__title')).toBeVisible();
-    await expect(results(page)).toHaveCount(3);
+    await expect(results(page)).toHaveCount(5);
     await expect(results(page).last()).toContainText('Felpa esaurita');
     await expect(page.locator('ul.products')).toHaveCount(0);
     expect(errors).toEqual([]);
@@ -49,7 +50,7 @@ test('a category page has its own title; the sort order keeps sold out last', as
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/?product_cat=sneakers');
     await expect(page.locator('.hive-catalog__title')).toHaveText('Sneakers');
-    await expect(results(page)).toHaveCount(3);
+    await expect(results(page)).toHaveCount(4);
 
     await page.locator('[data-hive-sort]').selectOption('price-desc');
     await expect(page).toHaveURL(/orderby=price-desc/);
@@ -64,6 +65,6 @@ test('only in stock', async ({ page }) => {
     await page.goto('/?post_type=product');
     await page.getByRole('link', { name: 'Solo disponibili' }).click();
     await expect(page).toHaveURL(/instock=1/);
-    await expect(results(page)).toHaveCount(2);
+    await expect(results(page)).toHaveCount(4);
     await expect(results(page).filter({ hasText: 'Felpa esaurita' })).toHaveCount(0);
 });

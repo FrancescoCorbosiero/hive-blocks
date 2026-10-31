@@ -1518,6 +1518,8 @@
     line-height: 1.6;
 }
 
+/* Empty until its rail arrives: no box would never come into view, so it stays, without its gap. */
 .hive-product .hive-product__recent:empty {
-    display: none;
+    height: 0;
+    margin-top: calc(-1 * var(--hive-space-7));
 }

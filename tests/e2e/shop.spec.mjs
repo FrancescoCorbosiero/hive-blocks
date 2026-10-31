@@ -18,8 +18,9 @@ test('a rail of Hive cards: sale badge, sold out, the theme left out', async ({ 
     await page.goto('/?pagename=rail');
     const rail = page.locator('main .hive-rail');
     await expect(rail.locator('.hive-rail__title')).toHaveText('Novità');
-    await expect(rail.locator('.hive-card')).toHaveCount(3);
-    await expect(rail.locator('h3.hive-card__title')).toHaveCount(3);
+    // Five products in the fixtures, all visible (one a drop not out yet).
+    await expect(rail.locator('.hive-card')).toHaveCount(5);
+    await expect(rail.locator('h3.hive-card__title')).toHaveCount(5);
     await expect(card(rail, 'Nike Dunk Low Panda').locator('.hive-card__badge')).toHaveText('Fino a -17%');
     await expect(card(rail, 'Felpa esaurita').locator('.hive-card__add')).toHaveText('Esaurito');
     expect(errors).toEqual([]);
@@ -89,7 +90,7 @@ test.describe("WooCommerce's own lists", () => {
 
     test('the shop shows Hive cards in Hive’s grid, not the theme’s', async ({ page }) => {
         await page.goto('/?post_type=product');
-        await expect(page.locator('ul.hive-grid .hive-card')).toHaveCount(3);
+        await expect(page.locator('ul.hive-grid .hive-card')).toHaveCount(5);
         await expect(page.locator('ul.products')).toHaveCount(0);
     });
 

@@ -26,10 +26,6 @@ const config = moduleData('@hive/product');
 const ADDED = '✓ Aggiunto';
 const smooth = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 
-for (const root of document.querySelectorAll('[data-hive-product]')) {
-    init(root);
-}
-
 function init(root) {
     const gallerySlot = root.querySelector('[data-hive-gallery]');
     const photos = gallerySlot ? gallery(gallerySlot) : null;
@@ -557,4 +553,9 @@ function recentlyViewed(root) {
         { rootMargin: '600px 0px' }
     );
     near.observe(slot);
+}
+
+// Last, once every constant above is set.
+for (const root of document.querySelectorAll('[data-hive-product]')) {
+    init(root);
 }

@@ -57,6 +57,12 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   buttons set its selects and listen to its jQuery events. WooCommerce's
   product hooks are fired through `Shop\Hooks` (without the callbacks Hive
   replaces and without the theme's).
+- **People who asked to hear from the store** (waitlist, size alerts, the
+  newsletter in step 8) are `hive_subscriber` posts (`Shop\Alerts`):
+  double opt-in, the email links act only on a POST, every email has the
+  one-click way out. What's time-dependent on a cached page (drop
+  countdown, delivery estimate, "2 ore fa") is worked out in the browser;
+  a drop's release empties the page caches.
 - **Interactive UI** that opens on demand (dialogs, sheets) loads on demand:
   a dynamic `import()` from the module that handles the click, and
   `@hive/dialog` brings `dialog.css` the first time a dialog opens.

@@ -48,3 +48,86 @@ foreach (['doing_it_wrong_run', 'deprecated_function_run', 'deprecated_argument_
         4
     );
 }
+
+/*
+ * Helpers for the specs, on this test site only: the mail WordPress would
+ * send (kept instead of sent), a subscriber's state, a size back in stock,
+ * and the alerts' run, without waiting for the scheduler.
+ */
+add_filter(
+    'pre_wp_mail',
+    static function ($sent, array $mail) {
+        $mails   = (array) get_option('hive_e2e_mails', []);
+        $mails[] = ['to' => $mail['to'], 'subject' => $mail['subject'], 'message' => $mail['message']];
+        update_option('hive_e2e_mails', array_slice($mails, -20), false);
+        return true;
+    },
+    10,
+    2
+);
+
+add_action(
+    'rest_api_init',
+    static function (): void {
+        $open = ['permission_callback' => '__return_true'];
+        register_rest_route(
+            'hive-e2e/v1',
+            '/subscriber',
+            $open + [
+                'methods'  => 'GET',
+                'callback' => static function (WP_REST_Request $request) {
+                    $id = Hive\Shop\Alerts::subscriber((string) $request['email']);
+                    if (!$id) {
+                        return new WP_REST_Response(null, 404);
+                    }
+                    $meta = static fn(string $key) => get_post_meta($id, $key, true);
+                    return [
+                        'status'       => $meta('_hive_alerts'),
+                        'token'        => $meta('_hive_token'),
+                        'wait'         => array_values((array) $meta('_hive_wait')),
+                        'wait_pending' => array_values((array) $meta('_hive_wait_pending')),
+                    ];
+                },
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/restock',
+            $open + [
+                'methods'  => 'POST',
+                'callback' => static function (WP_REST_Request $request) {
+                    $product = wc_get_product((int) $request['product']);
+                    foreach ($product ? $product->get_children() : [] as $child) {
+                        $variation = wc_get_product($child);
+                        if ($variation && $variation->get_attribute('pa_taglia') === (string) $request['size']) {
+                            $variation->set_stock_status('outofstock' === $request['status'] ? 'outofstock' : 'instock');
+                            $variation->save();
+                            return ['variation' => $variation->get_id()];
+                        }
+                    }
+                    return new WP_REST_Response(null, 404);
+                },
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/alerts-run',
+            $open + [
+                'methods'  => 'POST',
+                'callback' => static function () {
+                    delete_option('hive_e2e_mails');
+                    do_action(Hive\Shop\Alerts::HOOK);
+                    return ['mails' => (array) get_option('hive_e2e_mails', [])];
+                },
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/mails',
+            $open + [
+                'methods'  => 'GET',
+                'callback' => static fn() => ['mails' => (array) get_option('hive_e2e_mails', [])],
+            ]
+        );
+    }
+);

@@ -16,5 +16,5 @@
 		),
 		'@hive/shop',
 	),
-	'version' => '8ee9139ad98a8921c6c6',
+	'version' => 'b9103d800f24d7235232',
 );

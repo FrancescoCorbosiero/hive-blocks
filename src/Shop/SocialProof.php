@@ -140,6 +140,7 @@ final class SocialProof
             return 0;
         }
         global $wpdb;
+        $quiet = $wpdb->suppress_errors(true);
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- WooCommerce's analytics tables have no API for this count; cached above.
         $count = (int) $wpdb->get_var(
             $wpdb->prepare(
@@ -149,6 +150,7 @@ final class SocialProof
                 wp_date('Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS)
             )
         );
+        $wpdb->suppress_errors($quiet);
         set_transient($key, $count, 6 * HOUR_IN_SECONDS);
         return $count;
     }
@@ -164,10 +166,13 @@ final class SocialProof
             return $ready = ('yes' === $cached);
         }
         global $wpdb;
+        // A database that can't answer (or a missing table) means "not ready", not an error on the page.
+        $quiet = $wpdb->suppress_errors(true);
         // phpcs:disable WordPress.DB.DirectDatabaseQuery -- a one-off check, cached for a day.
         $ready = null !== $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->prefix . 'wc_order_product_lookup'))
             && null !== $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->prefix . 'wc_order_stats'));
         // phpcs:enable WordPress.DB.DirectDatabaseQuery
+        $wpdb->suppress_errors($quiet);
         set_transient('hive_lookup_ready', $ready ? 'yes' : 'no', DAY_IN_SECONDS);
         return $ready;
     }
