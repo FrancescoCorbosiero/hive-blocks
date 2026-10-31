@@ -25,7 +25,9 @@ test('a size keeps only the products with it in stock, swapped in place', async 
     await page.evaluate(() => (window.hiveSamePage = true));
 
     const sizes = page.locator('.hive-facet--chips');
-    await expect(sizes.locator('.is-disabled')).toContainText('41');
+    // 41 is sold out everywhere: not offered at all.
+    await expect(sizes.getByRole('link', { name: '40', exact: true })).toBeVisible();
+    await expect(sizes.getByText('41', { exact: true })).toHaveCount(0);
     await sizes.getByRole('link', { name: '42', exact: true }).click();
 
     await expect(page).toHaveURL(/filter_taglia=42/);
@@ -49,7 +51,8 @@ test('a category page has its own title; the sort order keeps sold out last', as
 
     await page.locator('[data-hive-sort]').selectOption('price-desc');
     await expect(page).toHaveURL(/orderby=price-desc/);
-    await expect(page).toHaveURL(/product_cat=sneakers/);
+    // The collection's own URL (pretty or plain permalinks), with the order.
+    await expect(page).toHaveURL(/product-category\/sneakers|product_cat=sneakers/);
     await expect(results(page).first()).toContainText('Nike Dunk Low Panda');
     await expect(results(page).last()).toContainText('Felpa esaurita');
 });
