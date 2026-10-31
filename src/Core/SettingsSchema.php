@@ -24,6 +24,7 @@ final class SettingsSchema
      *   bool    on or off
      *   int     a whole number between 'min' and 'max'
      *   time    'HH:MM', 24 hours
+     *   urls    one link per line (http(s) or from the site's root, "|type" allowed), 30 at most
      *   flags   [key => bool], e.g. which modules are on
      */
     public const FIELDS = [
@@ -45,6 +46,11 @@ final class SettingsSchema
         'band'           => ['type' => 'bool', 'default' => true],
         'colorways'      => ['type' => 'bool', 'default' => true],
         'recent'         => ['type' => 'bool', 'default' => true],
+        'speculation'    => ['type' => 'choice', 'default' => 'wordpress', 'choices' => ['wordpress', 'prefetch', 'prerender', 'off']],
+        'preload'        => ['type' => 'urls', 'default' => ''],
+        'preload_home'   => ['type' => 'bool', 'default' => true],
+        'prerender'      => ['type' => 'urls', 'default' => ''],
+        'prefetch'       => ['type' => 'urls', 'default' => ''],
         'modules'        => ['type' => 'flags', 'default' => []],
     ];
 
@@ -91,6 +97,16 @@ final class SettingsSchema
                     return max($field['min'], min($field['max'], (int) $value));
                 }
                 return $field['default'];
+
+            case 'urls':
+                $lines = [];
+                foreach (preg_split('/\r\n|\r|\n/', is_string($value) ? $value : '') ?: [] as $line) {
+                    $line = trim($line);
+                    if (1 === preg_match('~^(https?://|/)[^\s<>"\'`]+(\|[a-z]+)?$~i', $line)) {
+                        $lines[] = $line;
+                    }
+                }
+                return implode("\n", array_slice($lines, 0, 30));
 
             case 'time':
                 return is_string($value) && 1 === preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', trim($value)) ? trim($value) : $field['default'];

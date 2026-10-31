@@ -88,6 +88,11 @@ final class Settings
         add_settings_field('hive-delivery', 'Stima di consegna', [self::class, 'delivery_field'], self::PAGE, 'product');
         add_settings_field('hive-below', 'Sotto il prodotto', [self::class, 'below_field'], self::PAGE, 'product');
 
+        add_settings_section('speed', 'Velocità', [self::class, 'speed_intro'], self::PAGE);
+        add_settings_field('hive-speculation', 'Pagine pronte prima del clic', [self::class, 'speculation_field'], self::PAGE, 'speed');
+        add_settings_field('hive-preload', 'File da precaricare', [self::class, 'preload_field'], self::PAGE, 'speed', ['label_for' => 'hive-preload']);
+        add_settings_field('hive-prerender', 'Pagine da preparare', [self::class, 'pages_field'], self::PAGE, 'speed', ['label_for' => 'hive-prerender']);
+
         $modules = Modules::all();
         if ($modules) {
             add_settings_section('modules', 'Moduli', [self::class, 'modules_intro'], self::PAGE);
@@ -275,6 +280,54 @@ final class Settings
         echo '<br>';
         self::checkbox('recent', 'hive-recent', '«Visti di recente»: i prodotti aperti da chi guarda, ricordati nel suo browser');
         echo '</fieldset>';
+    }
+
+    public static function speed_intro(): void
+    {
+        echo '<p>Cosa il browser scarica prima che serva: uguale per tutti, quindi vale anche per le pagine in cache.</p>';
+    }
+
+    public static function speculation_field(): void
+    {
+        $choices = [
+            'wordpress' => 'Come WordPress: la pagina si scarica al clic, un attimo prima di aprirsi',
+            'prefetch'  => 'Scaricata al passaggio del mouse (o al tocco)',
+            'prerender' => 'Pronta al passaggio del mouse: si apre all’istante, con qualche richiesta in più',
+            'off'       => 'Spento',
+        ];
+        echo '<fieldset><legend class="screen-reader-text">Pagine pronte prima del clic</legend>';
+        foreach ($choices as $value => $label) {
+            printf(
+                '<label><input type="radio" name="%s[speculation]" value="%s"%s> %s</label><br>',
+                esc_attr(self::OPTION),
+                esc_attr($value),
+                checked(self::get('speculation'), $value, false),
+                esc_html($label)
+            );
+        }
+        echo '</fieldset>';
+    }
+
+    public static function preload_field(): void
+    {
+        printf(
+            '<textarea id="hive-preload" name="%1$s[preload]" rows="4" class="large-text code" placeholder="https://…/hero.webp">%2$s</textarea><p class="description">%3$s</p>',
+            esc_attr(self::OPTION),
+            esc_textarea((string) self::get('preload')),
+            'Un indirizzo per riga, per ciò che serve subito (l’immagine della hero, un font). Il tipo si legge dall’estensione, o aggiungi «|image», «|font». Le righe con # sono note.'
+        );
+        self::checkbox('preload_home', 'hive-preload-home', 'Solo in homepage');
+    }
+
+    public static function pages_field(): void
+    {
+        printf(
+            '<p><label for="hive-prerender">Da preparare (prerender)</label><br><textarea id="hive-prerender" name="%1$s[prerender]" rows="3" class="large-text code">%2$s</textarea></p><p><label for="hive-prefetch">Da scaricare (prefetch)</label><br><textarea id="hive-prefetch" name="%1$s[prefetch]" rows="3" class="large-text code">%3$s</textarea></p><p class="description">%4$s</p>',
+            esc_attr(self::OPTION),
+            esc_textarea((string) self::get('prerender')),
+            esc_textarea((string) self::get('prefetch')),
+            'Pagine che quasi tutti aprono dopo quella che stanno guardando (il drop del giorno): pronte da ogni pagina del sito.'
+        );
     }
 
     /** A switch: the hidden 0 posts it when unticked, so turning it off is saved. */

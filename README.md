@@ -59,6 +59,9 @@ ZIP from GitHub) and activate it. Settings: **Hive** in the admin menu.
 | Instagram (`hive/instagram-feed`) | A grid of Instagram photos, each linking to its post, and the button to follow the store. "Acquista il look" tags open the products in Quick View. No Instagram script. |
 | Guida alle taglie (`hive/size-chart-modal`) | A button that opens a size guide (Hive → Guide alle taglie) in a dialog, as on the product page; without one, the US/UK/EU/CM table. A link to `#its-id` opens it too. |
 | Sezione con shortcode (`hive/shortcode-wrapper`) | A section around a shortcode (a product rail, say) with eyebrow, title and button: the sections the Store Hub's Vetrina edits and switches off. |
+| Cerca (`hive/search`) | A search field, button or icon opening the live search: products as you type (SKU matches first, Relevanssi when it's there), recent searches kept in the browser, popular searches, "Vedi tutti i risultati (N)". |
+| Newsletter (`hive/newsletter`) | The newsletter signup, with the same settings as golden-hive-blocks': optionally up to three sizes and some brands for the size alerts, confirmed by email. Subscribers go to Hive → Iscritti; `hive_newsletter_subscribed` passes them to an email service. |
+| Nella tua taglia (`hive/size-rail`) | A rail of what's in stock in the visitor's size, remembered in the browser from the last size picked on a product page. No size yet: a size chooser. Nothing in that size: the size-alert form. Also `[hive_size_rail]`. |
 
 ## Modules
 
@@ -75,6 +78,8 @@ Features that hook into WooCommerce; each can be switched off in **Hive → Modu
 | Avvisi e lista d'attesa | "Avvisami" on a sold-out size or product, and the size alerts ("a pair in my size arrived"): one list of people (Hive → Iscritti), double opt-in, one email per person with everything that arrived, at most one every 12 hours for size alerts, at once for what someone waited for. |
 | Offerta al checkout | An extra product offered at the checkout, above the payment methods ("Aggiungi anche…"), for any cart or for carts with products of some categories (Hive → Offerte al checkout). One click adds it; the next offer that fits takes its place. |
 | Coordinate bancarie | "Mostra coordinate bancarie per il bonifico" at the checkout: WooCommerce's own bank account in a dialog, IBAN and BIC one tap from the clipboard. Also `[hive_bank_details]`. |
+| Ricerca | The live search behind the Cerca block. The theme's own search links and buttons can open it too: give their selector to the `hive_search_trigger_selector` filter. Popular searches: `hive_search_popular`. |
+| Store Hub | The Store Hub app's Vetrina edits the homepage through `wc-gh/v1`, unchanged from golden-hive-blocks (same routes, block names and answers, so the app needs no update): which product sections, their order, pinned and excluded products, texts, with the page's revisions as history. For users with `manage_woocommerce`. |
 
 ## Settings
 
@@ -91,6 +96,12 @@ picked, "Condividi", "Non trovi la tua taglia?" and "Acquista con fiducia"
 under the product (filter `hive_trust_items`), and the "Altre colorway"
 and "Visti di recente" rails; each can be switched off in Hive → Pagina
 prodotto.
+
+**Hive → Velocità**: how links are fetched ahead (WordPress's own
+speculation rules, prefetch or prerender on hover, or off), files to
+preload on every page or the homepage only (a hero image, a font), and
+pages to prerender or prefetch. All of it is the same for every visitor,
+so it holds for cached pages too.
 
 **Hive → Guide alle taglie**: size guides written in the block editor (a
 table, a picture, notes), each for some categories (their subcategories
@@ -114,6 +125,13 @@ WooCommerce (`?wc-ajax=hive_add_to_cart`), which caches pass through.
 same products give the same URL, whoever asks) and the social proof feed
 is `GET /wp-json/hive/v1/social-proof`, kept for five minutes. A drop's
 calendar file is `/?hive_drop_ics={id}&ts={release}`.
+
+The live search asks `GET /wp-json/hive/v1/search?q=…&v={n}` and "Nella
+tua taglia" `GET /wp-json/hive/v1/size-rail?size=…&v={n}`: the same words or
+size give the same URL for everyone, cached like product data. Newsletter
+and alert signups are POSTs to WooCommerce (`?wc-ajax=hive_newsletter`,
+`?wc-ajax=hive_alerts`). The Store Hub's `wc-gh/v1` needs a login and is
+never cached.
 
 Every filtered shop page is a plain URL (`?filter_taglia=42`,
 `?orderby=price`), the same for every visitor: the page cache and the CDN

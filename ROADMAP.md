@@ -62,10 +62,13 @@ switch-over (step 9).
    videos and third parties wait for the visitor; the FAQ's structured
    data comes from the server; the countdowns and "Acquisti recenti" are
    worked out in the browser, so cached pages stay true.
-8. **Store Hub bridge, search, newsletter, preload:** the `wc-gh/v1` API
-   unchanged at first; live search on its own endpoint (Relevanssi when
-   present, without its Live Ajax Search add-on); newsletter; preload and
-   speculation rules.
+8. **Store Hub bridge, search, newsletter, preload** (0.8.0, done): the
+   `wc-gh/v1` API unchanged for the app (module Store Hub), translating
+   `hive/*` names back to the `golden-hive/*` ones it knows; live search on
+   a cacheable REST read (Relevanssi when present, without its Live Ajax
+   Search add-on); the Newsletter block writing to the same list of people
+   as the alerts; "Nella tua taglia"; preload and speculation rules
+   (Hive → Velocità).
 9. **Migration and switch-over:** a one-time tool, dry run first, that
    rewrites the `golden-hive/*` blocks and their attributes, moves the
    `ghb_*` options, the `_ghb_*` product meta and the `ghb_subscriber`
@@ -85,9 +88,10 @@ number.
 
 ## Open questions
 
-- **Store Hub app.** It reads block names in the `wc-gh/v1` payloads.
-  After the migration, either the bridge keeps reporting the
-  `golden-hive/*` names or the app learns the `hive/*` ones.
+- **Store Hub app.** The bridge reports the `golden-hive/*` names, the
+  `[gh_product_rail]` shortcode and golden-hive-blocks as the plugin, so
+  the app works as it is. When the app learns the `hive/*` names, the
+  translation (`Core\HubNames`) can go.
 - **CommerceKit's data.** Where it keeps waitlist entries, size guides and
   order bump offers, to import them in step 9.
 - **Checkout.** Hive's checkout parts are built for the classic checkout,

@@ -91,10 +91,12 @@ add_action(
                     }
                     $meta = static fn(string $key) => get_post_meta($id, $key, true);
                     return [
-                        'status'       => $meta('_hive_alerts'),
-                        'token'        => $meta('_hive_token'),
-                        'wait'         => array_values((array) $meta('_hive_wait')),
-                        'wait_pending' => array_values((array) $meta('_hive_wait_pending')),
+                        'status'        => $meta('_hive_alerts'),
+                        'token'         => $meta('_hive_token'),
+                        'newsletter'    => (bool) $meta('_hive_newsletter'),
+                        'sizes_pending' => array_values(array_filter((array) $meta('_hive_sizes_pending'))),
+                        'wait'          => array_values(array_filter((array) $meta('_hive_wait'))),
+                        'wait_pending'  => array_values(array_filter((array) $meta('_hive_wait_pending'))),
                     ];
                 },
             ]

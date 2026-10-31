@@ -1199,6 +1199,78 @@ return array(
 		'viewScriptModule' => '@hive/map',
 		'render' => 'file:./render.php',
 	),
+	'newsletter' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/newsletter',
+		'title' => 'Newsletter',
+		'category' => 'hive',
+		'icon' => 'email-alt',
+		'description' => 'Iscrizione alla newsletter, con gli avvisi per la propria taglia (e i marchi) se chi si iscrive li vuole: confermati via email.',
+		'keywords' => array(
+			'newsletter',
+			'email',
+			'iscrizione',
+			'avvisi',
+			'taglia',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Resta connesso',
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Iscriviti per drop esclusivi, early access e news sulle ultime release.',
+			),
+			'placeholder' => array(
+				'type' => 'string',
+				'default' => 'La tua email',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Iscriviti',
+			),
+			'disclaimer' => array(
+				'type' => 'string',
+				'default' => 'Rispettiamo la tua privacy. Puoi cancellarti in qualsiasi momento.',
+			),
+			'askSize' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'sizeLabel' => array(
+				'type' => 'string',
+				'default' => 'Avvisami quando arriva la mia taglia',
+			),
+			'askBrands' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
 	'product' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1489,6 +1561,57 @@ return array(
 		'viewScriptModule' => 'file:./build/view.js',
 		'render' => 'file:./render.php',
 	),
+	'search' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/search',
+		'title' => 'Cerca',
+		'category' => 'hive',
+		'icon' => 'search',
+		'description' => 'Apre la ricerca istantanea dei prodotti: i risultati mentre scrivi, le ricerche popolari e le ultime fatte. Per l’intestazione del sito.',
+		'keywords' => array(
+			'ricerca',
+			'search',
+			'cerca',
+			'prodotti',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'look' => array(
+				'type' => 'string',
+				'enum' => array(
+					'field',
+					'button',
+					'icon',
+				),
+				'default' => 'field',
+			),
+			'label' => array(
+				'type' => 'string',
+				'default' => 'Cerca',
+			),
+			'placeholder' => array(
+				'type' => 'string',
+				'default' => 'Cerca sneakers, marchi, modelli…',
+			),
+			'popular' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => false,
+			'spacing' => array(
+				'margin' => true,
+			),
+		),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => '@hive/search',
+		'render' => 'file:./render.php',
+	),
 	'shortcode-wrapper' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1612,6 +1735,62 @@ return array(
 		'editorStyle' => 'file:./build/style.css',
 		'viewStyle' => 'file:./build/style.css',
 		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
+	'size-rail' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/size-rail',
+		'title' => 'Nella tua taglia',
+		'category' => 'hive',
+		'icon' => 'tag',
+		'description' => 'Una fila di prodotti disponibili nella taglia di chi guarda: la sceglie una volta, il sito la ricorda. Nessun paio nella sua taglia: l’avviso per quando arriva.',
+		'keywords' => array(
+			'taglia',
+			'size',
+			'prodotti',
+			'avvisi',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Nella tua taglia',
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Scegli la tua taglia: ti mostriamo solo i paia disponibili nella tua misura.',
+			),
+			'limit' => array(
+				'type' => 'number',
+				'default' => 12,
+			),
+			'columns' => array(
+				'type' => 'number',
+				'default' => 4,
+			),
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => array(
+			'hive-shop',
+			'hive-size-rail',
+		),
+		'viewStyle' => array(
+			'hive-shop',
+			'hive-size-rail',
+		),
+		'viewScriptModule' => '@hive/size-rail',
 		'render' => 'file:./render.php',
 	),
 	'social-buttons' => array(
