@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nella tua taglia — fixture</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "@hive/dom": "/assets/build/modules/dom.js",
+            "@hive/rail": "/assets/build/modules/rail.js",
+            "@hive/size-rail": "/assets/build/modules/size-rail.js"
+        }
+    }
+    </script>
+    <script type="application/json" id="wp-script-module-data-@hive/size-rail">{"api":"/api/","alerts":"/?wc-ajax=hive_alerts"}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/assets/build/shop.css">
+    <link rel="stylesheet" href="/assets/build/size-rail.css">
+    <style>body { margin: 0 auto; max-width: 1100px; padding: 16px; font-family: Georgia, serif; }</style>
+</head>
+<body>
+<section class="hive-block hive-size-rail" data-hive-size-rail data-limit="12" data-columns="4" data-v="7"><div class="hive-size-rail__head"><h2 class="hive-size-rail__title">Nella tua taglia <span class="hive-size-rail__current" data-hive-size-current hidden></span></h2><button type="button" class="hive-size-rail__change" data-hive-size-change hidden>Cambia taglia</button></div><div class="hive-size-rail__picker" data-hive-size-picker><p class="hive-size-rail__text">Scegli la tua taglia.</p><div class="hive-size-rail__chips" role="group" aria-label="La tua taglia"><button type="button" class="hive-size-rail__chip" data-key="40" aria-pressed="false">40</button><button type="button" class="hive-size-rail__chip" data-key="41" aria-pressed="false">41</button><button type="button" class="hive-size-rail__chip" data-key="42" aria-pressed="false">42</button></div></div><div class="hive-size-rail__body" data-hive-size-body aria-live="polite"></div></section>
+<script type="module">import '@hive/size-rail';</script>
+</body>
+</html>

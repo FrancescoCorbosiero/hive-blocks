@@ -46,3 +46,16 @@ test('Hive → Velocità: the preload and the page to prerender, in <head>', asy
     const rules = await page.locator('head script[type="speculationrules"]').allTextContents();
     expect(rules.join('\n')).toContain('calzini-hive');
 });
+
+test('"Nella tua taglia": the size picked fills the rail; a size with nothing offers the alert', async ({ page }) => {
+    const errors = hiveErrors(page);
+    await page.goto('/?pagename=taglia');
+    const section = page.locator('[data-hive-size-rail]');
+    await section.getByRole('button', { name: '42', exact: true }).click();
+    await expect(section.locator('.hive-card').filter({ hasText: 'Nike Dunk Low Panda' }).locator('.hive-card__match')).toHaveText(/^Taglia 42 · 180,00/);
+    await section.getByRole('button', { name: 'Cambia taglia' }).click();
+    await section.getByRole('button', { name: '41', exact: true }).click();
+    await expect(section.getByText('Nessun paio disponibile in taglia 41, per ora.')).toBeVisible();
+    await expect(section.getByRole('button', { name: 'Avvisami' })).toBeVisible();
+    expect(errors).toEqual([]);
+});

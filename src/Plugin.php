@@ -31,6 +31,7 @@ final class Plugin
             Shop\SocialProof::register();
             Shop\Alerts::register_list();
             Shop\Newsletter::register();
+            Shop\SizeRail::register();
             Modules::register();
         }
     }

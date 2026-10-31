@@ -44,8 +44,9 @@ final class Rail
      * @param callable|null $wrapper fn(array{class: string, style: string}): string, the wrapper's
      *                               attributes; a block passes get_block_wrapper_attributes() so its
      *                               own classes and styles merge in.
+     * @param array         $card    Card::render() options for every card (e.g. size_filter).
      */
-    public static function render(array $atts, ?callable $wrapper = null): string
+    public static function render(array $atts, ?callable $wrapper = null, array $card = []): string
     {
         if (!function_exists('wc_get_product')) {
             return '';
@@ -93,7 +94,7 @@ final class Rail
         $html .= '<button type="button" class="hive-rail__nav" data-dir="-1" aria-label="Prodotti precedenti" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 6-6 6 6 6"/></svg></button>';
         $html .= '<ul class="hive-rail__track" role="list">';
         foreach ($products as $product) {
-            $html .= Card::render($product);
+            $html .= Card::render($product, $card);
         }
         $html .= '</ul>';
         $html .= '<button type="button" class="hive-rail__nav" data-dir="1" aria-label="Prodotti successivi" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 6 6 6-6 6"/></svg></button>';

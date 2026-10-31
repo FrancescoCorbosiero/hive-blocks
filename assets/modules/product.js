@@ -132,6 +132,7 @@ function buyForm(form, { onVariation, onAdded }) {
             select.value = value;
             row.classList.remove('is-invalid');
             say('');
+            if (value && row.dataset.size !== undefined) rememberSize(swatch);
             // WooCommerce's variation script listens to the select's change.
             select.dispatchEvent(new Event('change', { bubbles: true }));
             sync();
@@ -397,6 +398,15 @@ function stickySummary(root) {
     const fit = () => summary.classList.toggle('is-sticky', summary.offsetHeight + 48 < window.innerHeight);
     new ResizeObserver(fit).observe(summary);
     window.addEventListener('resize', fit, { passive: true });
+}
+
+/** The size picked on a product page is the shopper's size for "Nella tua taglia" (@hive/size-rail's memory). */
+function rememberSize(swatch) {
+    try {
+        localStorage.setItem('hive_size', JSON.stringify({ key: swatch.dataset.key, label: swatch.querySelector('.hive-swatch__value')?.textContent || '' }));
+    } catch {
+        // No storage: nothing remembered.
+    }
 }
 
 /** The size button picked in the form: its label and the waitlist's key. */

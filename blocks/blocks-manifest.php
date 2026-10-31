@@ -276,6 +276,62 @@ return array(
 		'viewScriptModule' => '@hive/search',
 		'render' => 'file:./render.php',
 	),
+	'size-rail' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/size-rail',
+		'title' => 'Nella tua taglia',
+		'category' => 'hive',
+		'icon' => 'tag',
+		'description' => 'Una fila di prodotti disponibili nella taglia di chi guarda: la sceglie una volta, il sito la ricorda. Nessun paio nella sua taglia: l’avviso per quando arriva.',
+		'keywords' => array(
+			'taglia',
+			'size',
+			'prodotti',
+			'avvisi',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Nella tua taglia',
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Scegli la tua taglia: ti mostriamo solo i paia disponibili nella tua misura.',
+			),
+			'limit' => array(
+				'type' => 'number',
+				'default' => 12,
+			),
+			'columns' => array(
+				'type' => 'number',
+				'default' => 4,
+			),
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => array(
+			'hive-shop',
+			'hive-size-rail',
+		),
+		'viewStyle' => array(
+			'hive-shop',
+			'hive-size-rail',
+		),
+		'viewScriptModule' => '@hive/size-rail',
+		'render' => 'file:./render.php',
+	),
 	'store-hours' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

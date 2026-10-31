@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/size-rail",
+    "title": "Nella tua taglia",
+    "category": "hive",
+    "icon": "tag",
+    "description": "Una fila di prodotti disponibili nella taglia di chi guarda: la sceglie una volta, il sito la ricorda. Nessun paio nella sua taglia: l’avviso per quando arriva.",
+    "keywords": ["taglia", "size", "prodotti", "avvisi"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "title": { "type": "string", "default": "Nella tua taglia" },
+        "text": { "type": "string", "default": "Scegli la tua taglia: ti mostriamo solo i paia disponibili nella tua misura." },
+        "limit": { "type": "number", "default": 12 },
+        "columns": { "type": "number", "default": 4 }
+    },
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "spacing": { "margin": true, "padding": true }
+    },
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": ["hive-shop", "hive-size-rail"],
+    "viewStyle": ["hive-shop", "hive-size-rail"],
+    "viewScriptModule": "@hive/size-rail",
+    "render": "file:./render.php"
+}
