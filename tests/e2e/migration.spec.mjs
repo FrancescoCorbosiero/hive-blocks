@@ -24,7 +24,7 @@ test('the dry run lists what would change and changes nothing', async ({ page })
     const lines = await migrate(page, 'Prova (nessuna modifica)');
 
     const all = lines.join('\n');
-    expect(all).toContain(`Cambierebbe «Pagina golden-hive» (page, #${ids.page}): 1× golden-hive/store-hours → hive/store-hours, [bestsellers] → [hive_product_rail], [gh_filters] (tolto). Restano da fare a mano: golden-hive/old-thing`);
+    expect(all).toContain(`Cambierebbe «Pagina golden-hive» (page, #${ids.page}): 1× golden-hive/store-hours → hive/store-hours, 1× golden-hive/about-hero → hive/hero, [bestsellers] → [hive_product_rail], [gh_filters] (tolto). Restano da fare a mano: golden-hive/old-thing`);
     expect(all).toContain('Porterebbe le impostazioni: shape');
     expect(all).toContain('Porterebbe le date di 1 drop');
     expect(all).toContain('Porterebbe 1 iscritti');
@@ -49,6 +49,11 @@ test('the run brings pages, settings, drops, people and CommerceKit over', async
     const state = await (await page.request.get(helper('legacy'))).json();
     // The page: Hive's blocks and shortcode, the filters shortcode gone, the unknown block left for a person.
     expect(state.content).toContain('<!-- wp:hive/store-hours {"title":"Orari di prima"} /-->');
+    // A hero merged into hive/hero: its saved title, and the defaults it showed (never saved) written out.
+    const hero = JSON.parse(/<!-- wp:hive\/hero (\{.*?\}) \/-->/s.exec(state.content)[1]);
+    expect(hero).toMatchObject({ layout: 'about', title: 'La nostra storia', eyebrow: 'Chi Siamo', mediaSide: 'right', badge: '', buttonText: '' });
+    expect(hero.subtitle).toContain('Golden Hive nasce dalla passione');
+    expect(hero.values).toHaveLength(3);
     expect(state.content).toContain('[hive_product_rail type="best_selling" title="Best Sellers" limit="4" title="I più venduti"]');
     expect(state.content).not.toContain('gh_filters');
     expect(state.content).toContain('<!-- wp:golden-hive/old-thing /-->');
@@ -77,6 +82,13 @@ test('the page renders with Hive, and old email links answer through Hive', asyn
     const errors = hiveErrors(page);
     await page.goto('/?pagename=golden-hive');
     await expect(page.locator('.hive-hours__title')).toHaveText('Orari di prima');
+    // The "Chi siamo" hero shows what golden-hive-blocks' showed: the eyebrow, text and values it had by default, no button.
+    const hero = page.locator('.hive-hero');
+    await expect(hero.locator('.hive-hero__title')).toHaveText('La nostra storia');
+    await expect(hero.locator('.hive-hero__eyebrow')).toHaveText('Chi Siamo');
+    await expect(hero.locator('.hive-hero__subtitle')).toContainText('Golden Hive nasce dalla passione');
+    await expect(hero.locator('.hive-hero__value')).toHaveCount(3);
+    await expect(hero.locator('.hive-hero__button')).toHaveCount(0);
     await expect(page.locator('.hive-rail').filter({ hasText: 'I più venduti' }).locator('.hive-card').first()).toBeVisible();
     await expect(page.locator('body')).not.toContainText('[gh_filters]');
 

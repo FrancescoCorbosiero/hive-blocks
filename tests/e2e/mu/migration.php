@@ -50,6 +50,7 @@ function hive_e2e_legacy_seed(): array
             'post_name'    => 'golden-hive',
             'post_title'   => 'Pagina golden-hive',
             'post_content' => "<!-- wp:golden-hive/store-hours {\"title\":\"Orari di prima\"} /-->\n\n"
+                . "<!-- wp:golden-hive/about-hero {\"title\":\"La nostra storia\"} /-->\n\n"
                 . "<!-- wp:shortcode -->\n[bestsellers limit=\"4\" title=\"I più venduti\"]\n<!-- /wp:shortcode -->\n\n"
                 . "<!-- wp:paragraph -->\n<p>Filtri: [gh_filters]</p>\n<!-- /wp:paragraph -->\n\n"
                 . "<!-- wp:golden-hive/old-thing /-->",

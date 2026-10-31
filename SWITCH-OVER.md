@@ -85,6 +85,16 @@ On purpose, so you know what to expect when you check:
   Heroes and calls to action keep exactly the texts they showed.
 - **A section around a shortcode** that prints nothing is not drawn at
   all (golden-hive-blocks drew its heading anyway).
+- **Prodotto in evidenza** shows a real product, its price and its add to
+  cart button, instead of a typed price and link: the migration finds the
+  product from the old link or the exact name, or tells you to pick it.
+- **Slider categorie** shows the store's categories, each with its own
+  picture (WooCommerce → Prodotti → Categorie → Miniatura), or a product's
+  photo; the migration matches the typed list to them and names what it
+  couldn't match. **Brand in scorrimento** takes the logos from the media
+  library.
+- **Popup promozionale** shows once per visitor; **Acquisti recenti** a
+  few times per browser session, never in the cart or the checkout.
 
 ## After
 
