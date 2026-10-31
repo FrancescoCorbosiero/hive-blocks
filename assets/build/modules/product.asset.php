@@ -8,5 +8,5 @@
 		'@hive/gallery',
 		'@hive/shop',
 	),
-	'version' => '63e12b6c54250dad23bb',
+	'version' => 'a4279b985763396626d1',
 );

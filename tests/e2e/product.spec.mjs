@@ -112,10 +112,12 @@ test('the sticky bar takes over once the button scrolls away', async ({ page }) 
     const layout = await button.evaluate((node) => {
         window.scrollTo({ top: node.getBoundingClientRect().bottom + window.scrollY + 40, behavior: 'instant' });
         const end = node.closest('[data-hive-product]').getBoundingClientRect();
-        return { scrollY: Math.round(window.scrollY), viewport: window.innerHeight, page: document.documentElement.scrollHeight, productEnd: Math.round(end.bottom) };
+        const sentinel = document.querySelector('.hive-product__end')?.getBoundingClientRect();
+        return { scrollY: Math.round(window.scrollY), viewport: window.innerHeight, page: document.documentElement.scrollHeight, productEnd: Math.round(end.bottom), sentinel: sentinel ? Math.round(sentinel.top) : null };
     });
     await expect(button).not.toBeInViewport();
-    await expect(bar, JSON.stringify(layout)).toHaveClass(/is-visible/);
+    const state = async () => JSON.stringify({ ...layout, state: await bar.getAttribute('data-state') });
+    await expect(bar, await state()).toHaveClass(/is-visible/);
     await bar.getByRole('button', { name: 'Scegli la taglia' }).click();
     await expect(status(page)).toHaveText('Scegli la taglia.');
     await expect(page.locator('[data-hive-buy-add]')).toBeInViewport();
