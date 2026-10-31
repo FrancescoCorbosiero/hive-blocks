@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Negozio — fixture</title>
+    <script type="importmap">{ "imports": { "@hive/catalog": "/assets/build/modules/catalog.js" } }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/assets/build/shop.css">
+    <link rel="stylesheet" href="/assets/build/catalog.css">
+    <style>body { margin: 0 auto; max-width: 1200px; padding: 16px; font-family: Georgia, serif; }</style>
+</head>
+<body>
+<div class="hive-block hive-catalog" data-hive-catalog>
+<nav class="hive-catalog__crumbs" aria-label="Percorso"><ol><li><a href="#">Home</a></li><li>Negozio</li></ol></nav>
+<header class="hive-catalog__hero"><div class="hive-catalog__hero-body"><p class="hive-catalog__eyebrow">Il nostro catalogo</p><h1 class="hive-catalog__title">Negozio</h1></div></header>
+<div class="hive-catalog__layout">
+<aside class="hive-catalog__filters" id="hive-filters" data-hive-filters aria-labelledby="hive-filters-title">
+<div class="hive-filters__head"><h2 class="hive-filters__title" id="hive-filters-title">Filtri</h2><button type="button" class="hive-filters__close" data-hive-filters-close aria-label="Chiudi i filtri">×</button></div>
+<div class="hive-filters__body" data-hive-filters-body>
+<details class="hive-facet hive-facet--price" open><summary class="hive-facet__label">Prezzo</summary>
+<form class="hive-price" method="get" action="/tests/browser/fixtures/catalog.html" data-hive-price data-floor="15" data-ceil="180">
+<div class="hive-price__slider"><div class="hive-price__track"><div class="hive-price__fill"></div></div>
+<input type="range" class="hive-price__range" name="min_price" min="15" max="180" value="15" aria-label="Prezzo minimo">
+<input type="range" class="hive-price__range" name="max_price" min="15" max="180" value="180" aria-label="Prezzo massimo"></div>
+<div class="hive-price__fields"><label class="hive-price__field"><span>Da</span><input type="number" min="15" max="180" value="15" data-hive-price-field="min"></label><label class="hive-price__field"><span>A</span><input type="number" min="15" max="180" value="180" data-hive-price-field="max"></label></div>
+<button type="submit" class="hive-button hive-price__apply">Applica</button></form></details>
+<details class="hive-facet hive-facet--chips" data-hive-facet open><summary class="hive-facet__label">Taglia</summary><ul class="hive-facet__options hive-facet__options--chips"><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">40</span><span class="hive-facet__count">2</span></a></li><li><span class="hive-facet__option is-disabled" aria-disabled="true"><span class="hive-facet__name">41</span><span class="hive-facet__count">0</span></span></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">42</span><span class="hive-facet__count">1</span></a></li></ul></details>
+<details class="hive-facet hive-facet--list" data-hive-facet open><summary class="hive-facet__label">Modello</summary><input type="search" class="hive-facet__search" data-hive-facet-search placeholder="Cerca modello…" aria-label="Cerca modello…" autocomplete="off"><ul class="hive-facet__options hive-facet__options--list"><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Air Max 90</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Dunk Low</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Jordan 1</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Nike Air Force 1</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Samba</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Gazelle</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Spezial</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Campus</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">New Balance 550</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">New Balance 9060</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Asics Gel</span><span class="hive-facet__count">1</span></a></li><li><a class="hive-facet__option" href="catalog-42.html" data-hive-nav rel="nofollow"><span class="hive-facet__name">Yeezy 350</span><span class="hive-facet__count">1</span></a></li></ul></details>
+</div>
+<div class="hive-filters__foot" data-hive-filters-foot><button type="button" class="hive-button hive-filters__done" data-hive-filters-close>Vedi 3 prodotti</button></div>
+</aside>
+<div class="hive-catalog__results" data-hive-catalog-results>
+<div class="hive-catalog__toolbar"><button type="button" class="hive-catalog__filters-toggle" data-hive-filters-open aria-controls="hive-filters" aria-expanded="false">Filtri</button>
+<p class="hive-catalog__count" role="status">3 prodotti</p>
+<form class="hive-catalog__sort" method="get" action="/tests/browser/fixtures/catalog.html" data-hive-sort-form><label class="hive-catalog__sort-label"><span class="hive-visually-hidden">Ordina per</span><select name="orderby" data-hive-sort><option value="menu_order" selected>In evidenza</option><option value="price">Prezzo: dal più basso</option></select></label><button type="submit" class="hive-catalog__sort-go">Ordina</button></form></div>
+<ul class="hive-block hive-grid" style="--hive-grid-cols:3" role="list"><li class="hive-card is-simple"><div class="hive-card__media"></div><div class="hive-card__body"><h2 class="hive-card__title"><a class="hive-card__link" href="#">Nike Dunk Low Panda</a></h2></div></li><li class="hive-card is-simple"><div class="hive-card__media"></div><div class="hive-card__body"><h2 class="hive-card__title"><a class="hive-card__link" href="#">Calzini Hive</a></h2></div></li><li class="hive-card is-simple"><div class="hive-card__media"></div><div class="hive-card__body"><h2 class="hive-card__title"><a class="hive-card__link" href="#">Felpa esaurita</a></h2></div></li></ul>
+</div>
+</div>
+<div class="hive-catalog__backdrop" data-hive-filters-close hidden></div>
+</div>
+<script type="module" src="/assets/build/modules/catalog.js"></script>
+</body>
+</html>

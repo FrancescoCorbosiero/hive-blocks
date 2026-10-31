@@ -44,6 +44,12 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   `Cache-Control` set, and the catalog generation (`Shop\Store::generation()`,
   bumped when products change) in the URL as `?v=`, so caches can keep the
   answer long. Cart writes use WooCommerce's own `wc-ajax=add_to_cart`.
+- **The shop's pages** (`Shop\Catalog`, module Pagine del negozio) are
+  Hive's own template: `templates/catalog.php` on classic themes, the
+  `hive/catalog` block between the theme's header and footer parts on
+  block themes. Filters are WooCommerce's own URL parameters (`Core\Filters`),
+  every option a link; `@hive/catalog` swaps the results in place. Product
+  order on these pages is `Shop\Ordering` (sold-out last, rail pins).
 - **Interactive UI** that opens on demand (dialogs, sheets) loads on demand:
   a dynamic `import()` from the module that handles the click, and
   `@hive/dialog` brings `dialog.css` the first time a dialog opens.

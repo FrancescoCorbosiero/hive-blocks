@@ -8,6 +8,8 @@ $defaults = [
     'shape'          => 'round',
     'size_attribute' => 'pa_taglia',
     'whatsapp'       => '',
+    'sold_out_last'  => true,
+    'filters_layout' => 'sidebar',
     'modules'        => [],
 ];
 
@@ -27,6 +29,11 @@ check(SettingsSchema::sanitize(['size_attribute' => 'pa taglia; drop'])['size_at
 check(SettingsSchema::sanitize(['whatsapp' => '+39 351 760 3869'])['whatsapp'], '393517603869', 'a phone number keeps its digits');
 check(SettingsSchema::sanitize(['whatsapp' => ''])['whatsapp'], '', 'no number: WhatsApp off');
 check(SettingsSchema::sanitize(['whatsapp' => '123'])['whatsapp'], '', 'too short to be a number');
+
+check(SettingsSchema::sanitize(['sold_out_last' => '0'])['sold_out_last'], false, 'a switch turned off (the form posts 0)');
+check(SettingsSchema::sanitize(['sold_out_last' => '1'])['sold_out_last'], true, 'a switch turned on');
+check(SettingsSchema::sanitize([])['sold_out_last'], true, 'a switch never saved: its default');
+check(SettingsSchema::sanitize(['filters_layout' => 'drawer'])['filters_layout'], 'drawer', 'the filters as a panel');
 
 check(
     SettingsSchema::sanitize(['modules' => ['quick-add' => '1', 'gallery' => '0', 'Bad Key' => '1', 3 => '1']])['modules'],

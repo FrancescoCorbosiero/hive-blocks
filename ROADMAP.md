@@ -27,11 +27,14 @@ switch-over (step 9).
    fed by a cacheable REST read; the product rail block with the Store Hub's
    pin / exclude / fallback; size matching ("Taglia 42 · 180 €"); settings
    for the button colour, the size attribute and the WhatsApp number.
-3. **Catalog:** the shop and category pages from the plugin's own template
-   (`register_block_template()` on block themes; between `get_header()` and
-   `get_footer()` on classic ones). Filters as GET URLs, so every
-   combination is a cacheable page. Sorting, pagination, sold-out last,
-   archive hero.
+3. **Catalog** (0.3.0, done): the shop and its category, brand, tag and
+   attribute pages drawn by Hive (module Pagine del negozio): between
+   `get_header()` and `get_footer()` on classic themes, between the theme's
+   header and footer parts on block themes. Filters as links to GET URLs,
+   so every combination is a cacheable page, swapped in place without
+   reloading; sizes matched on stock; counts cached per catalog generation.
+   Sorting, pagination, sold-out last, category pages following their
+   homepage rail, archive hero.
 4. **Product page I, replacing CommerceKit:** gallery (Product Gallery),
    size swatches with price and sale badge (Attribute Swatches), sticky
    add-to-cart bar (Sticky Add to Cart), stock meter (Stock Meter), size

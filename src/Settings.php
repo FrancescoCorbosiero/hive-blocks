@@ -74,6 +74,8 @@ final class Settings
         add_settings_section('store', 'Negozio', [self::class, 'store_intro'], self::PAGE);
         add_settings_field('hive-size-attribute', 'Attributo della taglia', [self::class, 'size_attribute_field'], self::PAGE, 'store', ['label_for' => 'hive-size-attribute']);
         add_settings_field('hive-whatsapp', 'Numero WhatsApp', [self::class, 'whatsapp_field'], self::PAGE, 'store', ['label_for' => 'hive-whatsapp']);
+        add_settings_field('hive-sold-out-last', 'Prodotti esauriti', [self::class, 'sold_out_last_field'], self::PAGE, 'store', ['label_for' => 'hive-sold-out-last']);
+        add_settings_field('hive-filters-layout', 'Filtri su desktop', [self::class, 'filters_layout_field'], self::PAGE, 'store');
 
         $modules = Modules::all();
         if ($modules) {
@@ -159,6 +161,35 @@ final class Settings
             esc_attr((string) self::get('whatsapp')),
             'Con il prefisso internazionale, es. 393331234567. Vuoto toglie «Chiedi su WhatsApp».'
         );
+    }
+
+    public static function sold_out_last_field(): void
+    {
+        printf(
+            '<input type="hidden" name="%1$s[sold_out_last]" value="0"><label><input type="checkbox" id="hive-sold-out-last" name="%1$s[sold_out_last]" value="1"%2$s> %3$s</label>',
+            esc_attr(self::OPTION),
+            checked((bool) self::get('sold_out_last'), true, false),
+            'In fondo al negozio e alle collezioni, dopo quelli disponibili, con qualsiasi ordinamento.'
+        );
+    }
+
+    public static function filters_layout_field(): void
+    {
+        $choices = [
+            'sidebar' => 'Barra laterale sempre aperta',
+            'drawer'  => 'Pulsante «Filtri» e pannello, con i prodotti a tutta larghezza',
+        ];
+        echo '<fieldset><legend class="screen-reader-text">Filtri su desktop</legend>';
+        foreach ($choices as $value => $label) {
+            printf(
+                '<label><input type="radio" name="%s[filters_layout]" value="%s"%s> %s</label><br>',
+                esc_attr(self::OPTION),
+                esc_attr($value),
+                checked(self::get('filters_layout'), $value, false),
+                esc_html($label)
+            );
+        }
+        echo '<p class="description">Sul telefono i filtri si aprono sempre dal pulsante.</p></fieldset>';
     }
 
     public static function shape_field(): void
