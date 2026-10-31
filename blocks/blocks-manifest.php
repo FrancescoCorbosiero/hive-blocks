@@ -200,6 +200,124 @@ return array(
 		'viewScriptModule' => '@hive/map',
 		'render' => 'file:./render.php',
 	),
+	'cta' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/cta',
+		'title' => 'Invito all’azione',
+		'category' => 'hive',
+		'icon' => 'megaphone',
+		'description' => 'Un invito all’azione: un banner a tutta larghezza, o un’immagine accanto al testo, con il pulsante.',
+		'keywords' => array(
+			'cta',
+			'banner',
+			'promo',
+			'offerta',
+			'invito',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'layout' => array(
+				'type' => 'string',
+				'enum' => array(
+					'banner',
+					'split',
+				),
+				'default' => 'banner',
+			),
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => 'Offerta speciale',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Spedizione gratuita su tutti gli ordini',
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Approfitta della spedizione gratuita sugli ordini sopra i 99 €. Solo per poco tempo.',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Acquista ora',
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'imageId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'imageUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'reverse' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'showGlow' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'align' => array(
+				'type' => 'string',
+				'default' => 'full',
+			),
+		),
+		'variations' => array(
+			array(
+				'name' => 'banner',
+				'title' => 'Banner',
+				'description' => 'A tutta larghezza su fondo scuro, con un’immagine dietro se vuoi.',
+				'icon' => 'megaphone',
+				'isDefault' => true,
+				'scope' => array(
+					'inserter',
+				),
+				'isActive' => array(
+					'layout',
+				),
+				'attributes' => array(
+					'layout' => 'banner',
+				),
+			),
+			array(
+				'name' => 'split',
+				'title' => 'Immagine e testo',
+				'description' => 'L’immagine da un lato, il testo e il pulsante dall’altro.',
+				'icon' => 'align-pull-left',
+				'scope' => array(
+					'inserter',
+				),
+				'isActive' => array(
+					'layout',
+				),
+				'attributes' => array(
+					'layout' => 'split',
+					'eyebrow' => 'Nuovi arrivi',
+					'title' => 'Streetwear selezionato per te',
+					'text' => 'Ogni capo è scelto con cura per garantirti stile, qualità e autenticità.',
+				),
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'spacing' => array(
+				'margin' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
 	'faq-schema' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -266,6 +384,337 @@ return array(
 		'editorScript' => 'file:./build/edit.js',
 		'editorStyle' => 'file:./build/style.css',
 		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
+	'hero' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/hero',
+		'title' => 'Hero',
+		'category' => 'hive',
+		'icon' => 'cover-image',
+		'description' => 'L’apertura di una pagina: un’immagine o un video dietro al testo, l’immagine accanto al testo, o la storia del negozio con i suoi valori.',
+		'keywords' => array(
+			'hero',
+			'copertina',
+			'video',
+			'chi siamo',
+			'banner',
+			'apertura',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'layout' => array(
+				'type' => 'string',
+				'enum' => array(
+					'cover',
+					'split',
+					'about',
+				),
+				'default' => 'cover',
+			),
+			'badge' => array(
+				'type' => 'string',
+				'default' => '100% autentico',
+			),
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Sneakers premium',
+			),
+			'titleAccent' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'headingLevel' => array(
+				'type' => 'string',
+				'enum' => array(
+					'h1',
+					'h2',
+				),
+				'default' => 'h2',
+			),
+			'subtitle' => array(
+				'type' => 'string',
+				'default' => 'La tua destinazione per sneakers autentiche e verificate.',
+			),
+			'values' => array(
+				'type' => 'array',
+				'default' => array(),
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Acquista ora',
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'buttonStyle' => array(
+				'type' => 'string',
+				'enum' => array(
+					'solid',
+					'outline',
+				),
+				'default' => 'solid',
+			),
+			'secondaryButtonText' => array(
+				'type' => 'string',
+				'default' => 'Scopri di più',
+			),
+			'secondaryButtonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'imageId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'imageUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'imagePosition' => array(
+				'type' => 'string',
+				'default' => 'center center',
+			),
+			'videoUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'foregroundId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'foregroundUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'overlay' => array(
+				'type' => 'number',
+				'default' => 50,
+			),
+			'height' => array(
+				'type' => 'string',
+				'enum' => array(
+					'auto',
+					'tall',
+					'full',
+				),
+				'default' => 'tall',
+			),
+			'mediaSide' => array(
+				'type' => 'string',
+				'enum' => array(
+					'left',
+					'right',
+				),
+				'default' => 'left',
+			),
+			'tone' => array(
+				'type' => 'string',
+				'enum' => array(
+					'auto',
+					'dark',
+				),
+				'default' => 'auto',
+			),
+			'aboveFold' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'showScrollIndicator' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'align' => array(
+				'type' => 'string',
+				'default' => 'full',
+			),
+		),
+		'variations' => array(
+			array(
+				'name' => 'cover',
+				'title' => 'Copertina',
+				'description' => 'Un’immagine, o un video con la sua copertina, a tutta pagina dietro al testo.',
+				'icon' => 'cover-image',
+				'isDefault' => true,
+				'scope' => array(
+					'inserter',
+				),
+				'isActive' => array(
+					'layout',
+				),
+				'attributes' => array(
+					'layout' => 'cover',
+					'height' => 'full',
+					'align' => 'full',
+				),
+			),
+			array(
+				'name' => 'split',
+				'title' => 'Diviso',
+				'description' => 'L’immagine da un lato, il testo dall’altro.',
+				'icon' => 'align-pull-left',
+				'scope' => array(
+					'inserter',
+				),
+				'isActive' => array(
+					'layout',
+				),
+				'attributes' => array(
+					'layout' => 'split',
+					'height' => 'tall',
+					'align' => 'full',
+					'badge' => '',
+					'eyebrow' => 'Nuova collezione',
+					'title' => 'Il drop della settimana',
+					'subtitle' => 'Pezzi selezionati e autenticati dal nostro team. Disponibilità limitata.',
+					'buttonText' => 'Scopri ora',
+					'secondaryButtonText' => '',
+				),
+			),
+			array(
+				'name' => 'about',
+				'title' => 'Chi siamo',
+				'description' => 'La storia del negozio: il testo, i valori e un’immagine.',
+				'icon' => 'heart',
+				'scope' => array(
+					'inserter',
+				),
+				'isActive' => array(
+					'layout',
+				),
+				'attributes' => array(
+					'layout' => 'about',
+					'height' => 'auto',
+					'align' => 'wide',
+					'mediaSide' => 'right',
+					'aboveFold' => false,
+					'badge' => '',
+					'eyebrow' => 'Chi siamo',
+					'title' => 'Nati a Piacenza',
+					'subtitle' => 'Nasciamo dalla passione per le sneakers e lo streetwear. La nostra boutique in Stradone Farnese 3 è il punto di riferimento a Piacenza per chi cerca calzature e abbigliamento autentici, selezionati e verificati.',
+					'values' => array(
+						array(
+							'title' => 'Autenticità',
+							'text' => 'Ogni prodotto è verificato dal nostro team di esperti.',
+						),
+						array(
+							'title' => 'Passione',
+							'text' => 'Viviamo e respiriamo la cultura streetwear ogni giorno.',
+						),
+						array(
+							'title' => 'Comunità',
+							'text' => 'Siamo più di un negozio: siamo una famiglia di appassionati.',
+						),
+					),
+					'buttonText' => '',
+					'secondaryButtonText' => '',
+				),
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'spacing' => array(
+				'margin' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
+	'hero-carousel' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/hero-carousel',
+		'title' => 'Carosello',
+		'category' => 'hive',
+		'icon' => 'slides',
+		'description' => 'Slide a tutta pagina che scorrono di lato: immagine, testo e pulsante, con frecce, pallini e scorrimento automatico.',
+		'keywords' => array(
+			'carosello',
+			'slider',
+			'slide',
+			'hero',
+			'banner',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'slides' => array(
+				'type' => 'array',
+				'default' => array(
+					array(
+						'image' => '',
+						'imageId' => 0,
+						'objectPosition' => 'center center',
+						'eyebrow' => 'Nuova collezione',
+						'title' => 'Sneakers premium autentiche',
+						'subtitle' => 'Scopri le ultime uscite, verificate e certificate dal nostro team di esperti.',
+						'buttonText' => 'Acquista ora',
+						'buttonUrl' => '#shop',
+					),
+					array(
+						'image' => '',
+						'imageId' => 0,
+						'objectPosition' => 'center center',
+						'eyebrow' => 'Edizione limitata',
+						'title' => 'Drop esclusivi ogni settimana',
+						'subtitle' => 'Registrati per accedere in anteprima ai drop più ricercati.',
+						'buttonText' => 'Scopri di più',
+						'buttonUrl' => '#drops',
+					),
+				),
+			),
+			'autoplay' => array(
+				'type' => 'number',
+				'default' => 6000,
+			),
+			'layout' => array(
+				'type' => 'string',
+				'enum' => array(
+					'left',
+					'centered',
+				),
+				'default' => 'left',
+			),
+			'showDots' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'showArrows' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'align' => array(
+				'type' => 'string',
+				'default' => 'full',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'spacing' => array(
+				'margin' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
 		'render' => 'file:./render.php',
 	),
 	'instagram-feed' => array(
