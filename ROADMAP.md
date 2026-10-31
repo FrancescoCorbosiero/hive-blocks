@@ -2,7 +2,7 @@
 
 Hive Blocks takes over from golden-hive-blocks step by step. Each step is a
 PR that can be tried on staging. Nothing changes on the store until the
-switch-over (step 9).
+switch-over (step 9, [SWITCH-OVER.md](SWITCH-OVER.md)).
 
 ## Decisions
 
@@ -64,12 +64,14 @@ switch-over (step 9).
    Search add-on); the Newsletter block writing to the same list of people
    as the alerts; "Nella tua taglia"; preload and speculation rules
    (Hive → Velocità).
-9. **Migration and switch-over:** a one-time tool, dry run first, that
-   rewrites the `golden-hive/*` blocks and their attributes, moves the
-   `ghb_*` options, the `_ghb_*` product meta and the `ghb_subscriber`
-   posts, and imports CommerceKit's waitlist, size guides and order bumps.
-   On staging: install, migrate, deactivate golden-hive-blocks and
-   CommerceKit, check, then the same on the store.
+9. **Migration and switch-over** (0.9.0, done): Hive → Migrazione and
+   `wp hive migrate`, dry run first, safe to run twice. It rewrites the
+   `golden-hive/*` blocks and golden-hive-blocks' shortcodes in pages,
+   posts, templates, patterns and widgets (each page keeps a revision),
+   moves the `ghb_*` options, the drops and the `ghb_subscriber` people
+   (old email links keep working), and imports what it finds of
+   CommerceKit: waitlist, size guides and order bumps. The steps for the
+   store are in [SWITCH-OVER.md](SWITCH-OVER.md).
 
 ## Public reads move off admin-ajax.php
 
@@ -87,8 +89,10 @@ number.
   `[gh_product_rail]` shortcode and golden-hive-blocks as the plugin, so
   the app works as it is. When the app learns the `hive/*` names, the
   translation (`Core\HubNames`) can go.
-- **CommerceKit's data.** Where it keeps waitlist entries, size guides and
-  order bump offers, to import them in step 9.
+- **CommerceKit's data.** Its storage isn't documented, so the migration
+  reads what's in the database and the dry run says what it found. Run it
+  on a staging copy of the store first: anything it couldn't read is
+  listed, to import by hand or to teach the importer.
 - **Checkout.** Hive's checkout parts are built for the classic checkout,
   as golden-hive-blocks', with a lighter path for the Checkout block.
   Confirm which one the store uses before the switch-over.
