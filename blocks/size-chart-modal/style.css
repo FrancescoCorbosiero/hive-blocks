@@ -1,0 +1,47 @@
+/**
+ * Guida alle taglie: the button. The guide itself opens in the shared
+ * dialog and takes its look from dialog.css (.hive-guide), as on the
+ * product page. Every selector has two classes and sets what a theme's
+ * button rules usually change (background, padding, case…), so the button
+ * looks the same on any theme: an outline in the surrounding text colour.
+ */
+
+.hive-size-chart-modal {
+    & .hive-size-chart-modal__button {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--hive-space-2);
+        min-height: 2.75rem;
+        margin: 0;
+        padding: 0.625rem 1.25rem;
+        border: 1px solid currentColor;
+        border-radius: var(--hive-radius-md);
+        background: transparent;
+        color: inherit;
+        box-shadow: none;
+        font: inherit;
+        font-size: var(--hive-text-sm);
+        font-weight: 600;
+        letter-spacing: normal;
+        line-height: 1.2;
+        text-align: start;
+        text-decoration: none;
+        text-transform: none;
+        cursor: pointer;
+        transition: background-color var(--hive-duration) var(--hive-ease);
+    }
+
+    & .hive-size-chart-modal__button:hover,
+    & .hive-size-chart-modal__button:focus-visible {
+        border-color: currentColor;
+        background: var(--hive-tint);
+        color: inherit;
+    }
+
+    & .hive-size-chart-modal__icon {
+        flex: none;
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: currentColor;
+    }
+}

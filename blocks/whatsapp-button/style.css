@@ -1,0 +1,120 @@
+/**
+ * Pulsante WhatsApp. It floats over the page, so it sets its own colours
+ * (the accent from Hive → Impostazioni) instead of taking the theme's. Every
+ * selector has two classes and the link states are set too, so a theme's
+ * link rules (.entry-content a:hover, a:visited…) never reach it.
+ */
+
+.hive-block.hive-whatsapp-button {
+    position: fixed;
+    z-index: 80;
+    right: var(--hive-space-5);
+    bottom: calc(var(--hive-space-5) + env(safe-area-inset-bottom, 0px));
+    display: inline-flex;
+    align-items: center;
+    gap: var(--hive-space-2);
+    max-width: calc(100vw - 2 * var(--hive-space-5));
+    margin: 0;
+    padding: 0.75rem 1.25rem;
+    border: 0;
+    border-radius: var(--hive-radius-pill);
+    background: var(--hive-accent);
+    color: var(--hive-on-accent);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--hive-accent) 35%, transparent);
+    font-size: var(--hive-text-sm);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+        transform var(--hive-duration) var(--hive-ease),
+        box-shadow var(--hive-duration) var(--hive-ease);
+}
+
+.hive-block.hive-whatsapp-button:visited {
+    color: var(--hive-on-accent);
+}
+
+.hive-block.hive-whatsapp-button:hover,
+.hive-block.hive-whatsapp-button:focus-visible {
+    background: var(--hive-accent);
+    color: var(--hive-on-accent);
+    text-decoration: none;
+    box-shadow: 0 8px 26px color-mix(in srgb, var(--hive-accent) 45%, transparent);
+    transform: translateY(-2px);
+}
+
+.hive-block.hive-whatsapp-button:focus-visible {
+    outline: 2px solid var(--hive-accent);
+    outline-offset: 3px;
+}
+
+.hive-whatsapp-button {
+    & .hive-whatsapp-button__icon {
+        flex: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: currentColor;
+    }
+
+    & .hive-whatsapp-button__text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+/* Just the icon: a round button, the text kept for screen readers. */
+
+.hive-block.hive-whatsapp-button--icon {
+    padding: 0.875rem;
+}
+
+.hive-whatsapp-button.hive-whatsapp-button--icon .hive-whatsapp-button__text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .hive-block.hive-whatsapp-button {
+        right: var(--hive-space-4);
+        bottom: calc(var(--hive-space-4) + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/*
+ * It comes in as the page scrolls, where the browser ties animations to
+ * scrolling (no script): fully there after 300px, or halfway down a short
+ * page. A page that doesn't scroll shows it at once, and so do browsers
+ * without scroll-driven animations. Reached with the keyboard, it shows.
+ */
+@supports (animation-timeline: scroll()) {
+    .hive-block.hive-whatsapp-button {
+        animation: hive-whatsapp-button-in linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 min(300px, 50%);
+    }
+
+    .hive-block.hive-whatsapp-button:focus-visible {
+        animation: none;
+    }
+}
+
+@keyframes hive-whatsapp-button-in {
+    from {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+/* In the editor (edit.js marks its wrapper): where the block is, always visible. */
+.hive-preview .hive-block.hive-whatsapp-button {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    z-index: auto;
+    animation: none;
+}

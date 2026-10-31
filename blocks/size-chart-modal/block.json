@@ -1,0 +1,47 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/size-chart-modal",
+    "title": "Guida alle taglie",
+    "category": "hive",
+    "icon": "editor-table",
+    "description": "Un pulsante che apre una guida alle taglie (Hive → Guide alle taglie) in una finestra, come sulla pagina del prodotto. Senza una guida scelta, la tabella di conversione US, UK, EU, CM.",
+    "keywords": ["taglie", "guida", "size", "chart", "tabella"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "guideId": {
+            "type": "number",
+            "default": 0
+        },
+        "modalId": {
+            "type": "string",
+            "default": "size-chart"
+        },
+        "title": {
+            "type": "string",
+            "default": "Guida Taglie"
+        },
+        "description": {
+            "type": "string",
+            "default": "Trova la tua taglia perfetta"
+        },
+        "triggerText": {
+            "type": "string",
+            "default": "Guida Taglie"
+        },
+        "showTrigger": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "supports": {
+        "align": false,
+        "html": false
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "file:./build/view.js",
+    "render": "file:./render.php"
+}

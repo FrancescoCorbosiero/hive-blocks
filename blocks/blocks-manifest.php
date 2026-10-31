@@ -25,6 +25,90 @@ return array(
 		'viewScriptModule' => '@hive/catalog',
 		'render' => 'file:./render.php',
 	),
+	'instagram-feed' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/instagram-feed',
+		'title' => 'Instagram',
+		'category' => 'hive',
+		'icon' => 'instagram',
+		'description' => 'Una griglia di foto del profilo Instagram, ognuna con il link al suo post, e il pulsante per seguire il negozio. Con «Acquista il look» una foto mostra i prodotti che si vedono, che si aprono in anteprima rapida. Nessuno script di Instagram.',
+		'keywords' => array(
+			'instagram',
+			'social',
+			'griglia',
+			'foto',
+			'acquista il look',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Seguici su Instagram',
+			),
+			'subtitle' => array(
+				'type' => 'string',
+				'default' => 'Le ultime dal nostro feed @resellpiacenza',
+			),
+			'instagramUrl' => array(
+				'type' => 'string',
+				'default' => 'https://www.instagram.com/resellpiacenza/',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => '@resellpiacenza',
+			),
+			'images' => array(
+				'type' => 'array',
+				'default' => array(
+					array(
+						'url' => '',
+						'alt' => '',
+					),
+					array(
+						'url' => '',
+						'alt' => '',
+					),
+					array(
+						'url' => '',
+						'alt' => '',
+					),
+					array(
+						'url' => '',
+						'alt' => '',
+					),
+					array(
+						'url' => '',
+						'alt' => '',
+					),
+					array(
+						'url' => '',
+						'alt' => '',
+					),
+				),
+			),
+			'columns' => array(
+				'type' => 'number',
+				'default' => 3,
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
 	'product' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -153,6 +237,185 @@ return array(
 		'viewScriptModule' => '@hive/rail',
 		'render' => 'file:./render.php',
 	),
+	'shortcode-wrapper' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/shortcode-wrapper',
+		'title' => 'Sezione con shortcode',
+		'category' => 'hive',
+		'icon' => 'shortcode',
+		'description' => 'Una sezione intorno a uno shortcode (un rail di prodotti, una lista di WooCommerce…), con occhiello, titolo e pulsante. Lo Store Hub (Vetrina) può modificarla o spegnerla.',
+		'keywords' => array(
+			'shortcode',
+			'sezione',
+			'prodotti',
+			'rail',
+			'woocommerce',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'shortcode' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'backgroundColor' => array(
+				'type' => 'string',
+				'default' => 'white',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'hidden' => array(
+				'type' => array(
+					'string',
+					'boolean',
+				),
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(
+			'attributes' => array(
+				'eyebrow' => 'Selezione',
+				'title' => 'Nuovi arrivi',
+				'shortcode' => '[hive_product_rail limit="4"]',
+			),
+		),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
+	'size-chart-modal' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/size-chart-modal',
+		'title' => 'Guida alle taglie',
+		'category' => 'hive',
+		'icon' => 'editor-table',
+		'description' => 'Un pulsante che apre una guida alle taglie (Hive → Guide alle taglie) in una finestra, come sulla pagina del prodotto. Senza una guida scelta, la tabella di conversione US, UK, EU, CM.',
+		'keywords' => array(
+			'taglie',
+			'guida',
+			'size',
+			'chart',
+			'tabella',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'guideId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'modalId' => array(
+				'type' => 'string',
+				'default' => 'size-chart',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Guida Taglie',
+			),
+			'description' => array(
+				'type' => 'string',
+				'default' => 'Trova la tua taglia perfetta',
+			),
+			'triggerText' => array(
+				'type' => 'string',
+				'default' => 'Guida Taglie',
+			),
+			'showTrigger' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+		),
+		'supports' => array(
+			'align' => false,
+			'html' => false,
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
+	'social-buttons' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/social-buttons',
+		'title' => 'Pulsanti social',
+		'category' => 'hive',
+		'icon' => 'share',
+		'description' => 'I profili social del negozio (Instagram, Facebook, TikTok, YouTube, X) in una colonna di pulsanti fissa sul lato dello schermo.',
+		'keywords' => array(
+			'social',
+			'instagram',
+			'facebook',
+			'tiktok',
+			'youtube',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'instagram' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'facebook' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'tiktok' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'youtube' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'twitter' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'align' => false,
+			'html' => false,
+			'multiple' => false,
+		),
+		'example' => array(
+			'attributes' => array(
+				'instagram' => 'https://www.instagram.com/resellpiacenza/',
+				'tiktok' => 'https://www.tiktok.com/@resellpiacenza',
+			),
+		),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
 	'store-hours' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -239,6 +502,50 @@ return array(
 		'editorStyle' => 'file:./build/style.css',
 		'viewStyle' => 'file:./build/style.css',
 		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
+	'whatsapp-button' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/whatsapp-button',
+		'title' => 'Pulsante WhatsApp',
+		'category' => 'hive',
+		'icon' => 'whatsapp',
+		'description' => 'Un pulsante fisso nell’angolo in basso a destra che apre la chat WhatsApp del negozio, con il messaggio già scritto.',
+		'keywords' => array(
+			'whatsapp',
+			'chat',
+			'contatto',
+			'pulsante',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'phoneNumber' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'message' => array(
+				'type' => 'string',
+				'default' => 'Ciao! Vorrei avere informazioni su...',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Chatta con noi',
+			),
+			'iconOnly' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+		),
+		'supports' => array(
+			'align' => false,
+			'html' => false,
+			'multiple' => false,
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
 		'render' => 'file:./render.php',
 	),
 );
