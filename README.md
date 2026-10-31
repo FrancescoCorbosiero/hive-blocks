@@ -30,10 +30,9 @@ WordPress 6.8+, WooCommerce 9.9+, PHP 8.1+.
 Copy the repository into `wp-content/plugins/hive-blocks` (or upload the
 ZIP from GitHub) and activate it. Settings: **Hive** in the admin menu.
 
-Coming from golden-hive-blocks and CommerceKit: **Hive → Migrazione** (or
-`wp hive migrate --dry-run`) brings pages, settings, drops, subscribers and
-CommerceKit's waitlist, size guides and order bumps over. The steps, on
-staging first, are in [SWITCH-OVER.md](SWITCH-OVER.md).
+Coming from golden-hive-blocks and CommerceKit: the store's pages, made
+for Hive, are in `pages/`, to paste into the editor; the rest of the
+switch-over, on staging first, is in [SWITCH-OVER.md](SWITCH-OVER.md).
 
 ## Blocks
 
