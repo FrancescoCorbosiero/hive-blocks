@@ -225,3 +225,14 @@ test('the size guide opens in a dialog', async ({ page }) => {
     await expect(page.getByRole('button', { name: 'Guida alle taglie' })).toBeFocused();
     expect(errors).toEqual([]);
 });
+
+test('sticky bar: a jump from above the button to past it (an anchor, a restored scroll) still shows it', async ({ page }) => {
+    // Short screen: the button starts below it, never in view on the way down.
+    await page.setViewportSize({ width: 1280, height: 320 });
+    await open(page);
+    const bar = page.locator('[data-hive-sticky]');
+    await expect(add(page)).not.toBeInViewport();
+    await add(page).evaluate((node) => window.scrollTo({ top: node.getBoundingClientRect().bottom + window.scrollY + 40, behavior: 'instant' }));
+    await expect(bar).toHaveClass(/is-visible/);
+    await expect(bar).toHaveAttribute('data-state', 'past');
+});
