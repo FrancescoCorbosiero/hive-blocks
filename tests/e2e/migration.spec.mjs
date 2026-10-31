@@ -6,6 +6,8 @@ import { expect, test } from '@playwright/test';
 import { hiveErrors, login } from './helpers.mjs';
 
 test.describe.configure({ mode: 'serial' });
+// wp-admin with WooCommerce on one PHP worker, and a migration in it: slow by nature.
+test.slow();
 
 const helper = (path) => `/?rest_route=/hive-e2e/v1/${path}`;
 
