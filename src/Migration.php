@@ -96,15 +96,35 @@ final class Migration
         foreach (self::SAME_NAME as $name) {
             $map['golden-hive/' . $name] = ['name' => 'hive/' . $name];
         }
-        return (array) apply_filters('hive_migration_block_map', array_merge($map, self::MERGED));
+        $map = array_merge($map, self::CHANGED, self::MERGED);
+        // A map picture given by its URL alone: its id in the media library, if it's there.
+        $map['golden-hive/store-visit']['resolve'] = static function (array $attrs, array $old): array {
+            if (empty($attrs['mapImageId']) && !empty($old['mapImage']) && is_string($old['mapImage'])) {
+                $id = attachment_url_to_postid($old['mapImage']);
+                if ($id) {
+                    $attrs['mapImageId'] = $id;
+                }
+            }
+            return $attrs;
+        };
+        return (array) apply_filters('hive_migration_block_map', $map);
     }
 
     /** Blocks ported one to one: same name under hive/, same attributes. */
     private const SAME_NAME = [
         'store-hours', 'newsletter', 'shortcode-wrapper', 'whatsapp-button', 'social-buttons', 'instagram-feed', 'size-chart-modal',
-        'contact-info', 'store-visit', 'map-embed', 'trust-badges', 'authenticity-guarantee', 'legit-check', 'faq-schema', 'trustpilot-widget',
+        'trust-badges', 'authenticity-guarantee', 'legit-check', 'faq-schema', 'trustpilot-widget',
         'product-spotlight', 'category-slider', 'brand-marquee', 'drop-countdown', 'drop-calendar', 'social-proof', 'promo-modal',
         'hero-carousel',
+    ];
+
+    /** Blocks ported with some attributes gone (Hive does it another way). */
+    private const CHANGED = [
+        // The map always waits for a click: no switch.
+        'golden-hive/contact-info' => ['name' => 'hive/contact-info', 'drop' => ['clickToLoad']],
+        'golden-hive/map-embed'    => ['name' => 'hive/map-embed', 'drop' => ['clickToLoad']],
+        // The picture is the media library's (mapImageId), with its sizes.
+        'golden-hive/store-visit'  => ['name' => 'hive/store-visit', 'drop' => ['mapImage']],
     ];
 
     /** Blocks merged into one Hive block: renamed, attributes mapped, a layout set. */

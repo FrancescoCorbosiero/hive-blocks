@@ -46,3 +46,13 @@ check($hive_out[2]['attrs'], ['height' => 'full', 'layout' => 'cover'], 'a value
 check($hive_out[3]['innerContent'], ['<p>[hive_bank_details]</p>'], 'shortcodes in saved HTML renamed');
 check($hive_count, ['golden-hive/hero-split' => 1, 'golden-hive/shortcode-wrapper' => 1, 'golden-hive/gone' => 1, 'golden-hive/parallax-section' => 1], 'what was rewritten, counted');
 check(Blocks::names_in('<!-- wp:golden-hive/hero-split {"a":1} /--><!-- wp:core/paragraph --><!-- wp:golden-hive/hero-split /-->'), ['golden-hive/hero-split'], 'the old blocks in a content');
+
+check(
+    Blocks::rewrite(
+        [['blockName' => 'golden-hive/store-visit', 'attrs' => ['mapImage' => 'https://a.test/map.jpg', 'title' => 'Vieni'], 'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []]],
+        ['golden-hive/store-visit' => ['name' => 'hive/store-visit', 'drop' => ['mapImage'], 'resolve' => static fn(array $attrs, array $old): array => $attrs + ['mapImageId' => 'https://a.test/map.jpg' === $old['mapImage'] ? 42 : 0]]],
+        []
+    )[0]['attrs'],
+    ['title' => 'Vieni', 'mapImageId' => 42],
+    'resolve: what needs WordPress, from the old attributes, after the mapping'
+);

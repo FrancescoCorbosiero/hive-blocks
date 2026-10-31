@@ -11,6 +11,9 @@
  *   'set'    attributes to add (a layout or a variation, say)
  *   'map'    old attribute => [old value => new value]
  *   'remove' true: the block goes (it has no Hive counterpart)
+ *   'resolve' a function given the new attributes and the old ones,
+ *            returning the new ones: for what needs WordPress (an image's id
+ *            from its URL, say)
  *
  * Shortcodes are renamed wherever they are: in a block's saved HTML and in
  * its string attributes (golden-hive/shortcode-wrapper keeps its shortcode
@@ -77,8 +80,12 @@ final class Blocks
             }
             $attrs[(string) ($spec['attrs'][$key] ?? $key)] = $value;
         }
+        $attrs = array_merge($attrs, (array) ($spec['set'] ?? []));
+        if (isset($spec['resolve']) && is_callable($spec['resolve'])) {
+            $attrs = (array) ($spec['resolve'])($attrs, (array) ($block['attrs'] ?? []));
+        }
         $block['blockName'] = (string) $spec['name'];
-        $block['attrs']     = array_merge($attrs, (array) ($spec['set'] ?? []));
+        $block['attrs']     = $attrs;
         return $block;
     }
 
