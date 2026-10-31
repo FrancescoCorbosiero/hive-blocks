@@ -41,7 +41,15 @@ const blueprint = {
         },
         {
             step: 'defineWpConfigConsts',
-            consts: { WP_DEBUG: true, WP_DEBUG_DISPLAY: false, WP_DEBUG_LOG: `${plugin}/tests/e2e/artifacts/debug.log` },
+            // Nothing runs by itself: with one PHP worker, WP-Cron's loopback request and its
+            // update checks would hold the worker while a test waits. Tests run what they need.
+            consts: {
+                WP_DEBUG: true,
+                WP_DEBUG_DISPLAY: false,
+                WP_DEBUG_LOG: `${plugin}/tests/e2e/artifacts/debug.log`,
+                DISABLE_WP_CRON: true,
+                AUTOMATIC_UPDATER_DISABLED: true,
+            },
         },
         {
             step: 'installPlugin',
