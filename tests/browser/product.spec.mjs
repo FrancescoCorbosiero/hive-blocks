@@ -329,6 +329,23 @@ test('a drop counts down to the second, then the page reloads', async ({ page })
     const reloaded = page.waitForEvent('load');
     await page.clock.runFor('00:08');
     await reloaded;
+    // Past the page cache and the CDN, whose copy may still be from before the release.
+    expect(new URL(page.url()).searchParams.get('hive_released')).toBe(await drop.getAttribute('data-hive-drop'));
+});
+
+test('a copy of the page from before the release, met again after it, never reloads in a loop', async ({ page }) => {
+    // After the release: the page reloads once (the clock held still, so not yet).
+    await page.clock.install({ time: new Date('2026-10-24T08:00:20Z') });
+    await page.clock.pauseAt(new Date('2026-10-24T08:00:30Z'));
+    await page.goto('/tests/browser/fixtures/drop.html');
+    await expect(page.locator('[data-hive-drop]')).toHaveClass(/is-released/);
+    // The reload brought a cached copy from before the release: it doesn't reload again.
+    await page.reload();
+    await expect(page.locator('[data-hive-drop]')).toHaveClass(/is-released/);
+    // Past every reload delay: no navigation follows (waited for in real time).
+    const navigated = page.waitForEvent('framenavigated', { timeout: 3000 }).then(() => true, () => false);
+    await page.clock.runFor('00:15');
+    expect(await navigated).toBe(false);
 });
 
 test('sticky bar: a jump from above the button to past it (an anchor, a restored scroll) still shows it', async ({ page }) => {

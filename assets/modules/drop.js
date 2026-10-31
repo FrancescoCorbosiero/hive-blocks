@@ -3,8 +3,8 @@
  * [data-hive-drop] (the release time, UTC seconds) ticks its
  * [data-unit] cells and its [data-hive-drop-status] line each second. At the
  * release, [data-hive-drop-before] hides and [data-hive-drop-after] shows;
- * with data-hive-drop-reload the page reloads, to show the product on sale
- * (the release empties the page caches).
+ * with data-hive-drop-reload the page reloads once, to show the product on
+ * sale (see reloadOnce()).
  *
  * parts() and status() are pure (tests/js/drop.test.mjs).
  */
@@ -55,10 +55,30 @@ function release(root) {
     root.classList.add('is-released');
     root.querySelectorAll('[data-hive-drop-before]').forEach((node) => (node.hidden = true));
     root.querySelectorAll('[data-hive-drop-after]').forEach((node) => (node.hidden = false));
-    if (root.hasAttribute('data-hive-drop-reload')) {
-        // A moment after the release, so the server sees it as out.
-        setTimeout(() => location.reload(), 4000 + Math.random() * 3000);
+    if (root.hasAttribute('data-hive-drop-reload')) reloadOnce(root.dataset.hiveDrop);
+}
+
+/**
+ * The page again, a moment after the release so the server sees it as out,
+ * with ?hive_released={release}: past the page cache and the CDN, whose
+ * copy is still from before until the release job empties them (it runs
+ * from WP-Cron, which cached pages don't wake; WP Super Cache serves no
+ * URL with a query). Once per drop and tab: a copy from before, met again,
+ * never starts a loop.
+ */
+function reloadOnce(at) {
+    const key = `hive_drop_${at}`;
+    try {
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, '1');
+    } catch {
+        // Storage off: the query alone keeps the reload away from the cached copy.
     }
+    setTimeout(() => {
+        const url = new URL(location.href);
+        url.searchParams.set('hive_released', at);
+        location.replace(url.href);
+    }, 4000 + Math.random() * 3000);
 }
 
 if (typeof document !== 'undefined') {
