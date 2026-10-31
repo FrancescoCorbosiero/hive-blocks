@@ -44,10 +44,12 @@ switch-over (step 9).
    category, brand or product (Size Guides); add to cart without leaving the
    page, through WooCommerce's own form handler. WooCommerce's product hooks
    still fire, without the theme's callbacks.
-5. **Product page II:** waitlist per size (Waitlist), merged with the size
-   alerts; drops (release date, lock, countdown, calendar); social proof
-   from real orders; WhatsApp, share, delivery estimate; colorways and
-   recently viewed rails.
+5. **Product page II** (0.5.0, done): waitlist per size (Waitlist) and the
+   size alerts as one list of people with double opt-in (module Avvisi e
+   lista d'attesa); drops with release date, lock, countdown and calendar
+   (module Drop); "Venduto N volte" and the social proof feed from real
+   orders; WhatsApp, share, delivery estimate; the band under the product;
+   colorways and recently viewed rails.
 6. **Cart and checkout:** order bump (Order Bump), the bank details drawer.
 7. **Content blocks:** the other 28 blocks, merged where they overlap (the
    hero blocks into one Hero with variations, the two CTAs into one).

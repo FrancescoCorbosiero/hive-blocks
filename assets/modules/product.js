@@ -11,6 +11,12 @@
  *   the mini cart refreshes. A form that can't go that way posts normally
  *   the sticky bar, once the add-to-cart button has scrolled away
  *   the size guide, in a dialog (@hive/dialog, loaded on first use)
+ *   "Avvisami" for the sold-out size picked (or the sold-out product), to
+ *   wc-ajax=hive_alerts
+ *   "Chiedi su WhatsApp" naming the size picked; "Condividi"
+ *   the delivery estimate (@hive/delivery), at the visitor's "now"
+ *   "Visti di recente": this browser's own products, remembered here and
+ *   fetched as a rail when the place nears the screen
  */
 import { h, moduleData } from '@hive/dom';
 import { cartUpdated } from '@hive/shop';
@@ -20,10 +26,6 @@ const config = moduleData('@hive/product');
 const ADDED = '✓ Aggiunto';
 const smooth = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 
-for (const root of document.querySelectorAll('[data-hive-product]')) {
-    init(root);
-}
-
 function init(root) {
     const gallerySlot = root.querySelector('[data-hive-gallery]');
     const photos = gallerySlot ? gallery(gallerySlot) : null;
@@ -31,6 +33,8 @@ function init(root) {
     const priceBox = root.querySelector('[data-hive-price]');
     const basePrice = priceBox ? priceBox.innerHTML : '';
     const bar = stickyBar(root, form);
+    const wait = waitForm(root.querySelector('[data-hive-wait]'));
+    const delivery = deliveryEstimate(root.querySelector('[data-hive-delivery]'));
 
     if (form) {
         buyForm(form, {
@@ -38,12 +42,16 @@ function init(root) {
                 if (priceBox) priceBox.innerHTML = variation?.price_html || basePrice;
                 photos?.showImage(variation);
                 bar.update(variation, buyable, variation?.price_html || basePrice);
+                wait.show(variation && !variation.is_in_stock ? pickedSwatch(form) : null);
+                delivery.available(!variation || Boolean(variation.is_in_stock));
             },
             onAdded: () => bar.added(),
         });
     }
 
     sizeGuides(root);
+    actions(root.querySelector('[data-hive-actions]'), form);
+    recentlyViewed(root);
 
     // "4,5 su 5 · 12 recensioni" opens the reviews it links to.
     root.addEventListener('click', (event) => {
@@ -389,4 +397,174 @@ function stickySummary(root) {
     const fit = () => summary.classList.toggle('is-sticky', summary.offsetHeight + 48 < window.innerHeight);
     new ResizeObserver(fit).observe(summary);
     window.addEventListener('resize', fit, { passive: true });
+}
+
+/** The size button picked in the form: its label and the waitlist's key. */
+function pickedSwatch(form) {
+    const button = form.querySelector('[data-size] .hive-swatch[aria-pressed="true"]') || form.querySelector('.hive-swatch[aria-pressed="true"]');
+    return button ? { label: button.querySelector('.hive-swatch__value')?.textContent || '', key: button.dataset.key || '*' } : { label: '', key: '*' };
+}
+
+/** "Avvisami": shown for a sold-out size (or a sold-out product), posted without leaving the page. */
+function waitForm(form) {
+    if (!form) return { show() {} };
+    const status = form.querySelector('[data-hive-wait-status]');
+    const sizeName = form.querySelector('[data-hive-wait-size]');
+    const keyField = form.querySelector('[data-hive-wait-key]');
+    const button = form.querySelector('button[type="submit"]');
+    const say = (text, error = false) => {
+        status.textContent = text;
+        status.classList.toggle('is-error', error);
+    };
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = form.elements.email;
+        if (!email.value || !email.checkValidity()) {
+            say('Scrivi un indirizzo email valido.', true);
+            email.focus();
+            return;
+        }
+        if (!config.alerts) return;
+        button.disabled = true;
+        say('Un attimo…');
+        try {
+            const response = await fetch(config.alerts, { method: 'POST', body: new FormData(form), credentials: 'same-origin', headers: { Accept: 'application/json' } });
+            const data = await response.json();
+            say(data.message || (data.ok ? 'Fatto.' : 'Qualcosa non ha funzionato: riprova.'), !data.ok);
+            if (data.ok) form.classList.add('is-done');
+        } catch {
+            say('Qualcosa non ha funzionato: riprova.', true);
+        } finally {
+            button.disabled = false;
+        }
+    });
+
+    return {
+        /** @param {{label: string, key: string}|null} size The sold-out size picked, or null to hide. */
+        show(size) {
+            // A sold-out product's form is always there; a size's follows the pick.
+            if (!sizeName) return;
+            form.hidden = !size;
+            if (!size) return;
+            if (sizeName) sizeName.textContent = size.label;
+            if (keyField) keyField.value = size.key || '*';
+            form.classList.remove('is-done');
+            say('');
+        },
+    };
+}
+
+/** The delivery estimate, loaded on its own when the page has one. */
+function deliveryEstimate(box) {
+    let available = true;
+    let estimate = null;
+    if (box) {
+        import('@hive/delivery').then(({ deliveryBox }) => {
+            estimate = deliveryBox(box);
+            if (estimate) estimate.available = available;
+        });
+    }
+    return {
+        available(on) {
+            available = on;
+            if (estimate) estimate.available = on;
+        },
+    };
+}
+
+/** "Chiedi su WhatsApp" names the size picked by the time it's clicked; "Condividi" shows where it can work. */
+function actions(row, form) {
+    if (!row) return;
+    const name = row.dataset.name || document.title;
+    const url = row.dataset.url || location.href;
+    const whatsapp = row.querySelector('[data-hive-whatsapp]');
+    whatsapp?.addEventListener('click', () => {
+        const size = form ? pickedSwatch(form).label : '';
+        const text = `Ciao! Vorrei informazioni su ${name}${size ? `, taglia ${size}` : ''}: ${url}`;
+        whatsapp.href = `https://wa.me/${whatsapp.dataset.hiveWhatsapp}?text=${encodeURIComponent(text)}`;
+    });
+
+    const share = row.querySelector('[data-hive-share]');
+    if (!share || !(navigator.share || (navigator.clipboard && window.isSecureContext))) return;
+    share.hidden = false;
+    const label = share.querySelector('span');
+    share.addEventListener('click', async () => {
+        if (navigator.share) {
+            navigator.share({ title: name, url }).catch(() => {});
+            return;
+        }
+        try {
+            await navigator.clipboard.writeText(url);
+            label.textContent = 'Link copiato';
+            setTimeout(() => (label.textContent = 'Condividi'), 2000);
+        } catch {
+            // Nothing to say: the button stays as it was.
+        }
+    });
+}
+
+const RECENT = 'hive_recent';
+const RECENT_MAX = 12;
+
+/**
+ * "Visti di recente": this product goes first in this browser's list; the
+ * others come as a rail from Hive's REST read once the place nears the
+ * screen. Nothing leaves the browser but product ids.
+ */
+function recentlyViewed(root) {
+    const slot = root.querySelector('[data-hive-recent]');
+    const id = Number(root.dataset.hiveProduct);
+    let seen = [];
+    try {
+        seen = JSON.parse(localStorage.getItem(RECENT) || '[]').filter((n) => Number.isInteger(n) && n > 0);
+    } catch {
+        seen = [];
+    }
+    const others = seen.filter((n) => n !== id).slice(0, RECENT_MAX);
+    try {
+        localStorage.setItem(RECENT, JSON.stringify([id, ...others].slice(0, RECENT_MAX + 1)));
+    } catch {
+        // Storage off (private mode): the rail just stays empty.
+    }
+    if (!slot || !others.length || !('IntersectionObserver' in window)) return;
+
+    const load = async () => {
+        const api = moduleData('@hive/shop').api || '/wp-json/hive/v1/';
+        const request = new URL(`${api}recent`, location.href);
+        // Sorted, so every visitor with the same products asks the same URL (the CDN keeps one copy).
+        request.searchParams.set('ids', [...others].sort((a, b) => a - b).join(','));
+        if (slot.dataset.v) request.searchParams.set('v', slot.dataset.v);
+        try {
+            const response = await fetch(request, { credentials: 'omit', headers: { Accept: 'application/json' } });
+            const data = await response.json();
+            if (!data.html) return;
+            const template = document.createElement('template');
+            template.innerHTML = data.html;
+            const rail = template.content.querySelector('.hive-rail');
+            if (!rail) return;
+            // The newest first, whatever order the rail came in.
+            const track = rail.querySelector('.hive-rail__track');
+            const cards = new Map([...track.children].map((card) => [Number(card.dataset.productId), card]));
+            track.replaceChildren(...others.map((n) => cards.get(n)).filter(Boolean));
+            slot.replaceChildren(rail);
+            import('@hive/rail').then(({ setup }) => setup(rail));
+        } catch {
+            // No rail: the page is complete without it.
+        }
+    };
+    const near = new IntersectionObserver(
+        (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            near.disconnect();
+            load();
+        },
+        { rootMargin: '600px 0px' }
+    );
+    near.observe(slot);
+}
+
+// Last, once every constant above is set.
+for (const root of document.querySelectorAll('[data-hive-product]')) {
+    init(root);
 }

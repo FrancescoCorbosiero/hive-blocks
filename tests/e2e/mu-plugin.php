@@ -32,7 +32,12 @@ set_error_handler(
     static function (int $level, string $message, string $file = '', int $line = 0): bool {
         if (error_reporting() & $level) {
             $hive = str_contains($file, '/plugins/hive-blocks/') && !str_contains($file, '/plugins/hive-blocks/tests/');
-            hive_e2e_record("PHP error $level: $message", $hive ? "$file:$line" : hive_e2e_where());
+            // A deprecation in another plugin's own code (WooCommerce's bundled libraries on a newer
+            // PHP, say) is about how that code is written, not about Hive's call into it.
+            $theirs = !$hive && str_contains($file, '/plugins/') && in_array($level, [E_DEPRECATED, E_USER_DEPRECATED], true);
+            if (!$theirs) {
+                hive_e2e_record("PHP error $level: $message", $hive ? "$file:$line" : hive_e2e_where());
+            }
         }
         return false; // PHP and WordPress go on handling it as usual.
     }
@@ -48,3 +53,98 @@ foreach (['doing_it_wrong_run', 'deprecated_function_run', 'deprecated_argument_
         4
     );
 }
+
+// Action Scheduler's loopback runner off too (see DISABLE_WP_CRON in serve.mjs): the
+// specs run the actions they need through the helpers below.
+add_filter('action_scheduler_allow_async_request_runner', '__return_false');
+
+/*
+ * Helpers for the specs, on this test site only: the mail WordPress would
+ * send (kept instead of sent), a subscriber's state, a size back in stock,
+ * and the alerts' run, without waiting for the scheduler.
+ */
+add_filter(
+    'pre_wp_mail',
+    static function ($sent, array $mail) {
+        $mails   = (array) get_option('hive_e2e_mails', []);
+        $mails[] = ['to' => $mail['to'], 'subject' => $mail['subject'], 'message' => $mail['message']];
+        update_option('hive_e2e_mails', array_slice($mails, -20), false);
+        return true;
+    },
+    10,
+    2
+);
+
+add_action(
+    'rest_api_init',
+    static function (): void {
+        $open = ['permission_callback' => '__return_true'];
+        register_rest_route(
+            'hive-e2e/v1',
+            '/subscriber',
+            $open + [
+                'methods'  => 'GET',
+                'callback' => static function (WP_REST_Request $request) {
+                    $id = Hive\Shop\Alerts::subscriber((string) $request['email']);
+                    if (!$id) {
+                        return new WP_REST_Response(null, 404);
+                    }
+                    $meta = static fn(string $key) => get_post_meta($id, $key, true);
+                    return [
+                        'status'       => $meta('_hive_alerts'),
+                        'token'        => $meta('_hive_token'),
+                        'wait'         => array_values((array) $meta('_hive_wait')),
+                        'wait_pending' => array_values((array) $meta('_hive_wait_pending')),
+                    ];
+                },
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/restock',
+            $open + [
+                'methods'  => 'POST',
+                'callback' => static function (WP_REST_Request $request) {
+                    $product = wc_get_product((int) $request['product']);
+                    foreach ($product ? $product->get_children() : [] as $child) {
+                        $variation = wc_get_product($child);
+                        if ($variation && $variation->get_attribute('pa_taglia') === (string) $request['size']) {
+                            $variation->set_stock_status('outofstock' === $request['status'] ? 'outofstock' : 'instock');
+                            $variation->save();
+                            return ['variation' => $variation->get_id()];
+                        }
+                    }
+                    return new WP_REST_Response(null, 404);
+                },
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/alerts-run',
+            $open + [
+                'methods'  => 'POST',
+                'callback' => static function () {
+                    delete_option('hive_e2e_mails');
+                    do_action(Hive\Shop\Alerts::HOOK);
+                    return ['mails' => (array) get_option('hive_e2e_mails', [])];
+                },
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/env',
+            $open + [
+                'methods'  => 'GET',
+                'callback' => static fn() => ['php' => PHP_VERSION, 'wp' => get_bloginfo('version'), 'wc' => defined('WC_VERSION') ? WC_VERSION : ''],
+            ]
+        );
+        register_rest_route(
+            'hive-e2e/v1',
+            '/mails',
+            $open + [
+                'methods'  => 'GET',
+                'callback' => static fn() => ['mails' => (array) get_option('hive_e2e_mails', [])],
+            ]
+        );
+    }
+);

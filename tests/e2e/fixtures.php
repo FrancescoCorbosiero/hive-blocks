@@ -8,6 +8,9 @@ wp_set_current_user(1);
 
 // WooCommerce: no setup wizard, no redirect to it on the first admin page.
 delete_transient('_wc_activation_redirect');
+// Its attribute lookup table kept up to date as products are saved, not by a scheduled
+// job (nothing runs by itself on the e2e site): WooCommerce's own lists filter with it.
+update_option('woocommerce_attribute_lookup_direct_updates', 'yes');
 update_option('woocommerce_onboarding_profile', ['skipped' => true]);
 
 $hive_classic = !wp_is_block_theme();
@@ -96,6 +99,44 @@ $hive_guide = wp_insert_post(
 );
 update_post_meta($hive_guide, '_hive_guide_cats', [$hive_category]);
 delete_transient('hive_size_guides');
+
+// The model attribute (pa_modello): the Panda's other colorway.
+$hive_model_attribute = wc_attribute_taxonomy_id_by_name('modello') ?: wc_create_attribute(['name' => 'Modello', 'slug' => 'modello', 'type' => 'select', 'order_by' => 'menu_order', 'has_archives' => false]);
+if (!taxonomy_exists('pa_modello')) {
+    register_taxonomy('pa_modello', ['product'], ['hierarchical' => false, 'public' => false, 'rewrite' => false]);
+}
+$hive_model      = term_exists('Dunk Low', 'pa_modello') ?: wp_insert_term('Dunk Low', 'pa_modello');
+$hive_model_attr = new WC_Product_Attribute();
+$hive_model_attr->set_id($hive_model_attribute);
+$hive_model_attr->set_name('pa_modello');
+$hive_model_attr->set_options([(int) $hive_model['term_id']]);
+$hive_model_attr->set_visible(true);
+$hive_model_attr->set_variation(false);
+$hive_dunk = wc_get_product($hive_dunk_id);
+$hive_dunk->set_attributes(array_merge($hive_dunk->get_attributes(), ['pa_modello' => $hive_model_attr]));
+$hive_dunk->save();
+
+$hive_fog = new WC_Product_Simple();
+$hive_fog->set_name('Nike Dunk Low Grey Fog');
+$hive_fog->set_slug('nike-dunk-low-grey-fog');
+$hive_fog->set_status('publish');
+$hive_fog->set_category_ids([$hive_category]);
+$hive_fog->set_regular_price('170');
+$hive_fog->set_attributes(['pa_modello' => $hive_model_attr]);
+$hive_fog->save();
+
+// A drop a week away, not for sale until then.
+$hive_drop = new WC_Product_Simple();
+$hive_drop->set_name('Jordan 4 in arrivo');
+$hive_drop->set_slug('jordan-4-in-arrivo');
+$hive_drop->set_status('publish');
+$hive_drop->set_regular_price('250');
+$hive_drop->update_meta_data('_hive_drop_ts', time() + 7 * DAY_IN_SECONDS);
+$hive_drop->update_meta_data('_hive_drop_lock', 'yes');
+$hive_drop->save();
+
+// Settings the product page's extras need: a WhatsApp number, the delivery estimate.
+update_option('hive_settings', array_merge((array) get_option('hive_settings', []), ['whatsapp' => '393331234567', 'delivery' => true]));
 
 // A simple product, and a sold-out one.
 foreach ([['Calzini Hive', 'calzini-hive', '15', 'instock'], ['Felpa esaurita', 'felpa-esaurita', '89', 'outofstock']] as [$hive_name, $hive_slug, $hive_price, $hive_stock]) {

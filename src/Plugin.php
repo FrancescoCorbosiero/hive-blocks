@@ -27,6 +27,7 @@ final class Plugin
             Shop\Rail::register();
             Shop\Ordering::register();
             Shop\SizeGuides::register();
+            Shop\SocialProof::register();
             Modules::register();
         }
     }

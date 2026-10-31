@@ -226,6 +226,128 @@ test('the size guide opens in a dialog', async ({ page }) => {
     expect(errors).toEqual([]);
 });
 
+test('a sold-out size offers "Avvisami", posted without leaving the page', async ({ page }) => {
+    const errors = await open(page);
+    let posted = '';
+    await page.route('**/?wc-ajax=hive_alerts', (route) => {
+        posted = route.request().postData() || '';
+        route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: true, message: 'Ci siamo quasi: conferma dalla tua email e ti scriviamo appena torna disponibile.' }) });
+    });
+    const wait = page.locator('[data-hive-wait]');
+    await expect(wait).toBeHidden();
+
+    await swatch(page, '41').click();
+    await expect(wait).toBeVisible();
+    await expect(wait.locator('[data-hive-wait-size]')).toHaveText('41');
+
+    await wait.getByRole('button', { name: 'Avvisami' }).click();
+    await expect(wait.locator('[data-hive-wait-status]')).toHaveText('Scrivi un indirizzo email valido.');
+    await wait.getByPlaceholder('La tua email').fill('mario@example.com');
+    await wait.getByRole('button', { name: 'Avvisami' }).click();
+    await expect(wait.locator('[data-hive-wait-status]')).toContainText('Ci siamo quasi');
+    expect(posted).toMatch(/name="email"\r\n\r\nmario@example.com/);
+    expect(posted).toMatch(/name="product"\r\n\r\n7/);
+    expect(posted).toMatch(/name="key"\r\n\r\n41/);
+
+    // A size in stock: nothing to wait for.
+    await swatch(page, '42').click();
+    await expect(wait).toBeHidden();
+    expect(errors).toEqual([]);
+});
+
+test('"Chiedi su WhatsApp" names the size picked; "Condividi" copies the link', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await open(page);
+    await page.evaluate(() =>
+        document.addEventListener('click', (event) => event.target.closest('[data-hive-whatsapp]') && event.preventDefault(), true)
+    );
+    await swatch(page, '42').click();
+    const whatsapp = page.getByRole('link', { name: 'Chiedi su WhatsApp' });
+    await whatsapp.click();
+    await expect(whatsapp).toHaveAttribute('href', /^https:\/\/wa\.me\/393331234567\?text=.*taglia%2042/);
+
+    const share = page.locator('[data-hive-share]');
+    await expect(share).toBeVisible();
+    await share.click();
+    await expect(share).toHaveText('Link copiato');
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('https://example.test/prodotto/dunk/');
+});
+
+test('the delivery estimate, at the visitor’s time', async ({ page }) => {
+    // Monday 19 October 2026, 10:30 in Italy.
+    await page.clock.install({ time: new Date('2026-10-19T08:30:00Z') });
+    await open(page);
+    const box = page.locator('[data-hive-delivery]');
+    await expect(box).toBeVisible();
+    await expect(box.locator('.hive-delivery__line').first()).toHaveText('Ordina entro 2 h 30 min e spediamo oggi');
+    await expect(box.locator('.hive-delivery__line').nth(1)).toHaveText(/^Consegna stimata mar 20 ott – gio 22 ott$/);
+
+    // A sold-out size ships nothing.
+    await swatch(page, '41').click();
+    await expect(box).toBeHidden();
+    await swatch(page, '42').click();
+    await expect(box).toBeVisible();
+});
+
+test('"Visti di recente": this browser’s products, newest first, fetched as a rail', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('hive_recent', JSON.stringify([3, 5])));
+    let asked = '';
+    await page.route('**/api/recent?**', (route) => {
+        asked = route.request().url();
+        const card = (id, name) => `<li class="hive-card" data-product-id="${id}"><div class="hive-card__body"><h3 class="hive-card__title"><a class="hive-card__link" href="#">${name}</a></h3></div></li>`;
+        route.fulfill({
+            contentType: 'application/json',
+            body: JSON.stringify({ html: `<section class="hive-block hive-rail"><div class="hive-rail__head"><h2 class="hive-rail__title">Visti di recente</h2></div><div class="hive-rail__viewport"><ul class="hive-rail__track" role="list">${card(5, 'Felpa')}${card(3, 'Calzini')}</ul></div></section>` }),
+        });
+    });
+    await open(page);
+    expect(asked).toBe('');
+    await page.locator('.site-footer').scrollIntoViewIfNeeded();
+    await expect(page.locator('[data-hive-recent] .hive-rail__title')).toHaveText('Visti di recente');
+    await expect(page.locator('[data-hive-recent] .hive-card__title')).toHaveText(['Calzini', 'Felpa']);
+    expect(new URL(asked).searchParams.get('ids')).toBe('3,5');
+    expect(new URL(asked).searchParams.get('v')).toBe('7');
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem('hive_recent')))).toEqual([7, 3, 5]);
+});
+
+test('a drop counts down to the second, then the page reloads', async ({ page }) => {
+    // Ten seconds before the release, the clock held still.
+    await page.clock.install({ time: new Date('2026-10-24T07:59:40Z') });
+    await page.clock.pauseAt(new Date('2026-10-24T07:59:50Z'));
+    await page.goto('/tests/browser/fixtures/drop.html');
+    const drop = page.locator('[data-hive-drop]');
+    await expect(drop.locator('[data-unit="s"]')).toHaveText('10');
+    await expect(drop.locator('[data-unit="d"]')).toHaveText('00');
+    await page.clock.runFor('00:04');
+    await expect(drop.locator('[data-unit="s"]')).toHaveText('06');
+
+    await page.clock.runFor('00:07');
+    await expect(drop).toHaveClass(/is-released/);
+    await expect(drop.locator('.hive-remind')).toBeHidden();
+    await expect(drop.getByText('È uscito')).toBeVisible();
+
+    const reloaded = page.waitForEvent('load');
+    await page.clock.runFor('00:08');
+    await reloaded;
+    // Past the page cache and the CDN, whose copy may still be from before the release.
+    expect(new URL(page.url()).searchParams.get('hive_released')).toBe(await drop.getAttribute('data-hive-drop'));
+});
+
+test('a copy of the page from before the release, met again after it, never reloads in a loop', async ({ page }) => {
+    // After the release: the page reloads once (the clock held still, so not yet).
+    await page.clock.install({ time: new Date('2026-10-24T08:00:20Z') });
+    await page.clock.pauseAt(new Date('2026-10-24T08:00:30Z'));
+    await page.goto('/tests/browser/fixtures/drop.html');
+    await expect(page.locator('[data-hive-drop]')).toHaveClass(/is-released/);
+    // The reload brought a cached copy from before the release: it doesn't reload again.
+    await page.reload();
+    await expect(page.locator('[data-hive-drop]')).toHaveClass(/is-released/);
+    // Past every reload delay: no navigation follows (waited for in real time).
+    const navigated = page.waitForEvent('framenavigated', { timeout: 3000 }).then(() => true, () => false);
+    await page.clock.runFor('00:15');
+    expect(await navigated).toBe(false);
+});
+
 test('sticky bar: a jump from above the button to past it (an anchor, a restored scroll) still shows it', async ({ page }) => {
     // Short screen: the button starts below it, never in view on the way down.
     await page.setViewportSize({ width: 1280, height: 320 });
