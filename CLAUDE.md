@@ -21,7 +21,8 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   `editorStyle` in block.json, never `style` (classic themes load every
   registered `style` on every page). Its JS is a `viewScriptModule`.
   `src/Assets.php` gets block CSS into `<head>` on classic themes, or right
-  before a block rendered after `<head>`.
+  before a block rendered after `<head>`. A block hidden in the editor
+  isn't rendered at all (`Blocks::skip_hidden()`), nor its CSS loaded.
 - **Blocks** live in `blocks/<name>/`: `block.json`, `render.php`,
   `edit.js` (JSX), `view.js` (module), `style.css`; `build/` is generated.
   Nest every selector under the block's root class (`.hive-hours
