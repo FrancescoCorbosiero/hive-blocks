@@ -490,6 +490,158 @@ return array(
 		'viewScriptModule' => '@hive/cards',
 		'render' => 'file:./render.php',
 	),
+	'promo-modal' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/promo-modal',
+		'title' => 'Popup promozionale',
+		'category' => 'hive',
+		'icon' => 'tickets-alt',
+		'description' => 'Un’offerta in una finestra: dopo qualche secondo o quando il visitatore sta per andarsene, una volta sola per visitatore. Si apre anche da un link a #ID.',
+		'keywords' => array(
+			'promo',
+			'popup',
+			'sconto',
+			'coupon',
+			'modal',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'modalId' => array(
+				'type' => 'string',
+				'default' => 'promo-popup',
+			),
+			'imageUrlId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'badge' => array(
+				'type' => 'string',
+				'default' => 'Offerta esclusiva',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => '10% di sconto',
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Iscriviti alla newsletter e ricevi subito il 10% di sconto sul tuo primo ordine!',
+			),
+			'couponCode' => array(
+				'type' => 'string',
+				'default' => 'WELCOME10',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Ottieni lo sconto',
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'disclaimer' => array(
+				'type' => 'string',
+				'default' => 'Valido solo per nuovi clienti. Non cumulabile.',
+			),
+			'autoShow' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'trigger' => array(
+				'type' => 'string',
+				'default' => 'delay',
+				'enum' => array(
+					'delay',
+					'exit',
+				),
+			),
+			'showDelay' => array(
+				'type' => 'number',
+				'default' => 5000,
+			),
+			'showOnce' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+		),
+		'supports' => array(
+			'align' => false,
+			'html' => false,
+			'multiple' => false,
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
+	'social-proof' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/social-proof',
+		'title' => 'Acquisti recenti',
+		'category' => 'hive',
+		'icon' => 'megaphone',
+		'description' => '«Qualcuno ha appena acquistato»: un avviso in basso con gli ultimi ordini pagati (prodotto, città, da quanto), poche volte per visita. Mai nel carrello o al checkout.',
+		'keywords' => array(
+			'social proof',
+			'acquisti',
+			'notifica',
+			'popup',
+			'ordini',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'days' => array(
+				'type' => 'number',
+				'default' => 14,
+			),
+			'limit' => array(
+				'type' => 'number',
+				'default' => 10,
+			),
+			'showCity' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'maxPerVisit' => array(
+				'type' => 'number',
+				'default' => 3,
+			),
+			'interval' => array(
+				'type' => 'number',
+				'default' => 25000,
+			),
+			'initialDelay' => array(
+				'type' => 'number',
+				'default' => 8000,
+			),
+			'displayDuration' => array(
+				'type' => 'number',
+				'default' => 6000,
+			),
+			'showVerified' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Qualcuno ha appena acquistato',
+			),
+		),
+		'supports' => array(
+			'align' => false,
+			'html' => false,
+			'multiple' => false,
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
 	'store-hours' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
