@@ -6,6 +6,9 @@
 import { expect, test } from '@playwright/test';
 import { login } from './helpers.mjs';
 
+// It logs in to wp-admin, slow with WooCommerce on one PHP worker.
+test.slow();
+
 const api = (route) => `/?rest_route=/wc-gh/v1/${route}`;
 
 const FEATURES = [
