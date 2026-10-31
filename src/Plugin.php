@@ -33,10 +33,6 @@ final class Plugin
             Shop\Newsletter::register();
             Shop\SizeRail::register();
             Modules::register();
-            // The switch-over from golden-hive-blocks: Hive → Migrazione, `wp hive migrate`.
-            if (is_admin() || (defined('WP_CLI') && WP_CLI)) {
-                Migration::register();
-            }
         }
     }
 
