@@ -85,6 +85,83 @@ return array(
 		'viewStyle' => 'file:./build/style.css',
 		'render' => 'file:./render.php',
 	),
+	'brand-marquee' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/brand-marquee',
+		'title' => 'Brand in scorrimento',
+		'category' => 'hive',
+		'icon' => 'images-alt',
+		'description' => 'I loghi dei brand del negozio in una fascia che scorre da sola e si ferma sotto il mouse.',
+		'keywords' => array(
+			'brand',
+			'marche',
+			'loghi',
+			'marquee',
+			'logo',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => 'I nostri brand',
+			),
+			'brand' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'brands' => array(
+				'type' => 'array',
+				'default' => array(),
+				'items' => array(
+					'type' => 'object',
+					'properties' => array(
+						'name' => array(
+							'type' => 'string',
+						),
+						'logoId' => array(
+							'type' => 'number',
+						),
+						'url' => array(
+							'type' => 'string',
+						),
+					),
+				),
+			),
+			'speed' => array(
+				'type' => 'number',
+				'default' => 50,
+			),
+			'direction' => array(
+				'type' => 'string',
+				'default' => 'left',
+				'enum' => array(
+					'left',
+					'right',
+				),
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
 	'catalog' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -107,6 +184,58 @@ return array(
 		),
 		'viewStyle' => 'hive-catalog',
 		'viewScriptModule' => '@hive/catalog',
+		'render' => 'file:./render.php',
+	),
+	'category-slider' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/category-slider',
+		'title' => 'Slider categorie',
+		'category' => 'hive',
+		'icon' => 'category',
+		'description' => 'Le categorie del negozio con le loro foto, in una fila che scorre di lato.',
+		'keywords' => array(
+			'categorie',
+			'collezioni',
+			'slider',
+			'carosello',
+			'category',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Esplora le categorie',
+			),
+			'category' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'showNav' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'imageRatio' => array(
+				'type' => 'string',
+				'default' => '4 / 5',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
 		'render' => 'file:./render.php',
 	),
 	'contact-info' => array(
@@ -316,6 +445,138 @@ return array(
 		'editorScript' => 'file:./build/edit.js',
 		'editorStyle' => 'file:./build/style.css',
 		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
+	'drop-calendar' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/drop-calendar',
+		'title' => 'Calendario dei drop',
+		'category' => 'hive',
+		'icon' => 'calendar-alt',
+		'description' => 'Le prossime uscite: i prodotti con una data di drop, in ordine, con «Esce tra 3 giorni», «Ricordamelo» e «Acquista ora» all’uscita.',
+		'keywords' => array(
+			'drop',
+			'calendario',
+			'uscite',
+			'release',
+			'countdown',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => 'Calendario drop',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Le prossime uscite',
+			),
+			'subtitle' => array(
+				'type' => 'string',
+				'default' => 'Segna la data: ti ricordiamo noi quando escono.',
+			),
+			'limit' => array(
+				'type' => 'number',
+				'default' => 6,
+			),
+			'showReleased' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'emptyText' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => '@hive/drop',
+		'render' => 'file:./render.php',
+	),
+	'drop-countdown' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/drop-countdown',
+		'title' => 'Conto alla rovescia del drop',
+		'category' => 'hive',
+		'icon' => 'clock',
+		'description' => 'Il conto alla rovescia di un’uscita: segue il drop di un prodotto (data, foto, prezzo, link) o una data scritta qui, con «Ricordamelo» e «Acquista ora» all’uscita. Senza scelta, il prossimo drop del negozio.',
+		'keywords' => array(
+			'drop',
+			'countdown',
+			'uscita',
+			'release',
+			'conto alla rovescia',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'productId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'productName' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'productImageId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'releaseDate' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => 'Prossimo drop',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Scopri di più',
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => '@hive/drop',
 		'render' => 'file:./render.php',
 	),
 	'faq-schema' => array(
@@ -1066,6 +1327,168 @@ return array(
 		'viewScriptModule' => '@hive/rail',
 		'render' => 'file:./render.php',
 	),
+	'product-spotlight' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/product-spotlight',
+		'title' => 'Prodotto in evidenza',
+		'category' => 'hive',
+		'icon' => 'star-filled',
+		'description' => 'Un prodotto in primo piano: foto, marca, nome, prezzo e il pulsante per comprarlo. Senza scelta, l’ultimo prodotto in evidenza.',
+		'keywords' => array(
+			'prodotto',
+			'evidenza',
+			'vetrina',
+			'spotlight',
+			'featured',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'productId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'eyebrow' => array(
+				'type' => 'string',
+				'default' => 'In evidenza',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'description' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'condition' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'size' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'authenticity' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'imageUrlId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+		),
+		'supports' => array(
+			'align' => array(
+				'wide',
+				'full',
+			),
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => '@hive/cards',
+		'render' => 'file:./render.php',
+	),
+	'promo-modal' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/promo-modal',
+		'title' => 'Popup promozionale',
+		'category' => 'hive',
+		'icon' => 'tickets-alt',
+		'description' => 'Un’offerta in una finestra: dopo qualche secondo o quando il visitatore sta per andarsene, una volta sola per visitatore. Si apre anche da un link a #ID.',
+		'keywords' => array(
+			'promo',
+			'popup',
+			'sconto',
+			'coupon',
+			'modal',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'modalId' => array(
+				'type' => 'string',
+				'default' => 'promo-popup',
+			),
+			'imageUrlId' => array(
+				'type' => 'number',
+				'default' => 0,
+			),
+			'badge' => array(
+				'type' => 'string',
+				'default' => 'Offerta esclusiva',
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => '10% di sconto',
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Iscriviti alla newsletter e ricevi subito il 10% di sconto sul tuo primo ordine!',
+			),
+			'couponCode' => array(
+				'type' => 'string',
+				'default' => 'WELCOME10',
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Ottieni lo sconto',
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => '',
+			),
+			'disclaimer' => array(
+				'type' => 'string',
+				'default' => 'Valido solo per nuovi clienti. Non cumulabile.',
+			),
+			'autoShow' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'trigger' => array(
+				'type' => 'string',
+				'default' => 'delay',
+				'enum' => array(
+					'delay',
+					'exit',
+				),
+			),
+			'showDelay' => array(
+				'type' => 'number',
+				'default' => 5000,
+			),
+			'showOnce' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+		),
+		'supports' => array(
+			'align' => false,
+			'html' => false,
+			'multiple' => false,
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
+		'render' => 'file:./render.php',
+	),
 	'shortcode-wrapper' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1243,6 +1666,72 @@ return array(
 		'editorScript' => 'file:./build/edit.js',
 		'editorStyle' => 'file:./build/style.css',
 		'viewStyle' => 'file:./build/style.css',
+		'render' => 'file:./render.php',
+	),
+	'social-proof' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/social-proof',
+		'title' => 'Acquisti recenti',
+		'category' => 'hive',
+		'icon' => 'megaphone',
+		'description' => '«Qualcuno ha appena acquistato»: un avviso in basso con gli ultimi ordini pagati (prodotto, città, da quanto), poche volte per visita. Mai nel carrello o al checkout.',
+		'keywords' => array(
+			'social proof',
+			'acquisti',
+			'notifica',
+			'popup',
+			'ordini',
+		),
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'days' => array(
+				'type' => 'number',
+				'default' => 14,
+			),
+			'limit' => array(
+				'type' => 'number',
+				'default' => 10,
+			),
+			'showCity' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'maxPerVisit' => array(
+				'type' => 'number',
+				'default' => 3,
+			),
+			'interval' => array(
+				'type' => 'number',
+				'default' => 25000,
+			),
+			'initialDelay' => array(
+				'type' => 'number',
+				'default' => 8000,
+			),
+			'displayDuration' => array(
+				'type' => 'number',
+				'default' => 6000,
+			),
+			'showVerified' => array(
+				'type' => 'boolean',
+				'default' => true,
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Qualcuno ha appena acquistato',
+			),
+		),
+		'supports' => array(
+			'align' => false,
+			'html' => false,
+			'multiple' => false,
+		),
+		'example' => array(),
+		'editorScript' => 'file:./build/edit.js',
+		'editorStyle' => 'file:./build/style.css',
+		'viewStyle' => 'file:./build/style.css',
+		'viewScriptModule' => 'file:./build/view.js',
 		'render' => 'file:./render.php',
 	),
 	'store-hours' => array(

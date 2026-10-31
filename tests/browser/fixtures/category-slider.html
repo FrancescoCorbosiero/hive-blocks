@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slider categorie — fixture</title>
+    <!-- What WordPress prints for the block: base.css with the tokens, the block's CSS (its view module has no imports). -->
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/category-slider/build/style.css">
+    <!-- A theme that styles lists, links, images and buttons, as most do. -->
+    <style>
+        body { margin: 0 auto; max-width: 1100px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 2.5rem; text-align: center; }
+        .entry-content ul { margin: 0 0 2em 2em; padding-left: 1em; list-style: disc; }
+        .entry-content li { margin-bottom: 0.5em; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content img { border-radius: 24px; height: auto; max-width: 100%; }
+        button { background: #eee; color: #333; border-radius: 0; padding: 4px; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output: eight categories, one without a picture (its initial instead). -->
+    <section class="hive-block hive-category-slider wp-block-hive-category-slider" style="--hive-category-ratio:4 / 5;">
+        <h2 class="hive-category-slider__title">Esplora le categorie</h2>
+        <div class="hive-category-slider__viewport">
+            <button type="button" class="hive-category-slider__nav" data-dir="-1" aria-label="Categorie precedenti" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 6-6 6 6 6"/></svg></button>
+            <ul class="hive-category-slider__track" role="list">
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/sneakers/">
+                        <span class="hive-category-slider__media">
+                            <img width="300" height="300" src="/tests/browser/fixtures/sneaker.svg" class="hive-category-slider__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 45vw, 15rem">
+                        </span>
+                        <span class="hive-category-slider__name">Sneakers</span>
+                    </a>
+                </li>
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/streetwear/">
+                        <span class="hive-category-slider__media">
+                            <img width="300" height="300" src="/tests/browser/fixtures/sneaker-2.svg" class="hive-category-slider__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 45vw, 15rem">
+                        </span>
+                        <span class="hive-category-slider__name">Streetwear</span>
+                    </a>
+                </li>
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/accessori/">
+                        <span class="hive-category-slider__media">
+                            <img width="300" height="300" src="/tests/browser/fixtures/sneaker-3.svg" class="hive-category-slider__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 45vw, 15rem">
+                        </span>
+                        <span class="hive-category-slider__name">Accessori</span>
+                    </a>
+                </li>
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/felpe/">
+                        <span class="hive-category-slider__media">
+                            <img width="300" height="300" src="/tests/browser/fixtures/sneaker.svg" class="hive-category-slider__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 45vw, 15rem">
+                        </span>
+                        <span class="hive-category-slider__name">Felpe</span>
+                    </a>
+                </li>
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/t-shirt/">
+                        <span class="hive-category-slider__media">
+                            <img width="300" height="300" src="/tests/browser/fixtures/sneaker-2.svg" class="hive-category-slider__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 45vw, 15rem">
+                        </span>
+                        <span class="hive-category-slider__name">T-shirt</span>
+                    </a>
+                </li>
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/cappelli/">
+                        <span class="hive-category-slider__media">
+                            <span class="hive-category-slider__initial" aria-hidden="true">C</span>
+                        </span>
+                        <span class="hive-category-slider__name">Cappelli</span>
+                    </a>
+                </li>
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/borse/">
+                        <span class="hive-category-slider__media">
+                            <img width="300" height="300" src="/tests/browser/fixtures/sneaker-3.svg" class="hive-category-slider__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 45vw, 15rem">
+                        </span>
+                        <span class="hive-category-slider__name">Borse</span>
+                    </a>
+                </li>
+                <li class="hive-category-slider__item">
+                    <a class="hive-category-slider__link" href="/categoria-prodotto/limited-edition/">
+                        <span class="hive-category-slider__media">
+                            <img width="300" height="300" src="/tests/browser/fixtures/sneaker.svg" class="hive-category-slider__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 45vw, 15rem">
+                        </span>
+                        <span class="hive-category-slider__name">Limited Edition</span>
+                    </a>
+                </li>
+            </ul>
+            <button type="button" class="hive-category-slider__nav" data-dir="1" aria-label="Categorie successive" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 6 6 6-6 6"/></svg></button>
+        </div>
+    </section>
+</main>
+<script type="module" src="/blocks/category-slider/build/view.js"></script>
+</body>
+</html>
