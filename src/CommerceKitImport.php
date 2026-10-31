@@ -85,7 +85,7 @@ final class CommerceKitImport
         return $found;
     }
 
-    /** @param array{email: string, product: string, parent: ?string, sent: ?string} $map */
+    /** @param array{email: string, products: list<string>, sent: ?string} $map */
     private static function waitlist(string $table, array $map, bool $dry): string
     {
         global $wpdb;
@@ -101,7 +101,7 @@ final class CommerceKitImport
                 continue;
             }
             $email = strtolower(trim((string) ($row[$map['email']] ?? '')));
-            $entry = self::wait_entry((int) ($row[$map['product']] ?? 0), null !== $map['parent'] ? (int) ($row[$map['parent']] ?? 0) : 0);
+            $entry = self::wait_entry(array_map(static fn(string $column): int => (int) ($row[$column] ?? 0), $map['products']));
             if (!is_email($email) || '' === $entry) {
                 $gone++;
                 continue;
@@ -164,12 +164,20 @@ final class CommerceKitImport
         );
     }
 
-    /** "812|42" for a variation in size 42 of product 812, "815|*" for a product without sizes; '' when it's gone. */
-    private static function wait_entry(int $product_id, int $parent_id): string
+    /**
+     * "812|42" for a variation in size 42 of product 812, "815|*" for a
+     * product without sizes; '' when it's gone.
+     *
+     * @param list<int> $ids The row's product columns, most precise first: the first that is a product counts.
+     */
+    private static function wait_entry(array $ids): string
     {
-        $product = $product_id ? wc_get_product($product_id) : null;
-        if (!$product instanceof \WC_Product && $parent_id) {
-            $product = wc_get_product($parent_id);
+        $product = null;
+        foreach (array_filter($ids) as $id) {
+            $product = wc_get_product($id);
+            if ($product instanceof \WC_Product) {
+                break;
+            }
         }
         if (!$product instanceof \WC_Product || 'trash' === $product->get_status()) {
             return '';

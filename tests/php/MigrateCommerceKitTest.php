@@ -7,13 +7,13 @@ use Hive\Core\Migrate\CommerceKit;
 
 check(
     CommerceKit::waitlist_columns(['id', 'email', 'product_id', 'created', 'mail_sent']),
-    ['email' => 'email', 'product' => 'product_id', 'parent' => null, 'sent' => 'mail_sent'],
+    ['email' => 'email', 'products' => ['product_id'], 'sent' => 'mail_sent'],
     'a waitlist table: email, product, sent'
 );
 check(
-    CommerceKit::waitlist_columns(['ID', 'User_Email', 'variation_id', 'product_id', 'parent_id']),
-    ['email' => 'User_Email', 'product' => 'variation_id', 'parent' => 'parent_id', 'sent' => null],
-    'the variation before the product, names as they are written'
+    CommerceKit::waitlist_columns(['ID', 'User_Email', 'product_id', 'parent_id', 'variation_id']),
+    ['email' => 'User_Email', 'products' => ['variation_id', 'product_id', 'parent_id'], 'sent' => null],
+    'the variation, then the product, then the parent; names as they are written'
 );
 check(CommerceKit::waitlist_columns(['id', 'product_id', 'created']), null, 'no email column: not a waitlist');
 check(CommerceKit::waitlist_columns(['id', 'email', 'created']), null, 'no product column: not a waitlist');

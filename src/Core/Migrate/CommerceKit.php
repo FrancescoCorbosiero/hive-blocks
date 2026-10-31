@@ -14,16 +14,17 @@ final class CommerceKit
 {
     /** Column names, most likely first. */
     private const EMAIL   = ['email', 'user_email', 'email_address', 'customer_email', 'mail'];
-    private const PRODUCT = ['variation_id', 'product_id', 'pid', 'post_id', 'item_id', 'product'];
-    private const PARENT  = ['parent_id', 'product_parent', 'parent'];
+    private const PRODUCT = ['variation_id', 'product_id', 'pid', 'post_id', 'item_id', 'product', 'parent_id', 'product_parent', 'parent'];
     private const SENT    = ['mail_sent', 'email_sent', 'notified', 'sent', 'is_sent', 'sent_at', 'notified_at', 'status'];
 
     /**
      * The columns of a waitlist table: where the email, the product and
-     * "already told" are. Null when there's no email or product column.
+     * "already told" are. The product columns come most precise first (the
+     * variation, then the product): a row's product is the first one set.
+     * Null when there's no email or product column.
      *
      * @param list<string> $columns
-     * @return array{email: string, product: string, parent: ?string, sent: ?string}|null
+     * @return array{email: string, products: list<string>, sent: ?string}|null
      */
     public static function waitlist_columns(array $columns): ?array
     {
@@ -39,12 +40,17 @@ final class CommerceKit
             }
             return null;
         };
-        $email   = $find(self::EMAIL);
-        $product = $find(self::PRODUCT);
-        if (null === $email || null === $product) {
+        $email    = $find(self::EMAIL);
+        $products = [];
+        foreach (self::PRODUCT as $name) {
+            if (isset($lower[$name])) {
+                $products[] = $lower[$name];
+            }
+        }
+        if (null === $email || !$products) {
             return null;
         }
-        return ['email' => $email, 'product' => $product, 'parent' => $find(self::PARENT), 'sent' => $find(self::SENT)];
+        return ['email' => $email, 'products' => $products, 'sent' => $find(self::SENT)];
     }
 
     /**
