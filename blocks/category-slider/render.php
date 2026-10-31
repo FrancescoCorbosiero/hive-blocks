@@ -1,20 +1,27 @@
 <?php
 /**
- * Slider categorie — server render: the product categories chosen in the
- * block, or the top-level ones with products, each with its picture
- * (Hive\Shop\Showcase), in a row that scrolls sideways with CSS
- * scroll-snap. view.js adds the arrows on desktop when there's more to see.
+ * Slider categorie — server render: the block's own tiles (a brand, a
+ * collection: picture, name, link; Hive\Core\Tiles) when it has some,
+ * otherwise the product categories chosen in the block, or the top-level
+ * ones with products, each with its picture (Hive\Shop\Showcase). A row
+ * that scrolls sideways with CSS scroll-snap; view.js adds the arrows on
+ * desktop when there's more to see.
  *
  * @var array $attributes
  *
  * @package Hive
  */
 
+use Hive\Content\Media;
+use Hive\Core\Tiles;
 use Hive\Shop\Showcase;
 
 defined('ABSPATH') || exit;
 
-$items = function_exists('wc_get_product') ? Showcase::categories((string) ($attributes['category'] ?? '')) : [];
+$tiles = Tiles::from($attributes['items'] ?? []);
+$items = $tiles
+    ? array_map(static fn(array $tile): array => ['name' => $tile['name'], 'url' => $tile['url'], 'image' => $tile['imageId'], 'src' => $tile['image']], $tiles)
+    : (function_exists('wc_get_product') ? Showcase::categories((string) ($attributes['category'] ?? '')) : []);
 if (!$items) {
     return;
 }
@@ -37,21 +44,23 @@ $ratio = 1 === preg_match('#^\s*(\d{1,2})\s*/\s*(\d{1,2})\s*$#', (string) ($attr
         <ul class="hive-category-slider__track" role="list">
             <?php foreach ($items as $item) : ?>
                 <li class="hive-category-slider__item">
-                    <a class="hive-category-slider__link" href="<?php echo esc_url($item['url']); ?>">
+                    <?php
+                    // A tile without a link is still shown, as a picture with its name.
+                    $element = '' !== (string) $item['url'] ? 'a' : 'div';
+                    ?>
+                    <<?php echo $element; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?> class="hive-category-slider__link"<?php echo 'a' === $element ? ' href="' . esc_url($item['url']) . '"' : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped here. ?>>
                         <span class="hive-category-slider__media">
                             <?php
-                            $picture = $item['image'] ? wp_get_attachment_image(
-                                $item['image'],
-                                'medium',
-                                false,
-                                [
-                                    'class'    => 'hive-category-slider__image',
-                                    'alt'      => '',
-                                    'loading'  => 'lazy',
-                                    'decoding' => 'async',
-                                    'sizes'    => '(max-width: 767px) 45vw, 15rem',
-                                ]
-                            ) : '';
+                            $picture_attributes = [
+                                'class'    => 'hive-category-slider__image',
+                                'alt'      => '',
+                                'loading'  => 'lazy',
+                                'decoding' => 'async',
+                                'sizes'    => '(max-width: 767px) 45vw, 15rem',
+                            ];
+                            $picture = isset($item['src'])
+                                ? Media::image((int) $item['image'], (string) $item['src'], $picture_attributes)
+                                : ($item['image'] ? wp_get_attachment_image($item['image'], 'medium', false, $picture_attributes) : '');
                             if ('' !== $picture) {
                                 echo $picture; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped by wp_get_attachment_image().
                             } else {
@@ -59,8 +68,10 @@ $ratio = 1 === preg_match('#^\s*(\d{1,2})\s*/\s*(\d{1,2})\s*$#', (string) ($attr
                             }
                             ?>
                         </span>
-                        <span class="hive-category-slider__name"><?php echo esc_html($item['name']); ?></span>
-                    </a>
+                        <?php if ('' !== (string) $item['name']) : ?>
+                            <span class="hive-category-slider__name"><?php echo esc_html($item['name']); ?></span>
+                        <?php endif; ?>
+                    </<?php echo $element; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?>>
                 </li>
             <?php endforeach; ?>
         </ul>

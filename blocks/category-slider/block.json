@@ -5,17 +5,42 @@
     "title": "Slider categorie",
     "category": "hive",
     "icon": "category",
-    "description": "Le categorie del negozio con le loro foto, in una fila che scorre di lato.",
-    "keywords": ["categorie", "collezioni", "slider", "carosello", "category"],
+    "description": "Le categorie del negozio con le loro foto, oppure dei riquadri scelti qui (un marchio, una collezione: foto, nome e link), in una fila che scorre di lato.",
+    "keywords": [
+        "categorie",
+        "collezioni",
+        "slider",
+        "carosello",
+        "category"
+    ],
     "textdomain": "hive-blocks",
     "attributes": {
-        "title": { "type": "string", "default": "Esplora le categorie" },
-        "category": { "type": "string", "default": "" },
-        "showNav": { "type": "boolean", "default": true },
-        "imageRatio": { "type": "string", "default": "4 / 5" }
+        "title": {
+            "type": "string",
+            "default": "Esplora le categorie"
+        },
+        "category": {
+            "type": "string",
+            "default": ""
+        },
+        "items": {
+            "type": "array",
+            "default": []
+        },
+        "showNav": {
+            "type": "boolean",
+            "default": true
+        },
+        "imageRatio": {
+            "type": "string",
+            "default": "4 / 5"
+        }
     },
     "supports": {
-        "align": ["wide", "full"],
+        "align": [
+            "wide",
+            "full"
+        ],
         "html": false,
         "spacing": {
             "margin": true,

@@ -1,8 +1,8 @@
 # Switching the store over to Hive
 
-From golden-hive-blocks and CommerceKit to Hive Blocks, on the live store.
-The theme can stay as it is (Shoptimizer included): Hive doesn't depend on
-it, so changing theme is a separate step, whenever you like.
+From golden-hive-blocks and CommerceKit to Hive Blocks, on the live store,
+by hand. The theme can stay as it is (Shoptimizer included): Hive doesn't
+depend on it, so changing theme is a separate step, whenever you like.
 
 Do it on a staging copy first, then on the store, at a quiet hour.
 
@@ -11,58 +11,61 @@ Do it on a staging copy first, then on the store, at a quiet hour.
 1. A full backup of the database (and the uploads), restorable.
 2. WordPress 6.8+, WooCommerce 9.9+, PHP 8.1+.
 3. Install Hive and activate it **next to** golden-hive-blocks and
-   CommerceKit. Until you migrate, the pages still use the old blocks: Hive
-   only adds its own.
+   CommerceKit. Nothing changes on the pages yet: Hive only adds its own
+   blocks.
 
-## The migration
+## The pages
 
-**Hive → Migrazione**, or from the server:
+`pages/` has the store's pages made for Hive: `homepage.html`,
+`chi-siamo.html` and `contatti.html`. They are golden-hive-blocks' pages
+with each block as its Hive block: the same texts, links and pictures.
+For each one:
 
-```bash
-wp hive migrate --dry-run
-```
+1. Open the page in the editor.
+2. ⋮ (top right) → **Editor di codice**.
+3. Select everything, paste the file's content, **Esci dall'editor di
+   codice**, **Aggiorna**.
 
-```bash
-wp hive migrate
-```
+WordPress keeps the page before as a revision.
 
-The dry run (**Prova**) changes nothing and lists what would change. Read
-it, then **Migra**. You can run it again: what's done stays as it is.
+- The size-guide pages (`guida-taglie-*`) use WordPress's own blocks: they
+  stay as they are.
+- Contatti's hero button wrote to a placeholder WhatsApp number
+  (`39INSERISCINUMERO`): the file has the store's.
+- Pictures are by URL, as on the store. Picking one again from the media
+  library (the block's sidebar) gives it its smaller sizes for phones.
+- The heroes have no alignment, as before. **Larghezza piena** in the block
+  toolbar makes one edge to edge.
+- Blocks hidden in the editor stay hidden: the newsletter on the homepage,
+  the authenticity guarantee on Chi siamo. Hive doesn't render a hidden
+  block at all, so its CSS and script don't load either.
 
-| What | Becomes |
-| --- | --- |
-| `golden-hive/*` blocks in pages, posts, templates, template parts, synced patterns, block widgets | the matching `hive/*` blocks, attributes carried over (each page keeps a revision of before) |
-| `[gh_product_rail]`, `[carousel_section]`, `[product_carousel]`, `[bestsellers]`, `[new_arrivals]`, `[on_sale]`, `[featured_products]` | `[hive_product_rail]` with the same choice of products |
-| `[gh_size_rail]`, `[gh_bank_details]` | `[hive_size_rail]`, `[hive_bank_details]` |
-| `[gh_filters]`, `[bfl_filters]` | removed: the shop's pages have their filters (Hive → Impostazioni → Negozio) |
-| Customizer and GH Preload settings (WhatsApp number, shape, filters layout, sold out last, product page extras, delivery estimate, preload) | Hive → Impostazioni, for settings you haven't already changed there |
-| Drops (`_ghb_drop_*`) | Hive's drops, release scheduled |
-| Newsletter and size-alert subscribers | Hive → Iscritti, with their confirmations, sizes and brands; links in emails already sent keep working |
-| CommerceKit waitlist | Hive's waitlist, still active (see below) |
-| CommerceKit size guides | drafts in Hive → Guide alle taglie |
-| CommerceKit order bumps | drafts in Hive → Offerte al checkout |
+## By hand
 
-What's left to do by hand is in the list: a block with no Hive
-counterpart, a table it couldn't read, additional CSS (Customizer or Site
-Editor) written for golden-hive-blocks' `gh-` / `ghb-` classes, which
-Hive's markup doesn't have.
-
-### CommerceKit
-
-Its data isn't documented, so the migration looks at what's in the
-database and the dry run says what it found: tables, settings, product
-data. It brings over:
-
-- **Waitlist**: each request not answered yet, as a Hive wait on the same
-  product and size. These people asked to be told, so their waits are
-  active without a confirmation email, as with CommerceKit. Addresses that
-  switched Hive's alerts off are left alone.
-- **Size guides**: as drafts. Give each the categories and brands it is for
-  (Hive picks the most specific guide), then publish.
-- **Order bumps**: as drafts. Choose the carts' categories, then publish.
-
-Swatches, the gallery, the sticky bar and the stock meter are settings in
-Hive (Hive → Impostazioni → Pagina prodotto). Nothing to move.
+- **Hive → Impostazioni**: the WhatsApp number, corners, the filters'
+  layout, sold-out last, the product page extras, the delivery estimate
+  (cutoff time, days) and, under **Velocità**, the files to preload: what
+  golden-hive-blocks had in the Customizer and in Tools → GH Preload.
+- **Size guides** (CommerceKit's go): Hive → Guide alle taglie, one per
+  guide page (`guida-taglie-*`). Copy the page's content into a new guide,
+  choose its categories and brands (Hive picks the most specific one for
+  each product), publish. The product page's "Guida alle taglie" opens it.
+- **Order bump** (CommerceKit's goes): Hive → Offerte al checkout, the
+  product to offer and the carts' categories.
+- **Drops**: a product with a release date in golden-hive-blocks gets it
+  again in Product data → General (**Drop: uscita**, **Blocca fino al
+  drop**).
+- **People**: golden-hive-blocks' newsletter and size-alert subscribers,
+  and CommerceKit's waitlist, stay in those plugins' records. Hive starts
+  its own list (Hive → Iscritti).
+- **Code Snippets**: look through the active snippets for golden-hive-blocks'
+  functions (`ghb_…`) or CommerceKit's (`commercekit…`): they break once
+  those plugins are off. A snippet that adds to WooCommerce's product lists
+  (`woocommerce_…_shop_loop_item…` hooks) shows nothing on Hive's cards and
+  shop pages, which don't run those hooks.
+- **Additional CSS** (Customizer or Site Editor) written for
+  golden-hive-blocks' `gh-` / `ghb-` classes: Hive's markup doesn't have
+  them, so rewrite those rules on the `hive-` classes or drop them.
 
 ## What looks different
 
@@ -82,30 +85,20 @@ On purpose, so you know what to expect when you check:
 - **Default texts** that were English or misspelled are Italian and
   correct where a block never had its own ("Autenticità certificata",
   "Autenticità"); a Legit check button pointing nowhere (`#`) isn't drawn.
-  Heroes and calls to action keep exactly the texts they showed.
 - **A section around a shortcode** that prints nothing is not drawn at
   all (golden-hive-blocks drew its heading anyway).
 - **Prodotto in evidenza** shows a real product, its price and its add to
-  cart button, instead of a typed price and link: the migration finds the
-  product from the old link or the exact name, or tells you to pick it.
-- **Slider categorie** shows the store's categories, each with its own
-  picture (WooCommerce → Prodotti → Categorie → Miniatura), or a product's
-  photo; the migration matches the typed list to them and names what it
-  couldn't match. **Brand in scorrimento** takes the logos from the media
-  library.
+  cart button, instead of a typed price and link.
 - **Popup promozionale** shows once per visitor; **Acquisti recenti** a
   few times per browser session, never in the cart or the checkout.
 
 ## After
 
 1. Deactivate **golden-hive-blocks**, **CommerceKit** and **Relevanssi
-   Live Ajax Search** (Plugins), once the snippets the dry run named are
-   seen to (see below).
+   Live Ajax Search** (Plugins), once the snippets above are seen to.
 2. Hive → Impostazioni: check everything, then the modules you use.
-3. Hive → Guide alle taglie and Hive → Offerte al checkout: publish the
-   imported drafts.
-4. Purge the page cache and the CDN.
-5. Check, logged out and on a phone:
+3. Purge the page cache and the CDN.
+4. Check, logged out and on a phone:
    - the home page and the pages with blocks
    - the catalog and its filters, a category, a brand, the search
    - a product: gallery, sizes, add to cart, sticky bar, size guide,
@@ -113,21 +106,21 @@ On purpose, so you know what to expect when you check:
    - cart, checkout (the offer, the bank details), an order
    - the newsletter: sign up, the confirmation email, the link
    - the Store Hub app: rails and previews
-6. Filtered and sorted URLs don't change (both use WooCommerce's own
+5. Filtered and sorted URLs don't change (both use WooCommerce's own
    parameters), so links and search results keep working.
 
 ## The store's other plugins
 
 | Plugin | With Hive |
 | --- | --- |
-| CommerceKit | Off: Hive does the parts the store used (gallery, swatches, sticky bar, stock meter, size guides, waitlist, order bump), and the migration brings its data. |
+| CommerceKit | Off: Hive does the parts the store used (gallery, swatches, sticky bar, stock meter, size guides, waitlist, order bump). |
 | Relevanssi | Keep: Hive's live search searches its index. |
 | Relevanssi Live Ajax Search | Off: Hive's live search replaces it, on an address the CDN can cache (it asks WordPress at every keystroke, past the caches). |
 | WP Super Cache | Keep, set up as below. Hive empties it when it must (a design setting, a drop out, a Store Hub edit). |
 | Modern Image Formats | Keep: it makes the photos AVIF/WebP and Hive shows them as WordPress gives them. Its `<picture>` option is fine too (Hive's layout ignores the wrapper). Photos uploaded before it get modern versions when their sizes are regenerated. |
 | Abandoned Cart Lite | Keep: carts go through WooCommerce's own add to cart, and the checkout stays WooCommerce's, so it sees them as before. Its reminder emails need WP-Cron (below). |
-| Code Snippets | Keep, but read the dry run: it names the active snippets that call golden-hive-blocks or CommerceKit (they break when those go) or add to WooCommerce's product lists (Hive's cards and shop pages don't run those hooks). |
-| Hustle | Keep for now. Hive's Popup promozionale and Newsletter cover a popup with a coupon and the signup; the rest is planned (ROADMAP). |
+| Code Snippets | Keep; look through the snippets as above. |
+| Hustle | Keep for now (the homepage embeds its form). Hive's Popup promozionale and Newsletter cover a popup with a coupon and the signup; the rest is planned (ROADMAP). |
 
 The theme's search field can open Hive's live search: name it in a snippet,
 for example `add_filter('hive_search_trigger_selector', fn() =>
@@ -165,6 +158,5 @@ WordPress shows the product on sale. In WP Super Cache's settings:
 
 ## Going back
 
-Reactivate golden-hive-blocks and CommerceKit. Pages can go back to their
-revision from before the migration, but subscribers and drops have moved
-to Hive's records: for a full return, restore the backup.
+Reactivate golden-hive-blocks and CommerceKit, and put each page back to
+its revision from before (the page's **Revisioni**).

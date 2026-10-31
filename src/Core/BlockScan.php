@@ -16,8 +16,20 @@ final class BlockScan
     private const MAX_DEPTH = 5;
 
     /**
-     * Names of every block in parsed content, inner blocks and synced
-     * patterns (core/block) included, each once.
+     * Whether the editor hid the block (its toolbar's "Nascondi", WordPress
+     * 6.9+): nothing of it shows, inner blocks included. Hidden only on some
+     * screens (a viewport list, WordPress 7.0+) isn't hidden: it renders,
+     * and CSS hides it there.
+     */
+    public static function hidden(mixed $block): bool
+    {
+        return is_array($block) && false === ($block['attrs']['metadata']['blockVisibility'] ?? null);
+    }
+
+    /**
+     * Names of every block in parsed content that shows, inner blocks and
+     * synced patterns (core/block) included, each once. A hidden block, and
+     * what's in it, isn't counted.
      *
      * @param array    $blocks parse_blocks() output.
      * @param callable $synced fn(int $ref): array, the parsed blocks of a synced pattern.
@@ -28,7 +40,7 @@ final class BlockScan
         $names = [];
         foreach ($blocks as $block) {
             $name = is_array($block) ? ($block['blockName'] ?? null) : null;
-            if (!is_string($name)) {
+            if (!is_string($name) || self::hidden($block)) {
                 continue;
             }
             $names[$name] = true;
