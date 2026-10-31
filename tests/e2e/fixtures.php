@@ -8,6 +8,9 @@ wp_set_current_user(1);
 
 // WooCommerce: no setup wizard, no redirect to it on the first admin page.
 delete_transient('_wc_activation_redirect');
+// Its attribute lookup table kept up to date as products are saved, not by a scheduled
+// job (nothing runs by itself on the e2e site): WooCommerce's own lists filter with it.
+update_option('woocommerce_attribute_lookup_direct_updates', 'yes');
 update_option('woocommerce_onboarding_profile', ['skipped' => true]);
 
 $hive_classic = !wp_is_block_theme();
