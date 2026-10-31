@@ -4,7 +4,7 @@
 import { expect, test } from '@playwright/test';
 import { hiveErrors } from './helpers.mjs';
 
-test('the homepage: carousel, brands, sections, FAQ, newsletter, the visit', async ({ page }) => {
+test('the homepage: carousel, brands, sections, FAQ, the visit; the hidden newsletter, not at all', async ({ page }) => {
     const errors = hiveErrors(page);
     await page.goto('/?pagename=negozio-home');
     await expect(page.locator('.hive-hero-carousel')).toHaveCount(1);
@@ -12,14 +12,16 @@ test('the homepage: carousel, brands, sections, FAQ, newsletter, the visit', asy
     await expect(page.locator('.hive-category-slider__link').first()).toHaveAttribute('href', /\/marchio\/asics$/);
     await expect(page.locator('.hive-brand-marquee__title')).toHaveText('SHOP BY BRAND');
     await expect(page.locator('.hive-brand-marquee img.hive-brand-marquee__logo').first()).toHaveAttribute('src', /Logo_NIKE\.png$/);
-    await expect(page.getByText('La tua taglia, appena arriva')).toBeVisible();
+    // Hidden in the editor: not drawn, and neither its CSS nor its script comes with the page (WordPress 6.8 too).
+    await expect(page.locator('.hive-newsletter')).toHaveCount(0);
+    await expect(page.locator('link[href*="/blocks/newsletter/"], script[src*="/blocks/newsletter/"]')).toHaveCount(0);
     await expect(page.getByText('Come posso essere sicuro che i prodotti siano autentici?')).toBeVisible();
     await expect(page.locator('.hive-visit')).toHaveCount(1);
     await expect(page.locator('[class*="golden-hive"], [class^="gh-"], [class*=" gh-"]')).toHaveCount(0);
     expect(errors).toEqual([]);
 });
 
-test('Chi siamo: the video hero, the story, the boutique, the promise', async ({ page }) => {
+test('Chi siamo: the video hero, the story, the boutique; the hidden guarantee, not at all', async ({ page }) => {
     const errors = hiveErrors(page);
     await page.goto('/?pagename=negozio-chi-siamo');
     await expect(page.locator('h1.hive-hero__title')).toContainText('BORN in');
@@ -29,6 +31,8 @@ test('Chi siamo: the video hero, the story, the boutique, the promise', async ({
     await expect(page.getByRole('heading', { name: 'LIMITED EDITION SNEAKERS' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Resta in Contatto' })).toBeVisible();
     await expect(page.locator('#chi-siamo')).toHaveCount(1);
+    await expect(page.locator('.hive-authenticity')).toHaveCount(0);
+    await expect(page.locator('link[href*="/blocks/authenticity-guarantee/"]')).toHaveCount(0);
     expect(errors).toEqual([]);
 });
 

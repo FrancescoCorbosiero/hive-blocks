@@ -36,6 +36,9 @@ WordPress keeps the page before as a revision.
   library (the block's sidebar) gives it its smaller sizes for phones.
 - The heroes have no alignment, as before. **Larghezza piena** in the block
   toolbar makes one edge to edge.
+- Blocks hidden in the editor stay hidden: the newsletter on the homepage,
+  the authenticity guarantee on Chi siamo. Hive doesn't render a hidden
+  block at all, so its CSS and script don't load either.
 
 ## By hand
 
