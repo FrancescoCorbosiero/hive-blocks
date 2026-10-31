@@ -55,8 +55,13 @@ switch-over (step 9).
    details in a dialog with one-tap copy. Classic checkout first (as on the
    store); on the Checkout block the bump sits above it and adds through
    WooCommerce's cart store.
-7. **Content blocks:** the other 28 blocks, merged where they overlap (the
-   hero blocks into one Hero with variations, the two CTAs into one).
+7. **Content blocks** (0.7.0, done): 27 of the other 28 blocks (the
+   newsletter is step 8's) as 23: the four heroes into one Hero
+   (Copertina, Diviso, Chi siamo), the two calls to action into one
+   (Banner, Immagine e testo), the rest one to one. Maps,
+   videos and third parties wait for the visitor; the FAQ's structured
+   data comes from the server; the countdowns and "Acquisti recenti" are
+   worked out in the browser, so cached pages stay true.
 8. **Store Hub bridge, search, newsletter, preload:** the `wc-gh/v1` API
    unchanged at first; live search on its own endpoint (Relevanssi when
    present, without its Live Ajax Search add-on); newsletter; preload and
