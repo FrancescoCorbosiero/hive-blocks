@@ -133,3 +133,8 @@ add_action(
         );
     }
 );
+
+// More helpers, one file per area (tests/e2e/mu/*.php).
+foreach (glob(__DIR__ . '/mu/*.php') ?: [] as $hive_e2e_file) {
+    require $hive_e2e_file;
+}
