@@ -226,7 +226,6 @@ test('the size guide opens in a dialog', async ({ page }) => {
     expect(errors).toEqual([]);
 });
 
-<<<<<<< HEAD
 test('a sold-out size offers "Avvisami", posted without leaving the page', async ({ page }) => {
     const errors = await open(page);
     let posted = '';
@@ -330,7 +329,8 @@ test('a drop counts down to the second, then the page reloads', async ({ page })
     const reloaded = page.waitForEvent('load');
     await page.clock.runFor('00:08');
     await reloaded;
-=======
+});
+
 test('sticky bar: a jump from above the button to past it (an anchor, a restored scroll) still shows it', async ({ page }) => {
     // Short screen: the button starts below it, never in view on the way down.
     await page.setViewportSize({ width: 1280, height: 320 });
@@ -340,5 +340,4 @@ test('sticky bar: a jump from above the button to past it (an anchor, a restored
     await add(page).evaluate((node) => window.scrollTo({ top: node.getBoundingClientRect().bottom + window.scrollY + 40, behavior: 'instant' }));
     await expect(bar).toHaveClass(/is-visible/);
     await expect(bar).toHaveAttribute('data-state', 'past');
->>>>>>> claude/step-4-product-page
 });
