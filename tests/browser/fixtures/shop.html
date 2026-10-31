@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schede prodotto — fixture</title>
+    <!-- What WordPress prints: the import map, the modules' data, the shop's CSS. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@hive/buy": "/assets/build/modules/buy.js",
+            "@hive/cards": "/assets/build/modules/cards.js",
+            "@hive/dialog": "/assets/build/modules/dialog.js",
+            "@hive/dom": "/assets/build/modules/dom.js",
+            "@hive/picker": "/assets/build/modules/picker.js",
+            "@hive/quick-add": "/assets/build/modules/quick-add.js",
+            "@hive/quick-view": "/assets/build/modules/quick-view.js",
+            "@hive/rail": "/assets/build/modules/rail.js",
+            "@hive/shop": "/assets/build/modules/shop.js",
+            "@hive/variations": "/assets/build/modules/variations.js"
+        }
+    }
+    </script>
+    <script type="application/json" id="wp-script-module-data-@hive/shop">{"api":"/api/","v":7,"cart":"/cart-endpoint","cartUrl":"/carrello/","whatsapp":"393331234567"}</script>
+    <script type="application/json" id="wp-script-module-data-@hive/dialog">{"style":"/assets/build/dialog.css"}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/assets/build/shop.css">
+    <!-- A theme that styles lists and buttons, as most do. -->
+    <style>
+        body { margin: 0 auto; max-width: 1100px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        ul { margin: 0 0 2em 2em; padding-left: 1em; list-style: disc; }
+        button { background: #eee; color: #333; border-radius: 0; padding: 4px; }
+    </style>
+</head>
+<body>
+<header><span class="cart-count">0</span></header>
+<main>
+    <!-- Hive\Shop\Card's output: a variable product on sale, a simple one, a sold-out one, and one the size filter matched. -->
+    <ul class="hive-block hive-grid" style="--hive-grid-cols:4" role="list">
+        <li class="hive-card is-variable is-on-sale" data-product-id="101">
+            <div class="hive-card__media"><img class="hive-card__image" src="/tests/browser/fixtures/sneaker.svg" alt="" width="600" height="600"><p class="hive-card__badges"><span class="hive-card__badge is-sale">Fino a -20%</span></p><button type="button" class="hive-card__peek" data-hive-quick-view="101" aria-label="Anteprima rapida: Nike Dunk Low Panda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5C6.5 5 2.7 9.4 1.5 12c1.2 2.6 5 7 10.5 7s9.3-4.4 10.5-7C21.3 9.4 17.5 5 12 5Z"/></svg></button></div>
+            <div class="hive-card__body"><p class="hive-card__brand">Nike</p><h3 class="hive-card__title"><a class="hive-card__link" href="/prodotto/nike-dunk/">Dunk Low Panda</a></h3><div class="hive-card__price"><span class="amount">150,00 €</span> – <span class="amount">180,00 €</span></div></div>
+            <div class="hive-card__actions"><button type="button" class="hive-button hive-card__add" data-hive-add="101" data-hive-pick>Aggiungi al carrello</button></div>
+        </li>
+        <li class="hive-card is-simple" data-product-id="102">
+            <div class="hive-card__media"><img class="hive-card__image" src="/tests/browser/fixtures/sneaker.svg" alt="" width="600" height="600"></div>
+            <div class="hive-card__body"><h3 class="hive-card__title"><a class="hive-card__link" href="/prodotto/calzini/">Calzini Hive</a></h3><div class="hive-card__price">15,00 €</div></div>
+            <div class="hive-card__actions"><button type="button" class="hive-button hive-card__add" data-hive-add="102">Aggiungi al carrello</button></div>
+        </li>
+        <li class="hive-card is-sold-out" data-product-id="103">
+            <div class="hive-card__media"><img class="hive-card__image" src="/tests/browser/fixtures/sneaker.svg" alt="" width="600" height="600"><p class="hive-card__badges"><span class="hive-card__badge is-sold-out">Esaurito</span></p></div>
+            <div class="hive-card__body"><h3 class="hive-card__title"><a class="hive-card__link" href="/prodotto/felpa/">Felpa esaurita</a></h3></div>
+            <div class="hive-card__actions"><span class="hive-button hive-card__add is-disabled" aria-disabled="true">Esaurito</span></div>
+        </li>
+        <li class="hive-card is-variable" data-product-id="101" id="filtered">
+            <div class="hive-card__media"><img class="hive-card__image" src="/tests/browser/fixtures/sneaker.svg" alt="" width="600" height="600"><button type="button" class="hive-card__peek" data-hive-quick-view="101" data-hive-size="1013" aria-label="Anteprima rapida: Nike Dunk Low Panda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5C6.5 5 2.7 9.4 1.5 12"/></svg></button></div>
+            <div class="hive-card__body"><h3 class="hive-card__title"><a class="hive-card__link" href="/prodotto/nike-dunk/">Dunk Low Panda</a></h3><p class="hive-card__match">Taglia 42 · 180,00 €</p></div>
+            <div class="hive-card__actions"><button type="button" class="hive-button hive-card__add" data-hive-add="101" data-hive-pick data-hive-size="1013">Aggiungi al carrello</button></div>
+        </li>
+    </ul>
+
+    <!-- Hive\Shop\Rail's output: more cards than fit. -->
+    <section class="hive-block hive-rail hive-rail--fit-contain" style="--hive-rail-cols:4;--hive-card-ratio:1 / 1;">
+        <div class="hive-rail__head"><h2 class="hive-rail__title">Novità</h2></div>
+        <div class="hive-rail__viewport">
+            <button type="button" class="hive-rail__nav" data-dir="-1" aria-label="Prodotti precedenti" hidden><svg viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></svg></button>
+            <ul class="hive-rail__track" role="list" id="rail-track"></ul>
+            <button type="button" class="hive-rail__nav" data-dir="1" aria-label="Prodotti successivi" hidden><svg viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></svg></button>
+        </div>
+    </section>
+</main>
+<script>
+    // Eight simple cards for the rail.
+    const track = document.getElementById('rail-track');
+    for (let i = 1; i <= 8; i++) {
+        track.insertAdjacentHTML('beforeend', `<li class="hive-card is-simple"><div class="hive-card__media"><img class="hive-card__image" src="/tests/browser/fixtures/sneaker.svg" alt="" width="600" height="600"></div><div class="hive-card__body"><h3 class="hive-card__title"><a class="hive-card__link" href="#p${i}">Prodotto ${i}</a></h3></div></li>`);
+    }
+</script>
+<script type="module" src="/assets/build/modules/cards.js"></script>
+<script type="module" src="/assets/build/modules/rail.js"></script>
+</body>
+</html>

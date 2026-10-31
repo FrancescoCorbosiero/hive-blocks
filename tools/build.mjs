@@ -8,7 +8,7 @@
  *   blocks/<name>/edit.js        → build/edit.js     editor script: classic, WordPress globals
  *   blocks/<name>/view.js        → build/view.js     front-end script module, @hive/* left as imports
  *   blocks/<name>/style.css      → build/style.css
- *   assets/base.css              → assets/build/base.css
+ *   assets/<name>.css            → assets/build/<name>.css           style hive-<name>
  *   assets/modules/<name>.js     → assets/build/modules/<name>.js   script module @hive/<name>
  *   assets/editor/index.js       → assets/build/editor.js           script hive-editor (window.hive.editor)
  *
@@ -182,7 +182,9 @@ async function build() {
     const assets = path.join(root, 'assets');
     const assetsOut = path.join(assets, 'build');
     rmSync(assetsOut, { recursive: true, force: true });
-    jobs.push(stylesheet(path.join(assets, 'base.css'), path.join(assetsOut, 'base.css')));
+    for (const file of files(assets, '.css')) {
+        jobs.push(stylesheet(path.join(assets, file), path.join(assetsOut, file)));
+    }
     for (const file of files(path.join(assets, 'modules'), '.js')) {
         jobs.push(scriptModule(path.join(assets, 'modules', file), path.join(assetsOut, 'modules', file)));
     }

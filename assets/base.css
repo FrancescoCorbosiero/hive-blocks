@@ -14,7 +14,14 @@
     /* Brand (from the settings) */
     --hive-accent: #721124;
     --hive-on-accent: #ffffff;
+    --hive-button: #0a0a0a;
+    --hive-on-button: #ffffff;
     --hive-round: 1;
+
+    /* Panels that float over the page (dialogs, sheets) and product photos */
+    --hive-surface: #ffffff;
+    --hive-ink: #0a0a0a;
+    --hive-media: #ffffff;
 
     /* Mixed from the surrounding text colour */
     --hive-line: color-mix(in srgb, currentColor 14%, transparent);
@@ -81,6 +88,61 @@
 .hive-block :focus-visible {
     outline: 2px solid var(--hive-accent);
     outline-offset: 2px;
+}
+
+/* Buttons: the colour from the settings (Hive → Aspetto), the theme's font. */
+.hive-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    min-height: 2.75rem;
+    margin: 0;
+    padding: 0.625rem 1.25rem;
+    border: 1px solid var(--hive-button);
+    border-radius: var(--hive-radius-md);
+    background: var(--hive-button);
+    color: var(--hive-on-button);
+    font: inherit;
+    font-size: var(--hive-text-sm);
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color var(--hive-duration) var(--hive-ease),
+        border-color var(--hive-duration) var(--hive-ease),
+        opacity var(--hive-duration) var(--hive-ease);
+}
+
+/* Links styled as buttons keep their colours against a theme's content link rules. */
+.hive-button,
+.hive-block .hive-button,
+.hive-block .hive-button:hover,
+.hive-block .hive-button:visited {
+    color: var(--hive-on-button);
+    text-decoration: none;
+}
+
+.hive-button:hover {
+    background: color-mix(in srgb, var(--hive-button) 82%, var(--hive-on-button));
+}
+
+.hive-button:focus-visible {
+    outline: 2px solid var(--hive-accent);
+    outline-offset: 2px;
+}
+
+.hive-button:disabled,
+.hive-button.is-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.hive-button:disabled:hover,
+.hive-button.is-disabled:hover {
+    background: var(--hive-button);
 }
 
 .hive-visually-hidden {

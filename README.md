@@ -30,7 +30,27 @@ ZIP from GitHub) and activate it. Settings: **Hive** in the admin menu.
 
 | Block | What it does |
 |---|---|
+| Rail di prodotti (`hive/product-rail`) | A row of product cards that scrolls sideways: newest, best sellers, on sale, featured, top rated, a category, a brand, a tag or chosen products. Pinned, excluded and fallback order as the Store Hub sets them. Also `[hive_product_rail]`. |
 | Orari del negozio (`hive/store-hours`) | Opening hours with "Aperto ora · chiude alle 19:30", today's row, Italian holidays and closed dates. |
+
+## Modules
+
+Features that hook into WooCommerce; each can be switched off in **Hive → Moduli**.
+
+| Module | What it does |
+|---|---|
+| Schede prodotto | WooCommerce's product lists (shop, categories, search, related products) show Hive's cards in Hive's grid. |
+| Anteprima rapida | The eye button on a card opens photos, sizes, price and add to cart in a dialog. |
+| Aggiunta rapida | On a product with sizes, "Aggiungi al carrello" opens the size choice instead of the product page. |
+
+## Caching and the CDN
+
+Pages are the same for every visitor, so the full-page cache and the CDN
+can serve them. Product data for Quick View and Quick Add comes from
+`GET /wp-json/hive/v1/product/{id}?v={n}`, which sends `Cache-Control` with a
+long `s-maxage`: add a CDN rule that caches `/wp-json/hive/v1/` GET requests
+and they never reach PHP twice. `v` changes whenever products do, so a
+cached answer is never stale for long.
 
 ## Development
 

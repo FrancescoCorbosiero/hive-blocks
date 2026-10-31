@@ -19,12 +19,17 @@ final class SettingsSchema
      *
      *   color   '#rrggbb'
      *   choice  one of 'choices'
+     *   key     a taxonomy or attribute name: a-z, 0-9, _ and -, up to 32
+     *   phone   digits only, 6 to 15 (international format without +), or ''
      *   flags   [key => bool], e.g. which modules are on
      */
     public const FIELDS = [
-        'accent'  => ['type' => 'color', 'default' => '#721124'],
-        'shape'   => ['type' => 'choice', 'default' => 'round', 'choices' => ['round', 'sharp']],
-        'modules' => ['type' => 'flags', 'default' => []],
+        'accent'         => ['type' => 'color', 'default' => '#721124'],
+        'button'         => ['type' => 'color', 'default' => '#0a0a0a'],
+        'shape'          => ['type' => 'choice', 'default' => 'round', 'choices' => ['round', 'sharp']],
+        'size_attribute' => ['type' => 'key', 'default' => 'pa_taglia'],
+        'whatsapp'       => ['type' => 'phone', 'default' => ''],
+        'modules'        => ['type' => 'flags', 'default' => []],
     ];
 
     /** @return array<string, mixed> */
@@ -57,6 +62,13 @@ final class SettingsSchema
 
             case 'choice':
                 return is_string($value) && in_array($value, $field['choices'], true) ? $value : $field['default'];
+
+            case 'key':
+                return is_string($value) && 1 === preg_match('/^[a-z0-9_-]{1,32}$/', $value) ? $value : $field['default'];
+
+            case 'phone':
+                $digits = is_string($value) ? (string) preg_replace('/\D/', '', $value) : '';
+                return 1 === preg_match('/^\d{6,15}$/', $digits) ? $digits : $field['default'];
 
             case 'flags':
                 $flags = [];

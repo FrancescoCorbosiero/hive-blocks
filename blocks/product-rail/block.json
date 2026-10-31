@@ -1,0 +1,44 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/product-rail",
+    "title": "Rail di prodotti",
+    "category": "hive",
+    "icon": "products",
+    "description": "Una fila di prodotti che scorre di lato: novità, più venduti, saldi, una categoria o una marca. L’ordine si può gestire dallo Store Hub.",
+    "keywords": ["prodotti", "carosello", "rail", "novità", "saldi"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "title": { "type": "string", "default": "" },
+        "type": { "type": "string", "default": "recent" },
+        "category": { "type": "string", "default": "" },
+        "brand": { "type": "string", "default": "" },
+        "tag": { "type": "string", "default": "" },
+        "ids": { "type": "string", "default": "" },
+        "pin": { "type": "string", "default": "" },
+        "exclude": { "type": "string", "default": "" },
+        "fallback": { "type": "string", "default": "" },
+        "limit": { "type": "number", "default": 12 },
+        "columns": { "type": "number", "default": 4 },
+        "columns_tablet": { "type": "number", "default": 0 },
+        "columns_mobile": { "type": "number", "default": 0 },
+        "ratio": { "type": "string", "default": "square" },
+        "fit": { "type": "string", "default": "contain" },
+        "show_all": { "type": "boolean", "default": true },
+        "link": { "type": "string", "default": "" }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "hive-shop",
+    "viewStyle": "hive-shop",
+    "viewScriptModule": "@hive/rail",
+    "render": "file:./render.php"
+}

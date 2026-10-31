@@ -68,7 +68,12 @@ final class Settings
 
         add_settings_section('look', 'Aspetto', [self::class, 'look_intro'], self::PAGE);
         add_settings_field('hive-accent', 'Colore principale', [self::class, 'accent_field'], self::PAGE, 'look', ['label_for' => 'hive-accent']);
+        add_settings_field('hive-button', 'Colore dei pulsanti', [self::class, 'button_field'], self::PAGE, 'look', ['label_for' => 'hive-button']);
         add_settings_field('hive-shape', 'Forma degli elementi', [self::class, 'shape_field'], self::PAGE, 'look');
+
+        add_settings_section('store', 'Negozio', [self::class, 'store_intro'], self::PAGE);
+        add_settings_field('hive-size-attribute', 'Attributo della taglia', [self::class, 'size_attribute_field'], self::PAGE, 'store', ['label_for' => 'hive-size-attribute']);
+        add_settings_field('hive-whatsapp', 'Numero WhatsApp', [self::class, 'whatsapp_field'], self::PAGE, 'store', ['label_for' => 'hive-whatsapp']);
 
         $modules = Modules::all();
         if ($modules) {
@@ -112,6 +117,47 @@ final class Settings
             esc_attr(self::OPTION),
             esc_attr((string) self::get('accent')),
             'Pulsanti, badge e dettagli in evidenza. Il testo sopra questo colore diventa bianco o nero da solo, per restare leggibile.'
+        );
+    }
+
+    public static function button_field(): void
+    {
+        printf(
+            '<input type="color" id="hive-button" name="%s[button]" value="%s"><p class="description">%s</p>',
+            esc_attr(self::OPTION),
+            esc_attr((string) self::get('button')),
+            '«Aggiungi al carrello» e gli altri pulsanti principali. Anche qui il testo si adatta da solo.'
+        );
+    }
+
+    public static function store_intro(): void
+    {
+        echo '<p>I dati del negozio che le funzioni di Hive usano.</p>';
+    }
+
+    public static function size_attribute_field(): void
+    {
+        $current    = (string) self::get('size_attribute');
+        $attributes = function_exists('wc_get_attribute_taxonomies') ? wc_get_attribute_taxonomies() : [];
+        if (!$attributes) {
+            printf('<input type="text" id="hive-size-attribute" name="%s[size_attribute]" value="%s" class="regular-text">', esc_attr(self::OPTION), esc_attr($current));
+            return;
+        }
+        printf('<select id="hive-size-attribute" name="%s[size_attribute]">', esc_attr(self::OPTION));
+        foreach ($attributes as $attribute) {
+            $name = 'pa_' . $attribute->attribute_name;
+            printf('<option value="%s"%s>%s</option>', esc_attr($name), selected($current, $name, false), esc_html($attribute->attribute_label . ' (' . $name . ')'));
+        }
+        echo '</select><p class="description">Le taglie scelte nelle schede, nell’anteprima rapida e nei filtri.</p>';
+    }
+
+    public static function whatsapp_field(): void
+    {
+        printf(
+            '<input type="text" id="hive-whatsapp" name="%s[whatsapp]" value="%s" class="regular-text" inputmode="tel" placeholder="393331234567"><p class="description">%s</p>',
+            esc_attr(self::OPTION),
+            esc_attr((string) self::get('whatsapp')),
+            'Con il prefisso internazionale, es. 393331234567. Vuoto toglie «Chiedi su WhatsApp».'
         );
     }
 

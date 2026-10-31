@@ -21,10 +21,12 @@ switch-over (step 9).
 1. **Skeleton** (0.1.0, done): plugin core, settings (Hive → Aspetto),
    design tokens, per-block asset loading, build, tests, CI on a block theme
    and a classic one, and the Orari block as the pilot.
-2. **Product card and its actions:** one card for rails, grid, search,
-   Quick View, colorways and recently viewed; the loop add-to-cart with the
-   size picker; Quick Add; Quick View; product rails, including the Store
-   Hub's pin / exclude / fallback; size matching ("Taglia 42 · 180 €").
+2. **Product card and its actions** (0.2.0, done): one card for every
+   product list, WooCommerce's lists included (module Schede prodotto);
+   add to cart on the card; Quick Add and Quick View, loaded on first use,
+   fed by a cacheable REST read; the product rail block with the Store Hub's
+   pin / exclude / fallback; size matching ("Taglia 42 · 180 €"); settings
+   for the button colour, the size attribute and the WhatsApp number.
 3. **Catalog:** the shop and category pages from the plugin's own template
    (`register_block_template()` on block themes; between `get_header()` and
    `get_footer()` on classic ones). Filters as GET URLs, so every

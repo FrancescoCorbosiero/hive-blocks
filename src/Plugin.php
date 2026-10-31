@@ -18,7 +18,15 @@ final class Plugin
         Cache::register();
         Assets::register();
         Blocks::register();
-        Modules::register();
+
+        // The shop needs WooCommerce (required by the plugin header; this keeps a site
+        // whose WooCommerce went missing from a fatal error).
+        if (class_exists('WooCommerce')) {
+            Shop\Store::register();
+            Shop\ProductData::register();
+            Shop\Rail::register();
+            Modules::register();
+        }
     }
 
     /** Absolute path of a file in the plugin. */

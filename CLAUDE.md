@@ -36,6 +36,17 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   both get tests.
 - **Modules** are features that can be switched off in Hive → Moduli: a
   class implementing `Hive\Module`, listed in `Modules::BUILT_IN`.
+- **Products.** Every list of products uses `Hive\Shop\Card` (one card,
+  Hive's markup, none of WooCommerce's loop hooks); rails go through
+  `Hive\Shop\Rail` and `RailQuery`, whose ordering rules (`Core\RailOrder`)
+  the Store Hub app mirrors: change them only together with the app.
+- **Public reads** are REST GETs under `hive/v1` (see `Shop\ProductData`):
+  `Cache-Control` set, and the catalog generation (`Shop\Store::generation()`,
+  bumped when products change) in the URL as `?v=`, so caches can keep the
+  answer long. Cart writes use WooCommerce's own `wc-ajax=add_to_cart`.
+- **Interactive UI** that opens on demand (dialogs, sheets) loads on demand:
+  a dynamic `import()` from the module that handles the click, and
+  `@hive/dialog` brings `dialog.css` the first time a dialog opens.
 - **Build.** `npm ci && npm run build` (esbuild, `tools/build.mjs`). Commit
   the output: the plugin runs from the repository as is, and CI fails when
   the build doesn't match the sources. Versions are content hashes in the
