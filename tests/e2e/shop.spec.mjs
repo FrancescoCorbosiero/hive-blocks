@@ -19,6 +19,7 @@ test('a rail of Hive cards: sale badge, sold out, the theme left out', async ({ 
     const rail = page.locator('main .hive-rail');
     await expect(rail.locator('.hive-rail__title')).toHaveText('Novità');
     await expect(rail.locator('.hive-card')).toHaveCount(3);
+    await expect(rail.locator('h3.hive-card__title')).toHaveCount(3);
     await expect(card(rail, 'Nike Dunk Low Panda').locator('.hive-card__badge')).toHaveText('Fino a -17%');
     await expect(card(rail, 'Felpa esaurita').locator('.hive-card__add')).toHaveText('Esaurito');
     expect(errors).toEqual([]);

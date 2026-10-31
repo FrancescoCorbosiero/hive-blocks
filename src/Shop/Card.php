@@ -49,7 +49,8 @@ final class Card
         $url     = $product->get_permalink();
         $name    = wp_strip_all_tags($product->get_name());
         $state   = self::state($product);
-        $heading = in_array($options['heading'] ?? 'h3', ['h2', 'h3', 'h4'], true) ? $options['heading'] : 'h3';
+        $heading = $options['heading'] ?? 'h3';
+        $heading = in_array($heading, ['h2', 'h3', 'h4'], true) ? $heading : 'h3';
         $eager   = $options['eager'] ?? false;
         $matches = $product->is_type('variable') ? Sizes::matching($product, $options['size_filter'] ?? null) : [];
         $brand   = Store::brand($product);
