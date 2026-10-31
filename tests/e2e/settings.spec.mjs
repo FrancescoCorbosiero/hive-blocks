@@ -2,6 +2,9 @@
 import { expect, test } from '@playwright/test';
 import { login, rootVar } from './helpers.mjs';
 
+// wp-admin with WooCommerce asks for many things at once, served one by one (one PHP worker).
+test.slow();
+
 async function saveAccent(page, color) {
     await page.goto('/wp-admin/admin.php?page=hive');
     await expect(page.locator('.wrap > h1')).toHaveText('Hive');
