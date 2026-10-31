@@ -257,8 +257,9 @@ final class Migration
         global $wpdb;
         $map   = self::block_map();
         $codes = self::shortcode_map();
-        // Every post whose content mentions an old block or shortcode, in any status but trash.
-        $like  = ['%' . $wpdb->esc_like('<!-- wp:golden-hive/') . '%'];
+        // Every post whose content mentions an old block or shortcode, or HTML written for
+        // golden-hive-blocks' scripts and styles, in any status but trash.
+        $like  = ['%' . $wpdb->esc_like('<!-- wp:golden-hive/') . '%', '%' . $wpdb->esc_like('data-gh-') . '%', '%' . $wpdb->esc_like('class="gh') . '%'];
         foreach (array_keys($codes) as $tag) {
             $like[] = '%' . $wpdb->esc_like('[' . $tag) . '%';
         }
@@ -277,7 +278,7 @@ final class Migration
             }
             $count   = [];
             $content = serialize_blocks(BlockRules::rewrite(parse_blocks($post->post_content), $map, $codes, $count));
-            $left    = BlockRules::names_in($content);
+            $left    = array_merge(BlockRules::names_in($content), self::hand_written($content));
             $title   = get_the_title($post) ?: '(senza titolo)';
             if ($content === $post->post_content) {
                 if ($left) {
@@ -303,6 +304,20 @@ final class Migration
             }
         }
         return $lines;
+    }
+
+    /**
+     * HTML written by hand for golden-hive-blocks: its data-gh-* hooks (a
+     * modal trigger, say) and gh- / ghb- classes, which nothing answers or
+     * styles once it's gone.
+     *
+     * @return list<string>
+     */
+    private static function hand_written(string $content): array
+    {
+        preg_match_all('/\b(data-gh-[a-z-]+)|class="[^"]*?\b(ghb?-[a-z0-9_-]+)/i', $content, $found);
+        $names = array_values(array_unique(array_filter(array_merge($found[1], $found[2]))));
+        return $names ? ['HTML scritto per golden-hive-blocks (' . implode(', ', array_slice($names, 0, 5)) . (count($names) > 5 ? '…' : '') . ')'] : [];
     }
 
     /** Block widgets (classic themes' sidebars). @return list<string> */
