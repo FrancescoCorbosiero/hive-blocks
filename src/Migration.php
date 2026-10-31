@@ -201,7 +201,7 @@ final class Migration
     private const SAME_NAME = [
         'store-hours', 'newsletter', 'shortcode-wrapper', 'whatsapp-button', 'social-buttons', 'instagram-feed', 'size-chart-modal',
         'trust-badges', 'authenticity-guarantee', 'legit-check', 'faq-schema', 'trustpilot-widget',
-        'drop-calendar', 'hero-carousel',
+        'drop-calendar',
     ];
 
     /** Blocks ported with some attributes gone (Hive does it another way). */
@@ -253,6 +253,8 @@ final class Migration
             'fill' => ['backgroundColor' => '#0a0a0a'],
             'drop' => ['productImage'],
         ],
+        // Hive's carousel is full width unless told otherwise; golden-hive-blocks' had no alignment.
+        'golden-hive/hero-carousel'     => ['name' => 'hive/hero-carousel', 'fill' => ['align' => '']],
         'golden-hive/social-proof'      => ['name' => 'hive/social-proof', 'drop' => ['notifications']],
         'golden-hive/promo-modal'       => ['name' => 'hive/promo-modal', 'drop' => ['imageUrl']],
     ];
@@ -260,12 +262,14 @@ final class Migration
     /**
      * Blocks merged into one Hive block (Hero, Invito all'azione): renamed,
      * attributes mapped, a layout set. 'fill' holds each old block's
-     * defaults, from its block.json: what a page showed without saving them.
+     * defaults, from its block.json: what a page showed without saving them
+     * (no alignment among them: Hive's blocks default to full width).
      */
     private const MERGED = [
         'golden-hive/hero-video'       => [
             'name'  => 'hive/hero',
             'fill'  => [
+                'align'               => '',
                 'mediaType'           => 'image',
                 'badge'               => '100% Authentic',
                 'title'               => 'Sneakers Premium',
@@ -277,22 +281,24 @@ final class Migration
             ],
             'attrs' => ['imageUrlId' => 'imageId', 'primaryButtonText' => 'buttonText', 'primaryButtonUrl' => 'buttonUrl'],
             'drop'  => ['mediaType', 'posterUrl', 'posterUrlId'],
-            'set'   => ['layout' => 'cover', 'height' => 'full', 'overlay' => 45, 'align' => 'full'],
+            'set'   => ['layout' => 'cover', 'height' => 'full', 'overlay' => 45],
         ],
         'golden-hive/parallax-section' => [
             'name'  => 'hive/hero',
             'fill'  => [
+                'align'      => '',
                 'title'      => 'Il Tuo Stile, La Nostra Passione',
                 'text'       => 'Scopri una selezione curata di sneakers e streetwear premium, verificati e garantiti.',
                 'buttonText' => 'Esplora la Collezione',
             ],
             'attrs' => ['backgroundImage' => 'imageUrl', 'backgroundImageId' => 'imageId', 'foregroundImage' => 'foregroundUrl', 'foregroundImageId' => 'foregroundId', 'text' => 'subtitle'],
             'drop'  => ['enableMouseParallax'],
-            'set'   => ['layout' => 'cover', 'height' => 'full', 'overlay' => 60, 'aboveFold' => false, 'badge' => '', 'secondaryButtonText' => '', 'align' => 'full'],
+            'set'   => ['layout' => 'cover', 'height' => 'full', 'overlay' => 60, 'aboveFold' => false, 'badge' => '', 'secondaryButtonText' => ''],
         ],
         'golden-hive/hero-split'       => [
             'name'  => 'hive/hero',
             'fill'  => [
+                'align'      => '',
                 'eyebrow'    => 'Nuova Collezione',
                 'title'      => 'Il Drop Della Settimana',
                 'subtitle'   => 'Pezzi selezionati e autenticati dal nostro team. Disponibilità limitata.',
@@ -301,11 +307,12 @@ final class Migration
             ],
             'attrs' => ['imageUrlId' => 'imageId', 'theme' => 'tone'],
             'map'   => ['theme' => ['light' => 'auto', 'dark' => 'dark']],
-            'set'   => ['layout' => 'split', 'badge' => '', 'secondaryButtonText' => '', 'align' => 'full'],
+            'set'   => ['layout' => 'split', 'badge' => '', 'secondaryButtonText' => ''],
         ],
         'golden-hive/about-hero'       => [
             'name'  => 'hive/hero',
             'fill'  => [
+                'align'   => '',
                 'eyebrow' => 'Chi Siamo',
                 'title'   => 'Born in Piacenza',
                 'text'    => 'Golden Hive nasce dalla passione per le sneakers e lo streetwear. La nostra boutique in Stradone Farnese 3 è il punto di riferimento a Piacenza per chi cerca calzature e abbigliamento autentici, selezionati e verificati.',
@@ -319,11 +326,12 @@ final class Migration
             'attrs' => ['imageUrlId' => 'imageId', 'text' => 'subtitle', 'reverse' => 'mediaSide'],
             // The picture on the right, or on the left when reversed (booleans as the parser gives them).
             'map'   => ['reverse' => ['' => 'right', '1' => 'left']],
-            'set'   => ['layout' => 'about', 'height' => 'auto', 'align' => 'wide', 'aboveFold' => false, 'badge' => '', 'buttonText' => '', 'secondaryButtonText' => ''],
+            'set'   => ['layout' => 'about', 'height' => 'auto', 'aboveFold' => false, 'badge' => '', 'buttonText' => '', 'secondaryButtonText' => ''],
         ],
         'golden-hive/cta-banner'       => [
             'name'  => 'hive/cta',
             'fill'  => [
+                'align'      => '',
                 'eyebrow'    => 'Offerta Speciale',
                 'title'      => 'Spedizione Gratuita su Tutti gli Ordini',
                 'text'       => 'Approfitta della spedizione gratuita su tutti gli ordini superiori a €99. Solo per tempo limitato.',
@@ -335,6 +343,7 @@ final class Migration
         'golden-hive/cta-image'        => [
             'name'  => 'hive/cta',
             'fill'  => [
+                'align'      => '',
                 'eyebrow'    => 'Nuovi Arrivi',
                 'title'      => 'Streetwear Selezionato per Te',
                 'text'       => 'Ogni capo è scelto con cura per garantirti stile, qualità e autenticità.',
