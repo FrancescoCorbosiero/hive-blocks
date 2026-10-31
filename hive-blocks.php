@@ -3,7 +3,7 @@
  * Plugin Name:       Hive Blocks
  * Plugin URI:        https://github.com/FrancescoCorbosiero/hive-blocks
  * Description:       Blocchi e interfaccia WooCommerce di ResellPiacenza: veloci, pensati per pagine in cache e CDN, indipendenti dal tema.
- * Version:           0.6.0
+ * Version:           0.8.0
  * Requires at least: 6.8
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -22,7 +22,7 @@ namespace Hive;
 defined('ABSPATH') || exit;
 
 /** Plugin version. Bump it together with the header above on every release. */
-const VERSION = '0.6.0';
+const VERSION = '0.8.0';
 
 /** This file: the root every path and URL is resolved from. */
 const FILE = __FILE__;

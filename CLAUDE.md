@@ -33,7 +33,13 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   module `@hive/<name>`. Editor: `assets/editor/` is `@hive/editor`
   (`window.hive.editor`). Pure PHP logic goes in `src/Core/` (no WordPress
   calls), pure JS next to its block (e.g. `blocks/store-hours/hours.js`);
-  both get tests.
+  both get tests. Server helpers several blocks share sit in `src/Blocks/`
+  (the click-to-load map, contact links, the FAQ's structured data) and
+  `src/Content/` (a picture by id, with its URL as fallback).
+- **Nothing heavy before it's needed.** Maps wait for "Mostra la mappa"
+  (Google's iframe sits in a `<template>`), a hero's video for the page's
+  `load`, dialogs for their opening; no third-party script comes with a
+  page. Motion is CSS, off with `prefers-reduced-motion`.
 - **Modules** are features that can be switched off in Hive → Moduli: a
   class implementing `Hive\Module`, listed in `Modules::BUILT_IN`.
 - **Products.** Every list of products uses `Hive\Shop\Card` (one card,

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Badge di fiducia — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": {} }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/trust-badges/build/style.css">
+    <!-- A theme that styles content elements, as most do (.entry-content X outranks a single class). -->
+    <style>
+        body { margin: 0; padding: 0 1rem; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; text-transform: uppercase; }
+        .entry-content h3 { margin: 1.5em 0 0.5em; font-size: 2rem; letter-spacing: 0.2em; text-transform: lowercase; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content ul, .entry-content ol { margin: 0 0 1.5em 3em; padding: 0; list-style: square; }
+        .entry-content li { margin: 0 0 0.5em; padding: 0 0 0 0.5em; }
+        .entry-content dl, .entry-content dd { margin: 0 0 1.5em 2.5em; }
+        .entry-content dt { font-weight: 400; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content address { margin: 0 0 1.5em; font-style: italic; }
+        .entry-content strong { color: #c00; }
+        .entry-content button { padding: 1em 2em; border: 2px outset #999; border-radius: 0; background: #e0e0e0; color: #333; font-family: Arial, sans-serif; text-transform: uppercase; }
+        .entry-content iframe { width: 300px; height: 150px; margin: 0 0 1.5em; border: 3px solid #c00; }
+        .entry-content img { margin: 1em; border: 5px solid gray; }
+        .entry-content details { margin: 0 0 1em; padding: 1em; border: 1px solid #c00; }
+        .entry-content summary { display: list-item; font-size: 1rem; font-weight: 400; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output: the default attributes, then the dark band (variant carousel). -->
+    <div class="hive-block hive-badges wp-block-hive-trust-badges">
+        <ul class="hive-badges__list" role="list">
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    <span class="hive-badges__label">100% Autentico</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    <span class="hive-badges__label">Spedizione Gratuita</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                    <span class="hive-badges__label">Reso Facile</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span class="hive-badges__label">Pagamento Sicuro</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span class="hive-badges__label">Supporto 24/7</span>
+                </li>
+                </ul>
+    </div>
+    <div class="hive-block hive-badges hive-badges--dark wp-block-hive-trust-badges">
+        <ul class="hive-badges__list" role="list">
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    <span class="hive-badges__label">100% Autentico</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    <span class="hive-badges__label">Spedizione Gratuita</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                    <span class="hive-badges__label">Reso Facile</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span class="hive-badges__label">Pagamento Sicuro</span>
+                </li>
+                        <li class="hive-badges__item">
+                    <svg class="hive-badges__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span class="hive-badges__label">Supporto 24/7</span>
+                </li>
+                </ul>
+    </div>
+</main>
+</body>
+</html>

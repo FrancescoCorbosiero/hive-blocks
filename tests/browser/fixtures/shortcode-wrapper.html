@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sezione con shortcode — fixture</title>
+    <!-- What WordPress prints for the block: base.css with the tokens, the block's CSS. The block has no script. -->
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/shortcode-wrapper/build/style.css">
+    <!-- A theme that styles the content's headings, paragraphs and links, as most do. -->
+    <style>
+        body { margin: 0; font-family: Georgia, serif; color: #222; }
+        h2 { margin: 2em 0 1em; color: #036; font-size: 3rem; text-align: left; text-transform: none; }
+        p { margin: 0 0 1.6em; color: #555; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content a:hover { background: yellow; color: #c00; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php with the homepage's settings: a light band, an eyebrow, a title, the shortcode, a button. -->
+    <section class="hive-block hive-shortcode-wrapper hive-shortcode-wrapper--gray wp-block-hive-shortcode-wrapper">
+        <div class="hive-shortcode-wrapper__header">
+            <p class="hive-shortcode-wrapper__eyebrow">Selezione Esclusiva</p>
+            <h2 class="hive-shortcode-wrapper__title">Prodotti in tendenza</h2>
+        </div>
+        <div class="hive-shortcode-wrapper__content">
+            <p class="fixture-shortcode">Qui quello che lo shortcode stampa: un rail di prodotti, una lista di WooCommerce…</p>
+        </div>
+        <p class="hive-shortcode-wrapper__cta">
+            <a class="hive-button hive-shortcode-wrapper__button" href="/featured-sneakers">Esplora le tendenze</a>
+        </p>
+    </section>
+    <!-- The dark band. -->
+    <section class="hive-block hive-shortcode-wrapper hive-shortcode-wrapper--black wp-block-hive-shortcode-wrapper">
+        <div class="hive-shortcode-wrapper__header">
+            <p class="hive-shortcode-wrapper__eyebrow">Saldi invernali</p>
+            <h2 class="hive-shortcode-wrapper__title">Saldi</h2>
+        </div>
+        <div class="hive-shortcode-wrapper__content">
+            <p class="fixture-shortcode">Qui quello che lo shortcode stampa: un rail di prodotti, una lista di WooCommerce…</p>
+        </div>
+        <p class="hive-shortcode-wrapper__cta">
+            <a class="hive-button hive-shortcode-wrapper__button" href="/saldi/">Vedi tutti</a>
+        </p>
+    </section>
+    <!-- The page's own background, a title only. -->
+    <section class="hive-block hive-shortcode-wrapper wp-block-hive-shortcode-wrapper">
+        <div class="hive-shortcode-wrapper__header">
+            <h2 class="hive-shortcode-wrapper__title">Nuovi arrivi</h2>
+        </div>
+        <div class="hive-shortcode-wrapper__content">
+            <p class="fixture-shortcode">Qui quello che lo shortcode stampa: un rail di prodotti, una lista di WooCommerce…</p>
+        </div>
+    </section>
+</main>
+</body>
+</html>

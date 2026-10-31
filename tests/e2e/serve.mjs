@@ -73,7 +73,9 @@ console.log(`WordPress ${wp}, WooCommerce ${wc}, PHP ${php}, theme ${theme}`);
 
 const child = spawn(
     'npx',
-    ['--yes', PLAYGROUND, 'server', '--port=9400', `--wp=${wp}`, `--php=${php}`, `--mount=${root}:${plugin}`, `--blueprint=${file}`],
+    // One PHP worker: requests run one at a time, as on a small host. With several, they
+    // share the SQLite file and the slower PHP builds fail now and then on its locks.
+    ['--yes', PLAYGROUND, 'server', '--port=9400', '--workers=1', `--wp=${wp}`, `--php=${php}`, `--mount=${root}:${plugin}`, `--blueprint=${file}`],
     { stdio: 'inherit' }
 );
 for (const signal of ['SIGINT', 'SIGTERM']) {

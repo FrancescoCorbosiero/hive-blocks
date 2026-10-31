@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contatti — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": {"@hive/map": "/assets/build/modules/map.js"} }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/contact-info/build/style.css">
+    <link rel="stylesheet" href="/assets/build/map.css">
+    <!-- A theme that styles content elements, as most do (.entry-content X outranks a single class). -->
+    <style>
+        body { margin: 0; padding: 0 1rem; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; text-transform: uppercase; }
+        .entry-content h3 { margin: 1.5em 0 0.5em; font-size: 2rem; letter-spacing: 0.2em; text-transform: lowercase; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content ul, .entry-content ol { margin: 0 0 1.5em 3em; padding: 0; list-style: square; }
+        .entry-content li { margin: 0 0 0.5em; padding: 0 0 0 0.5em; }
+        .entry-content dl, .entry-content dd { margin: 0 0 1.5em 2.5em; }
+        .entry-content dt { font-weight: 400; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content address { margin: 0 0 1.5em; font-style: italic; }
+        .entry-content strong { color: #c00; }
+        .entry-content button { padding: 1em 2em; border: 2px outset #999; border-radius: 0; background: #e0e0e0; color: #333; font-family: Arial, sans-serif; text-transform: uppercase; }
+        .entry-content iframe { width: 300px; height: 150px; margin: 0 0 1.5em; border: 3px solid #c00; }
+        .entry-content img { margin: 1em; border: 5px solid gray; }
+        .entry-content details { margin: 0 0 1em; padding: 1em; border: 1px solid #c00; }
+        .entry-content summary { display: list-item; font-size: 1rem; font-weight: 400; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output: the default attributes, then phone, email, WhatsApp (the setting's number: the block has none) and a map. -->
+    <section class="hive-block hive-contact wp-block-hive-contact-info">
+        <div class="hive-contact__inner">
+                        <div class="hive-contact__header">
+                                        <h2 class="hive-contact__title">Vieni a Trovarci</h2>
+                                                        <p class="hive-contact__subtitle">La nostra boutique nel cuore di Piacenza</p>
+                                </div>
+            <div class="hive-contact__body">
+                                <address class="hive-contact__details">
+                        <ul class="hive-contact__list">
+                                                        <li class="hive-contact__item">
+                                    <span class="hive-contact__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                                    <span class="hive-contact__text">Stradone Farnese 3 - 29121 - Piacenza (PC)</span>                            </li>
+                                                        <li class="hive-contact__item">
+                                    <span class="hive-contact__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                                    <span class="hive-contact__text">P.IVA: 01875650333</span>                            </li>
+                                                </ul>
+                    </address>
+                        </div>
+        </div>
+    </section>
+    <section class="hive-block hive-contact hive-contact--split wp-block-hive-contact-info">
+        <div class="hive-contact__inner">
+                        <div class="hive-contact__header">
+                                        <h2 class="hive-contact__title">Contatti</h2>
+                                                        <p class="hive-contact__subtitle">La nostra boutique nel cuore di Piacenza</p>
+                                </div>
+            <div class="hive-contact__body">
+                                <address class="hive-contact__details">
+                        <ul class="hive-contact__list">
+                                                        <li class="hive-contact__item">
+                                    <span class="hive-contact__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                                    <span class="hive-contact__text">Stradone Farnese 3 - 29121 - Piacenza (PC)</span>                            </li>
+                                                        <li class="hive-contact__item">
+                                    <span class="hive-contact__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                                    <span class="hive-contact__text">P.IVA: 01875650333</span>                            </li>
+                                                        <li class="hive-contact__item">
+                                    <span class="hive-contact__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+                                    <a class="hive-contact__link" href="tel:+390523123456">+39 0523 123456</a>                            </li>
+                                                        <li class="hive-contact__item">
+                                    <span class="hive-contact__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
+                                    <a class="hive-contact__link" href="mailto:info@resellpiacenza.it">info@resellpiacenza.it</a>                            </li>
+                                                        <li class="hive-contact__item">
+                                    <span class="hive-contact__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.9 9.9 0 0 0 12.04 2Zm5.8 14.13c-.25.69-1.44 1.32-2 1.4-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.68-.62-2.96-1.28-4.89-4.26-5.04-4.46-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.17 1.03-2.46.27-.3.59-.37.79-.37h.57c.18 0 .43-.07.67.51.25.59.84 2.04.91 2.19.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.52-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.06 1.13 1.01 2.09 1.32 2.38 1.47.3.15.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.49.22.57.35.07.12.07.71-.18 1.4Z"/></svg></span>
+                                    <a class="hive-contact__link" href="https://wa.me/393331234567?text=Ciao%21%20Vorrei%20qualche%20informazione." target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp</a>                            </li>
+                                                </ul>
+                    </address>
+                                <div class="hive-contact__map">
+                        <div class="hive-map" data-hive-map><template data-hive-map-frame><iframe class="hive-map__frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2819.1!2d9.6884327!3d45.0482437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4780dd3b7d8a913b%3A0x26e569f7b44a6448!2sResellpiacenza!5e0!3m2!1sit!2sit!4v1" title="Mappa: Stradone Farnese 3 - 29121 - Piacenza (PC)" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe></template><div class="hive-map__cover" data-hive-map-cover><div class="hive-map__card"><span class="hive-map__pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><p class="hive-map__address">Stradone Farnese 3 - 29121 - Piacenza (PC)</p><button type="button" class="hive-button hive-map__load" data-hive-map-load>Mostra la mappa</button><a class="hive-map__open" href="https://www.google.com/maps/search/?api=1&#038;query=Stradone%20Farnese%203%20-%2029121%20-%20Piacenza%20%28PC%29" target="_blank" rel="noopener noreferrer">Apri in Google Maps</a><p class="hive-map__note">La mappa è di Google: caricandola accetti i suoi cookie.</p></div></div></div>                </div>
+                        </div>
+        </div>
+    </section>
+</main>
+<script type="module" src="/assets/build/modules/map.js"></script>
+</body>
+</html>

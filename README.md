@@ -16,6 +16,10 @@ see [ROADMAP.md](ROADMAP.md).
 - Server output is the same for every visitor. What depends on the visitor
   or on the time (e.g. "Aperto ora") is filled in by the browser, so cached
   pages stay correct.
+- Nothing heavy loads before it's needed: maps and videos wait for a click
+  or for the page to finish loading, dialogs load their code when opened,
+  and no third-party script (Google Maps, Instagram, Trustpilot) comes
+  with a page. Motion is CSS, and stops with reduced motion.
 
 ## Requirements
 
@@ -37,6 +41,29 @@ staging first, are in [SWITCH-OVER.md](SWITCH-OVER.md).
 |---|---|
 | Rail di prodotti (`hive/product-rail`) | A row of product cards that scrolls sideways: newest, best sellers, on sale, featured, top rated, a category, a brand, a tag or chosen products. Pinned, excluded and fallback order as the Store Hub sets them. Also `[hive_product_rail]`. |
 | Orari del negozio (`hive/store-hours`) | Opening hours with "Aperto ora · chiude alle 19:30", today's row, Italian holidays and closed dates. |
+| Hero (`hive/hero`) | A page's opening, in three layouts: **Copertina** (a picture, or a video that starts after the page has loaded, behind the text), **Diviso** (the picture beside the text), **Chi siamo** (the store's story and values). Takes over golden-hive-blocks' four heroes. |
+| Carosello (`hive/hero-carousel`) | Full-width slides that move sideways (CSS scroll snapping), with arrows, dots and autoplay that pauses on hover, focus, out of view and with reduced motion. Only the first picture loads with the page. |
+| Invito all'azione (`hive/cta`) | A call to action: a full-width **Banner**, or **Immagine e testo**, with its button. |
+| Prodotto in evidenza (`hive/product-spotlight`) | One product up front: photo, brand, name, price and the card's button (add to cart, or the sizes). With none chosen, the newest featured product that can be bought. |
+| Slider categorie (`hive/category-slider`) | The store's categories with their pictures, in a row that scrolls sideways. |
+| Brand in scorrimento (`hive/brand-marquee`) | The brands' logos in a band that moves by itself (CSS only), still under the mouse, for keyboard users and with reduced motion. |
+| Conto alla rovescia del drop (`hive/drop-countdown`) | The countdown to a release: a product's drop (date, photo, price, link) or a date written in, with "Ricordamelo" and "Acquista ora" once it's out, even on a page cached before. |
+| Calendario dei drop (`hive/drop-calendar`) | The next releases in order, with "Esce tra 3 giorni", "Ricordamelo" and "Acquista ora" once out; the last week's fill what's left. |
+| Acquisti recenti (`hive/social-proof`) | "Qualcuno ha appena acquistato": a few notices per visit from real paid orders (product, city, how long ago), read after the page has loaded. Never in the cart or the checkout. |
+| Popup promozionale (`hive/promo-modal`) | An offer in a dialog after a few seconds or on exit intent, once per visitor, with a coupon to copy. A link to `#its-id` opens it too. |
+| Contatti (`hive/contact-info`) | The store's address, VAT number, phone, email and, if wanted, WhatsApp, with a map that loads only when the visitor opens it. |
+| Vieni in negozio (`hive/store-visit`) | The shop itself: open or closed now, opening hours with today's row, directions, WhatsApp and a map loaded on demand. |
+| Mappa (`hive/map-embed`) | A Google map that loads only when the visitor opens it: a lighter page and no Google cookies before. Only Google Maps embed links are accepted. |
+| Badge di fiducia (`hive/trust-badges`) | A strip of guarantees for buyers: authenticity, shipping, returns, secure payment, support. |
+| Garanzia di autenticità (`hive/authenticity-guarantee`) | The authenticity promise: a seal, the steps of the check and a button. |
+| Legit check (`hive/legit-check`) | Real or fake: for each detail (stitching, label, sole, box) what the team checks. |
+| Domande frequenti (`hive/faq-schema`) | Questions and answers that open one at a time (no script), with one FAQPage structured data block per page for Google. |
+| Trustpilot (`hive/trustpilot-widget`) | The store's Trustpilot rating, stars and number of reviews, without Trustpilot's script. |
+| Pulsante WhatsApp (`hive/whatsapp-button`) | A button fixed in the bottom corner that opens the store's WhatsApp chat with a message written; the number from Hive's settings when the block has none. |
+| Pulsanti social (`hive/social-buttons`) | The store's social profiles in a column of buttons fixed on the side of the screen. |
+| Instagram (`hive/instagram-feed`) | A grid of Instagram photos, each linking to its post, and the button to follow the store. "Acquista il look" tags open the products in Quick View. No Instagram script. |
+| Guida alle taglie (`hive/size-chart-modal`) | A button that opens a size guide (Hive → Guide alle taglie) in a dialog, as on the product page; without one, the US/UK/EU/CM table. A link to `#its-id` opens it too. |
+| Sezione con shortcode (`hive/shortcode-wrapper`) | A section around a shortcode (a product rail, say) with eyebrow, title and button: the sections the Store Hub's Vetrina edits and switches off. |
 | Cerca (`hive/search`) | A search field, button or icon opening the live search: products as you type (SKU matches first, Relevanssi when it's there), recent searches kept in the browser, popular searches, "Vedi tutti i risultati (N)". |
 | Newsletter (`hive/newsletter`) | The newsletter signup, with the same settings as golden-hive-blocks': optionally up to three sizes and some brands for the size alerts, confirmed by email. Subscribers go to Hive → Iscritti; `hive_newsletter_subscribed` passes them to an email service. |
 | Nella tua taglia (`hive/size-rail`) | A rail of what's in stock in the visitor's size, remembered in the browser from the last size picked on a product page. No size yet: a size chooser. Nothing in that size: the size-alert form. Also `[hive_size_rail]`. |

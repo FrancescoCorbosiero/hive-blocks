@@ -1,0 +1,75 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/contact-info",
+    "title": "Contatti",
+    "category": "hive",
+    "icon": "location-alt",
+    "description": "Indirizzo, partita IVA, telefono, email e WhatsApp del negozio, con una mappa che si carica solo quando il visitatore la apre.",
+    "keywords": ["contatti", "indirizzo", "telefono", "email", "whatsapp", "mappa"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Vieni a Trovarci"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "La nostra boutique nel cuore di Piacenza"
+        },
+        "address": {
+            "type": "string",
+            "default": "Stradone Farnese 3 - 29121 - Piacenza (PC)"
+        },
+        "vat": {
+            "type": "string",
+            "default": "P.IVA: 01875650333"
+        },
+        "phone": {
+            "type": "string",
+            "default": ""
+        },
+        "email": {
+            "type": "string",
+            "default": ""
+        },
+        "showWhatsApp": {
+            "type": "boolean",
+            "default": false
+        },
+        "whatsapp": {
+            "type": "string",
+            "default": ""
+        },
+        "whatsappText": {
+            "type": "string",
+            "default": "Ciao! Vorrei qualche informazione."
+        },
+        "mapUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "mapEmbed": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": ["file:./build/style.css", "hive-map"],
+    "viewStyle": ["file:./build/style.css", "hive-map"],
+    "viewScriptModule": "@hive/map",
+    "render": "file:./render.php"
+}

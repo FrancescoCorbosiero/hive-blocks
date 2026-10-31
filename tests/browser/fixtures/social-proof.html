@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Acquisti recenti — fixture</title>
+    <!-- What WordPress prints for the block: base.css with the tokens, the block's CSS (its view module has no imports). -->
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/social-proof/build/style.css">
+    <!-- A theme that styles content elements and buttons, as most do. -->
+    <style>
+        body { margin: 0 auto; max-width: 1100px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        p { margin: 0 0 1.6em; }
+        a { color: #0645ad; text-decoration: underline; }
+        strong { font-weight: 400; }
+        button { background: #eee; color: #333; border-radius: 0; padding: 4px; }
+        /* Some themes slide the page for their mobile menu: a transform on a wrapper. */
+        .site-footer { transform: translateZ(0); margin-top: 40px; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <p>Una pagina del negozio.</p>
+    <dialog id="other"><p>Un’altra finestra.</p></dialog>
+</main>
+<footer class="site-footer">
+<!-- render.php's output for the block, in the footer: the empty toast and the feed's URL.
+     Here: one purchase every 10 s for 4 s, two per session, the first 1 s after the page settles. -->
+<div class="hive-block hive-social-proof wp-block-hive-social-proof" data-hive-social-proof="{&quot;src&quot;:&quot;\/api\/social-proof?days=14&amp;limit=10&amp;city=1&quot;,&quot;days&quot;:14,&quot;max&quot;:2,&quot;interval&quot;:10000,&quot;delay&quot;:1000,&quot;duration&quot;:4000}" role="status" aria-live="polite" aria-atomic="true">
+    <a class="hive-social-proof__link" data-hive-social-proof-link>
+        <span class="hive-social-proof__media" data-hive-social-proof-media hidden></span>
+        <span class="hive-social-proof__body">
+            <span class="hive-social-proof__title">Qualcuno ha appena acquistato</span>
+            <strong class="hive-social-proof__product" data-hive-social-proof-product></strong>
+            <span class="hive-social-proof__meta" data-hive-social-proof-meta></span>
+            <span class="hive-social-proof__verified"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Acquisto verificato</span>
+        </span>
+    </a>
+    <button type="button" class="hive-social-proof__close" data-hive-social-proof-close aria-label="Chiudi"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6L19 6.4 17.6 5 12 10.6z"/></svg></button>
+</div>
+</footer>
+<script type="module" src="/blocks/social-proof/build/view.js"></script>
+</body>
+</html>

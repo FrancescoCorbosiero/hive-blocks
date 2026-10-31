@@ -1,0 +1,178 @@
+/**
+ * Popup promozionale. On the page the block is only its <template>, so it
+ * takes no room; the offer (.hive-promo) shows inside @hive/dialog's
+ * dialog, which brings the backdrop, the panel and the close button and
+ * sets the floating-panel colours. Every rule is two classes deep. In the
+ * editor (.is-preview) the offer is drawn in the canvas, framed.
+ */
+
+.hive-block.hive-promo-modal {
+    display: none;
+}
+
+.hive-block.hive-promo-modal.is-preview {
+    display: block;
+    max-width: 56rem;
+    margin: var(--hive-space-5) auto;
+    padding: var(--hive-space-5);
+    border: 1px dashed var(--hive-line);
+    border-radius: var(--hive-radius-lg);
+}
+
+.hive-promo.hive-promo {
+    display: grid;
+    gap: var(--hive-space-5);
+    align-items: center;
+    text-align: center;
+}
+
+.hive-promo.has-image {
+    text-align: start;
+}
+
+.hive-promo {
+    & .hive-promo__media {
+        overflow: hidden;
+        aspect-ratio: 16 / 9;
+        border-radius: var(--hive-radius-md);
+        background: var(--hive-media);
+    }
+
+    & .hive-promo__image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        object-fit: cover;
+    }
+
+    & .hive-promo__body {
+        display: grid;
+        justify-items: center;
+        gap: var(--hive-space-4);
+        min-width: 0;
+        padding-inline: var(--hive-space-5);
+    }
+
+    & .hive-promo__badge {
+        margin: 0;
+        padding: 0.375rem 0.75rem;
+        border-radius: var(--hive-radius-pill);
+        background: var(--hive-accent);
+        color: var(--hive-on-accent);
+        font-size: var(--hive-text-xs);
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        line-height: 1.3;
+        text-transform: uppercase;
+    }
+
+    & .hive-promo__title {
+        margin: 0;
+        padding: 0;
+        font-size: var(--hive-text-3xl);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        text-align: inherit;
+    }
+
+    & .hive-promo__text {
+        margin: 0;
+        padding: 0;
+        color: color-mix(in srgb, currentColor 72%, transparent);
+        font-size: var(--hive-text-md);
+        line-height: 1.6;
+        text-align: inherit;
+    }
+
+    & .hive-promo__code {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: var(--hive-space-2) var(--hive-space-3);
+        margin: 0;
+        padding: var(--hive-space-2) var(--hive-space-2) var(--hive-space-2) var(--hive-space-4);
+        border: 2px dashed color-mix(in srgb, currentColor 30%, transparent);
+        border-radius: var(--hive-radius-md);
+    }
+
+    & .hive-promo__code-label {
+        color: color-mix(in srgb, currentColor 68%, transparent);
+        font-size: var(--hive-text-xs);
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    & .hive-promo__code-value {
+        margin: 0;
+        padding: 0;
+        background: none;
+        color: inherit;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: var(--hive-text-xl);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+    }
+
+    & .hive-promo__copy {
+        min-height: 2.25rem;
+        margin: 0;
+        padding: 0.375rem 0.875rem;
+        border: 1px solid currentColor;
+        border-radius: var(--hive-radius-sm);
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        font-size: var(--hive-text-sm);
+        font-weight: 600;
+        line-height: 1.2;
+        cursor: pointer;
+    }
+
+    & .hive-promo__copy:hover {
+        background: color-mix(in srgb, currentColor 8%, transparent);
+    }
+
+    & .hive-promo__button,
+    & .hive-promo__button:hover,
+    & .hive-promo__button:visited {
+        min-width: 14rem;
+        min-height: 3rem;
+        color: var(--hive-on-button);
+        font-size: var(--hive-text-md);
+        text-decoration: none;
+    }
+
+    & .hive-promo__disclaimer {
+        margin: 0;
+        padding: 0;
+        color: color-mix(in srgb, currentColor 60%, transparent);
+        font-size: var(--hive-text-xs);
+        line-height: 1.5;
+        text-align: inherit;
+    }
+}
+
+.hive-promo.has-image .hive-promo__body {
+    justify-items: start;
+    padding-inline: 0;
+}
+
+@media (min-width: 768px) {
+    .hive-promo.has-image {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: var(--hive-space-6);
+    }
+
+    .hive-promo.has-image .hive-promo__media {
+        aspect-ratio: 4 / 5;
+    }
+
+    .hive-promo.has-image .hive-promo__body {
+        padding-inline-end: var(--hive-space-5);
+    }
+}

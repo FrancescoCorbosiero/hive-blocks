@@ -125,7 +125,29 @@
     text-decoration: none;
 }
 
-.hive-button:hover {
+/*
+ * In a block, the look again two classes deep, against a theme's content
+ * rules (.entry-content button, .entry-content a). A component that changes
+ * it does so at two classes or more, in a stylesheet loaded after this one.
+ */
+.hive-block .hive-button {
+    min-height: 2.75rem;
+    margin: 0;
+    padding: 0.625rem 1.25rem;
+    border: 1px solid var(--hive-button);
+    border-radius: var(--hive-radius-md);
+    background: var(--hive-button);
+    box-shadow: none;
+    font: inherit;
+    font-size: var(--hive-text-sm);
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 1.2;
+    text-transform: none;
+}
+
+.hive-button:hover,
+.hive-block .hive-button:hover {
     background: color-mix(in srgb, var(--hive-button) 82%, var(--hive-on-button));
 }
 

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Invito all’azione — fixture</title>
+    <!-- What WordPress prints for the block: base.css with the tokens, the block's CSS. -->
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/cta/build/style.css">
+    <!-- A theme that styles content elements, as most do, loaded after the block's CSS. -->
+    <style>
+        body { margin: 0; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; font-weight: 400; text-align: left; text-transform: none; color: #333; }
+        .entry-content p { margin: 0 0 1.6em; text-align: left; }
+        .entry-content img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 2px 8px #0003; }
+        .entry-content a { color: #1d4ed8; text-decoration: underline; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php for the Banner with a picture and the glow. -->
+    <section class="hive-block hive-cta hive-cta--banner has-image wp-block-hive-cta alignfull">
+        <div class="hive-cta__media"><img width="600" height="600" src="/tests/browser/fixtures/sneaker.svg" class="hive-cta__image" alt="" loading="lazy" decoding="async" sizes="auto, 100vw" /></div>
+        <span class="hive-cta__glow" aria-hidden="true"></span>
+        <div class="hive-cta__body">
+            <p class="hive-cta__eyebrow">Seguici</p>
+            <h2 class="hive-cta__title">Resta in contatto</h2>
+            <p class="hive-cta__text">Seguici su Instagram per non perdere le ultime release e i drop esclusivi.</p>
+            <p class="hive-cta__actions"><a class="hive-button hive-cta__button" href="https://www.instagram.com/resellpiacenza/">Seguici su Instagram</a></p>
+        </div>
+    </section>
+
+    <!-- render.php for "Immagine e testo", reversed: the picture on the right from tablets up. -->
+    <section class="hive-block hive-cta hive-cta--split has-image hive-cta--reverse wp-block-hive-cta alignfull">
+        <div class="hive-cta__media"><img width="600" height="600" src="/tests/browser/fixtures/sneaker-2.svg" class="hive-cta__image" alt="Felpa Corteiz" loading="lazy" decoding="async" sizes="auto, (min-width: 768px) 50vw, 100vw" /></div>
+        <div class="hive-cta__body">
+            <p class="hive-cta__eyebrow">Nuovi arrivi</p>
+            <h2 class="hive-cta__title">Streetwear selezionato per te</h2>
+            <p class="hive-cta__text">Ogni capo è scelto con cura per garantirti stile, qualità e autenticità.</p>
+            <p class="hive-cta__actions"><a class="hive-button hive-cta__button" href="/negozio/">Acquista ora</a></p>
+        </div>
+    </section>
+</main>
+</body>
+</html>
