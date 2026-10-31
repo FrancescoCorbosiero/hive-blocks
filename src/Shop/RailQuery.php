@@ -62,7 +62,8 @@ final class RailQuery
             $atts[$key] = implode(',', RailOrder::parse_ids($atts[$key]));
         }
         $atts['fallback']       = in_array($atts['fallback'], RailOrder::FALLBACKS, true) ? $atts['fallback'] : '';
-        $atts['limit']          = max(1, min(48, (int) $atts['limit']));
+        // Up to what the Store Hub may set (wc-gh/v1 takes 1 to RailOrder::MAX_IDS).
+        $atts['limit']          = max(1, min(RailOrder::MAX_IDS, (int) $atts['limit']));
         $atts['columns']        = max(1, min(8, (int) $atts['columns']));
         $atts['columns_tablet'] = max(0, min(8, (int) $atts['columns_tablet']));
         $atts['columns_mobile'] = max(0, min(8, (int) $atts['columns_mobile']));
@@ -75,10 +76,11 @@ final class RailQuery
     /**
      * The products a rail shows, in order, at most its limit.
      *
-     * @param array $atts normalize() output.
+     * @param array $atts  normalize() output.
+     * @param bool  $fresh Skip the cached list (the Store Hub reads what is true now).
      * @return list<int>
      */
-    public static function ids(array $atts): array
+    public static function ids(array $atts, bool $fresh = false): array
     {
         $args = self::query_args($atts);
 
@@ -90,7 +92,7 @@ final class RailQuery
         }
 
         $ordered = RailOrder::order(
-            self::visible_ids($args, RailOrder::fallback($atts['fallback'], $atts)),
+            self::visible_ids($args, RailOrder::fallback($atts['fallback'], $atts), $fresh),
             RailOrder::parse_ids($atts['pin']),
             RailOrder::parse_ids($atts['exclude'])
         );
@@ -108,7 +110,7 @@ final class RailQuery
         ];
 
         $hidden = ['exclude-from-catalog'];
-        if ((bool) apply_filters('hive_rail_hide_out_of_stock', 'yes' === get_option('woocommerce_hide_out_of_stock_items'), $atts)) {
+        if (self::hides_out_of_stock($atts)) {
             $hidden[] = 'outofstock';
         }
         $tax_query = [['taxonomy' => 'product_visibility', 'field' => 'name', 'terms' => $hidden, 'operator' => 'NOT IN']];
@@ -158,6 +160,12 @@ final class RailQuery
         return $args;
     }
 
+    /** Whether rails leave out sold-out products: the shop's own setting (WooCommerce → Prodotti → Inventario). */
+    public static function hides_out_of_stock(array $atts = []): bool
+    {
+        return (bool) apply_filters('hive_rail_hide_out_of_stock', 'yes' === get_option('woocommerce_hide_out_of_stock_items'), $atts);
+    }
+
     /**
      * Brand slugs, matched in whichever brand taxonomy holds them (a site may
      * have several), child brands included.
@@ -186,14 +194,16 @@ final class RailQuery
 
     /**
      * Every visible member of a rail in fallback order, before pins and
-     * exclusions. Cached per catalog generation.
+     * exclusions. Cached per catalog generation; $fresh skips the cache (and
+     * refills it).
      *
+     * @param array $args query_args() output.
      * @return list<int>
      */
-    private static function visible_ids(array $args, string $fallback): array
+    public static function visible_ids(array $args, string $fallback, bool $fresh = false): array
     {
         $key    = 'hive_rail_' . md5((string) wp_json_encode([$args, $fallback, Store::generation()]));
-        $cached = get_transient($key);
+        $cached = $fresh ? null : get_transient($key);
         if (is_array($cached)) {
             return $cached;
         }
