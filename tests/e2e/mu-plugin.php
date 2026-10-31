@@ -7,7 +7,7 @@
  * not Hive's and are left out.
  */
 
-const HIVE_E2E_LOG = '/wordpress/wp-content/plugins/hive-blocks/tests/e2e/.artifacts/issues.log';
+const HIVE_E2E_LOG = '/wordpress/wp-content/plugins/hive-blocks/tests/e2e/artifacts/issues.log';
 
 /** The first Hive file (not a test) in the current call stack, as file:line; null when Hive isn't involved. */
 function hive_e2e_where(): ?string

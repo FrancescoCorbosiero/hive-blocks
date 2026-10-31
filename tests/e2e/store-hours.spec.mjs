@@ -16,7 +16,7 @@ test('rendered by the server, made live by its script module, styled by its own 
     expect(await hoursStyles(block)).toEqual(OWN_HOURS_STYLES);
     expect(await rootVar(page, '--hive-accent')).toBe('#721124');
 
-    await block.screenshot({ path: `tests/e2e/.artifacts/screenshots/${theme}-orari.png` });
+    await block.screenshot({ path: `tests/e2e/artifacts/screenshots/${theme}-orari.png` });
     expect(errors).toEqual([]);
 });
 

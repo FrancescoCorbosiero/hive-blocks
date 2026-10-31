@@ -16,7 +16,7 @@ import path from 'node:path';
 
 const PLAYGROUND = '@wp-playground/cli@3.1.61';
 const root = path.resolve(import.meta.dirname, '../..');
-const artifacts = path.join(root, 'tests/e2e/.artifacts');
+const artifacts = path.join(root, 'tests/e2e/artifacts');
 const plugin = '/wordpress/wp-content/plugins/hive-blocks';
 
 const theme = process.env.HIVE_E2E_THEME || 'twentytwentyfive';
@@ -38,7 +38,7 @@ const blueprint = {
         },
         {
             step: 'defineWpConfigConsts',
-            consts: { WP_DEBUG: true, WP_DEBUG_DISPLAY: false, WP_DEBUG_LOG: `${plugin}/tests/e2e/.artifacts/debug.log` },
+            consts: { WP_DEBUG: true, WP_DEBUG_DISPLAY: false, WP_DEBUG_LOG: `${plugin}/tests/e2e/artifacts/debug.log` },
         },
         {
             step: 'installPlugin',

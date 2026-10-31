@@ -3,7 +3,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 
 export default function globalTeardown() {
-    const log = new URL('./.artifacts/issues.log', import.meta.url);
+    const log = new URL('./artifacts/issues.log', import.meta.url);
     const issues = existsSync(log) ? readFileSync(log, 'utf8').trim() : '';
     if (issues) {
         throw new Error(`Hive Blocks raised PHP issues during the run:\n${issues}`);

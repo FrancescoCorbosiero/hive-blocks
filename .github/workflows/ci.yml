@@ -102,7 +102,7 @@ jobs:
         with:
           name: e2e-${{ matrix.theme }}-wp${{ matrix.wp }}-php${{ matrix.php }}
           path: |
-            tests/e2e/.artifacts/
+            tests/e2e/artifacts/
             test-results/
           retention-days: 7
           if-no-files-found: ignore
