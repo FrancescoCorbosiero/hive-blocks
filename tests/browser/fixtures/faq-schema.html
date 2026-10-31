@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Domande frequenti — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": {} }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/faq-schema/build/style.css">
+    <!-- A theme that styles content elements, as most do (.entry-content X outranks a single class). -->
+    <style>
+        body { margin: 0; padding: 0 1rem; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; text-transform: uppercase; }
+        .entry-content h3 { margin: 1.5em 0 0.5em; font-size: 2rem; letter-spacing: 0.2em; text-transform: lowercase; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content ul, .entry-content ol { margin: 0 0 1.5em 3em; padding: 0; list-style: square; }
+        .entry-content li { margin: 0 0 0.5em; padding: 0 0 0 0.5em; }
+        .entry-content dl, .entry-content dd { margin: 0 0 1.5em 2.5em; }
+        .entry-content dt { font-weight: 400; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content address { margin: 0 0 1.5em; font-style: italic; }
+        .entry-content strong { color: #c00; }
+        .entry-content button { padding: 1em 2em; border: 2px outset #999; border-radius: 0; background: #e0e0e0; color: #333; font-family: Arial, sans-serif; text-transform: uppercase; }
+        .entry-content iframe { width: 300px; height: 150px; margin: 0 0 1.5em; border: 3px solid #c00; }
+        .entry-content img { margin: 1em; border: 5px solid gray; }
+        .entry-content details { margin: 0 0 1em; padding: 1em; border: 1px solid #c00; }
+        .entry-content summary { display: list-item; font-size: 1rem; font-weight: 400; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output: the default attributes (one answer open at a time), then a block that opens several at once; last, the FAQPage the footer prints once for both. -->
+    <section class="hive-block hive-faq wp-block-hive-faq-schema">
+        <div class="hive-faq__inner">
+                        <div class="hive-faq__header">
+                                        <h2 class="hive-faq__title">Domande Frequenti</h2>
+                                                </div>
+            <div class="hive-faq__list">
+                                <details class="hive-faq__item" name="hive-faq-1">
+                        <summary class="hive-faq__question">
+                            <span class="hive-faq__question-text">I prodotti sono autentici?</span>
+                            <span class="hive-faq__icon" aria-hidden="true"></span>
+                        </summary>
+                        <div class="hive-faq__answer"><p>Sì, ogni articolo viene verificato dal nostro team di esperti prima della spedizione. Garantiamo il 100% di autenticità su tutti i prodotti.</p>
+    </div>
+                    </details>
+                                <details class="hive-faq__item" name="hive-faq-1">
+                        <summary class="hive-faq__question">
+                            <span class="hive-faq__question-text">Quali sono i tempi di spedizione?</span>
+                            <span class="hive-faq__icon" aria-hidden="true"></span>
+                        </summary>
+                        <div class="hive-faq__answer"><p>Le spedizioni standard vengono elaborate in 1-2 giorni lavorativi. La consegna avviene in 3-5 giorni lavorativi in tutta Italia.</p>
+    </div>
+                    </details>
+                                <details class="hive-faq__item" name="hive-faq-1">
+                        <summary class="hive-faq__question">
+                            <span class="hive-faq__question-text">Posso effettuare un reso?</span>
+                            <span class="hive-faq__icon" aria-hidden="true"></span>
+                        </summary>
+                        <div class="hive-faq__answer"><p>Certamente! Offriamo il reso gratuito entro 14 giorni dalla ricezione dell'ordine. Il prodotto deve essere nelle condizioni originali.</p>
+    </div>
+                    </details>
+                        </div>
+        </div>
+    </section>
+    <section class="hive-block hive-faq wp-block-hive-faq-schema">
+        <div class="hive-faq__inner">
+                        <div class="hive-faq__header">
+                                        <h2 class="hive-faq__title">Spedizioni</h2>
+                                                </div>
+            <div class="hive-faq__list">
+                                <details class="hive-faq__item">
+                        <summary class="hive-faq__question">
+                            <span class="hive-faq__question-text">Spedite all’estero?</span>
+                            <span class="hive-faq__icon" aria-hidden="true"></span>
+                        </summary>
+                        <div class="hive-faq__answer"><p>Sì, in tutta Europa con <strong>DHL</strong> o <a href="/spedizioni">UPS</a>.</p>
+    </div>
+                    </details>
+                                <details class="hive-faq__item">
+                        <summary class="hive-faq__question">
+                            <span class="hive-faq__question-text">Posso ritirare in negozio?</span>
+                            <span class="hive-faq__icon" aria-hidden="true"></span>
+                        </summary>
+                        <div class="hive-faq__answer"><p>Sì, a Piacenza, negli orari di apertura.</p>
+    </div>
+                    </details>
+                        </div>
+        </div>
+    </section>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"I prodotti sono autentici?","acceptedAnswer":{"@type":"Answer","text":"Sì, ogni articolo viene verificato dal nostro team di esperti prima della spedizione. Garantiamo il 100% di autenticità su tutti i prodotti."}},{"@type":"Question","name":"Quali sono i tempi di spedizione?","acceptedAnswer":{"@type":"Answer","text":"Le spedizioni standard vengono elaborate in 1-2 giorni lavorativi. La consegna avviene in 3-5 giorni lavorativi in tutta Italia."}},{"@type":"Question","name":"Posso effettuare un reso?","acceptedAnswer":{"@type":"Answer","text":"Certamente! Offriamo il reso gratuito entro 14 giorni dalla ricezione dell'ordine. Il prodotto deve essere nelle condizioni originali."}},{"@type":"Question","name":"Spedite all’estero?","acceptedAnswer":{"@type":"Answer","text":"Sì, in tutta Europa con DHL o UPS."}},{"@type":"Question","name":"Posso ritirare in negozio?","acceptedAnswer":{"@type":"Answer","text":"Sì, a Piacenza, negli orari di apertura."}}]}</script>
+</main>
+</body>
+</html>

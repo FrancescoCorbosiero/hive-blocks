@@ -1,0 +1,75 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/legit-check",
+    "title": "Legit check",
+    "category": "hive",
+    "icon": "visibility",
+    "description": "Autentico o falso: per ogni dettaglio (cuciture, etichetta, suola, scatola) cosa controlla il team.",
+    "keywords": ["legit", "check", "autentico", "falso", "verifica", "sneakers"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "eyebrow": {
+            "type": "string",
+            "default": "Legit Check"
+        },
+        "title": {
+            "type": "string",
+            "default": "Autentico o Falso?"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "Il nostro team verifica ogni dettaglio per garantire l’autenticità di ogni prodotto."
+        },
+        "checks": {
+            "type": "array",
+            "default": [
+                {
+                    "area": "Cuciture",
+                    "real": "Cuciture uniformi e precise, spaziatura regolare",
+                    "fake": "Cuciture irregolari, filo sporgente, spaziatura non uniforme"
+                },
+                {
+                    "area": "Etichetta Interna",
+                    "real": "Font nitido, allineamento corretto, codice SKU verificabile",
+                    "fake": "Font sfocato, testo disallineato, codici non corrispondenti"
+                },
+                {
+                    "area": "Suola",
+                    "real": "Pattern coerente, materiale morbido, logo in rilievo definito",
+                    "fake": "Pattern approssimativo, materiale rigido, logo schiacciato"
+                },
+                {
+                    "area": "Scatola",
+                    "real": "Cartone di qualità, stampa nitida, etichetta con codici a barre verificabili",
+                    "fake": "Cartone leggero, colori sbiaditi, etichetta con informazioni errate"
+                }
+            ]
+        },
+        "buttonText": {
+            "type": "string",
+            "default": "Scopri il Processo"
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}

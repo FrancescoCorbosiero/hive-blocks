@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/trust-badges",
+    "title": "Badge di fiducia",
+    "category": "hive",
+    "icon": "shield",
+    "description": "Una striscia di garanzie per chi compra: autenticità, spedizione, reso, pagamento sicuro, assistenza.",
+    "keywords": ["fiducia", "badge", "garanzia", "sicurezza", "trust", "verified"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "badges": {
+            "type": "array",
+            "default": [
+                { "icon": "authentic", "title": "100% Autentico" },
+                { "icon": "shipping", "title": "Spedizione Gratuita" },
+                { "icon": "returns", "title": "Reso Facile" },
+                { "icon": "secure", "title": "Pagamento Sicuro" },
+                { "icon": "support", "title": "Supporto 24/7" }
+            ]
+        },
+        "variant": {
+            "type": "string",
+            "default": "default",
+            "enum": ["default", "carousel"]
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}

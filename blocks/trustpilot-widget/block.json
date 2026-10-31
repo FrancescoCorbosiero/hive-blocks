@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/trustpilot-widget",
+    "title": "Trustpilot",
+    "category": "hive",
+    "icon": "star-filled",
+    "description": "La valutazione del negozio su Trustpilot, con le stelle e il numero di recensioni: nessuno script esterno, la pagina resta leggera.",
+    "keywords": ["trustpilot", "recensioni", "valutazione", "stelle", "reviews"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "rating": {
+            "type": "number",
+            "default": 4.8
+        },
+        "reviewCount": {
+            "type": "number",
+            "default": 250
+        },
+        "label": {
+            "type": "string",
+            "default": "Eccezionale"
+        },
+        "trustpilotUrl": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": ["center", "wide"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}
