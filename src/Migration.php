@@ -29,6 +29,7 @@ use Hive\Core\Migrate\Commerce;
 use Hive\Core\Migrate\Heroes;
 use Hive\Core\Migrate\Settings as SettingsRules;
 use Hive\Core\Migrate\Shortcodes;
+use Hive\Core\Migrate\Snippets as SnippetRules;
 use Hive\Shop\Drops;
 
 defined('ABSPATH') || exit;
@@ -465,7 +466,8 @@ final class Migration
             self::drops($dry),
             self::people($dry),
             CommerceKitImport::run($dry),
-            self::custom_css($dry)
+            self::custom_css($dry),
+            self::snippets($dry)
         );
         if (!$dry) {
             Shop\Store::bump();
@@ -622,6 +624,33 @@ final class Migration
                     count($classes),
                     implode(', ', array_slice($classes, 0, 6)) . (count($classes) > 6 ? '…' : '')
                 );
+            }
+        }
+        return $lines;
+    }
+
+    /**
+     * Code snippets (the Code Snippets plugin) relying on what the switch-over
+     * takes away: golden-hive-blocks' and CommerceKit's functions, WooCommerce's
+     * product-list hooks (Core\Migrate\Snippets). Said in the dry run.
+     *
+     * @return list<string>
+     */
+    private static function snippets(bool $dry): array
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'snippets';
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a one-time look for another plugin's table.
+        if (!$dry || !in_array($table, array_map('strval', (array) $wpdb->get_col('SHOW TABLES')), true)) {
+            return [];
+        }
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Code Snippets' own table, its name built above.
+        $rows  = (array) $wpdb->get_results("SELECT id, name, code FROM `{$table}` WHERE active = 1", ARRAY_A);
+        $lines = [];
+        foreach ($rows as $row) {
+            $concerns = SnippetRules::concerns((string) ($row['code'] ?? ''));
+            if ($concerns) {
+                $lines[] = sprintf('Code Snippets «%s» (#%d): %s. Da rivedere prima di disattivare golden-hive-blocks e CommerceKit', (string) ($row['name'] ?? ''), (int) ($row['id'] ?? 0), implode('; ', $concerns));
             }
         }
         return $lines;

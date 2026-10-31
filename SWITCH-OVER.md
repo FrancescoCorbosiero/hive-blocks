@@ -98,7 +98,9 @@ On purpose, so you know what to expect when you check:
 
 ## After
 
-1. Deactivate **golden-hive-blocks** and **CommerceKit** (Plugins).
+1. Deactivate **golden-hive-blocks**, **CommerceKit** and **Relevanssi
+   Live Ajax Search** (Plugins), once the snippets the dry run named are
+   seen to (see below).
 2. Hive → Impostazioni: check everything, then the modules you use.
 3. Hive → Guide alle taglie and Hive → Offerte al checkout: publish the
    imported drafts.
@@ -113,6 +115,53 @@ On purpose, so you know what to expect when you check:
    - the Store Hub app: rails and previews
 6. Filtered and sorted URLs don't change (both use WooCommerce's own
    parameters), so links and search results keep working.
+
+## The store's other plugins
+
+| Plugin | With Hive |
+| --- | --- |
+| CommerceKit | Off: Hive does the parts the store used (gallery, swatches, sticky bar, stock meter, size guides, waitlist, order bump), and the migration brings its data. |
+| Relevanssi | Keep: Hive's live search searches its index. |
+| Relevanssi Live Ajax Search | Off: Hive's live search replaces it, on an address the CDN can cache (it asks WordPress at every keystroke, past the caches). |
+| WP Super Cache | Keep, set up as below. Hive empties it when it must (a design setting, a drop out, a Store Hub edit). |
+| Modern Image Formats | Keep: it makes the photos AVIF/WebP and Hive shows them as WordPress gives them. Its `<picture>` option is fine too (Hive's layout ignores the wrapper). Photos uploaded before it get modern versions when their sizes are regenerated. |
+| Abandoned Cart Lite | Keep: carts go through WooCommerce's own add to cart, and the checkout stays WooCommerce's, so it sees them as before. Its reminder emails need WP-Cron (below). |
+| Code Snippets | Keep, but read the dry run: it names the active snippets that call golden-hive-blocks or CommerceKit (they break when those go) or add to WooCommerce's product lists (Hive's cards and shop pages don't run those hooks). |
+| Hustle | Keep for now. Hive's Popup promozionale and Newsletter cover a popup with a coupon and the signup; the rest is planned (ROADMAP). |
+
+The theme's search field can open Hive's live search: name it in a snippet,
+for example `add_filter('hive_search_trigger_selector', fn() =>
+'.site-search');` (the theme's own class for its search box).
+
+### WP Super Cache and WP-Cron
+
+Cached pages are served without WordPress, so WP-Cron, which runs when
+WordPress does, runs less often: a drop's release (emptying the caches,
+the size alerts), the alerts' emails, Abandoned Cart's reminders and
+WooCommerce's scheduled sales wait for an uncached visit. Give the site a
+real cron, every minute, and turn off the one that waits for visits:
+
+```php
+define('DISABLE_WP_CRON', true); // wp-config.php
+```
+
+```bash
+* * * * * curl -s 'https://YOUR-SITE/wp-cron.php?doing_wp_cron' > /dev/null
+```
+
+A late cron never leaves a visitor on a drop's countdown: at the release
+the product page reloads once, past the cache (`?hive_released=`), and
+WordPress shows the product on sale. In WP Super Cache's settings:
+
+- **Caching on**, Simple or Expert delivery; no caching for logged-in
+  visitors (the default).
+- Clear the cache **when a post or page is published or updated**: a
+  product edited refreshes the shop's pages.
+- **Cache timeout** an hour or so: stock sold through orders shows on the
+  cached lists within it (WooCommerce refuses a sold-out size anyway).
+- Filtered and sorted shop pages have a query (`?filter_taglia=42`): WP
+  Super Cache doesn't serve those from its files, so they come from
+  WordPress (Hive caches their counts) or from the CDN if it keeps them.
 
 ## Going back
 

@@ -103,6 +103,12 @@ function hive_e2e_legacy_seed(): array
             'meta_input'   => ['ckit_size_guide_cats' => [1]],
         ]
     );
+    // A snippet (Code Snippets' table) that calls golden-hive-blocks, and one switched off.
+    $snippets = $wpdb->prefix . 'snippets';
+    $wpdb->query("CREATE TABLE IF NOT EXISTS {$snippets} (id bigint(20) NOT NULL AUTO_INCREMENT, name tinytext NOT NULL, code longtext NOT NULL, active tinyint(1) NOT NULL DEFAULT 0, PRIMARY KEY (id))"); // phpcs:ignore
+    $wpdb->insert($snippets, ['name' => 'Avvisi dal checkout', 'code' => "add_action('woocommerce_thankyou', function (\$order_id) { ghb_size_alerts_signup(0, '', [], []); });", 'active' => 1]); // phpcs:ignore
+    $wpdb->insert($snippets, ['name' => 'Vecchio badge', 'code' => "add_action('woocommerce_after_shop_loop_item_title', 'x');", 'active' => 0]); // phpcs:ignore
+
     $socks = get_page_by_path('calzini-hive', OBJECT, 'product');
     update_option('commercekit', ['order_bump' => 1, 'order_bump_product' => $socks ? $socks->ID : 0, 'order_bump_title' => 'Aggiungi i calzini']);
 

@@ -98,6 +98,12 @@ number.
   reads what's in the database and the dry run says what it found. Run it
   on a staging copy of the store first: anything it couldn't read is
   listed, to import by hand or to teach the importer.
+- **Hustle.** Which of its parts the store uses (pop-ups, slide-ins,
+  embedded forms, sharing) and whether its forms collect emails, and for
+  which service. Hive's Popup promozionale and Newsletter cover a popup
+  with a coupon and the signup; a popup that takes the email, then shows
+  the coupon, and Hustle's entries moved into Hive → Iscritti would let it
+  go too.
 - **Checkout.** Hive's checkout parts are built for the classic checkout,
   as golden-hive-blocks', with a lighter path for the Checkout block.
   Confirm which one the store uses before the switch-over.

@@ -33,6 +33,9 @@ test('the dry run lists what would change and changes nothing', async ({ page })
     expect(all).toMatch(/CommerceKit, lista d’attesa \(\w*commercekit_waitlist\): porterebbe 1 richieste di 1 persone \(saltate: 1 già avvisate; 1 su prodotti non più in negozio/);
     expect(all).toContain('Guide alle taglie (ckit_size_guide): porterebbe 1 come bozze');
     expect(all).toContain('CommerceKit, offerte al checkout: porterebbe 1 come bozze');
+    // An active snippet calling golden-hive-blocks is named; a switched-off one isn't.
+    expect(all).toMatch(/Code Snippets «Avvisi dal checkout» \(#\d+\): usa golden-hive-blocks \(ghb_size_alerts_signup\)/);
+    expect(all).not.toContain('Vecchio badge');
 
     const state = await (await page.request.get(helper('legacy'))).json();
     expect(state.content).toContain('<!-- wp:golden-hive/store-hours');
