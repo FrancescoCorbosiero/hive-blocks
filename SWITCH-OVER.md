@@ -43,7 +43,9 @@ it, then **Migra**. You can run it again: what's done stays as it is.
 | CommerceKit order bumps | drafts in Hive → Offerte al checkout |
 
 What's left to do by hand is in the list: a block with no Hive
-counterpart, a table it couldn't read.
+counterpart, a table it couldn't read, additional CSS (Customizer or Site
+Editor) written for golden-hive-blocks' `gh-` / `ghb-` classes, which
+Hive's markup doesn't have.
 
 ### CommerceKit
 

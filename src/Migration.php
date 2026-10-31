@@ -220,7 +220,8 @@ final class Migration
             self::settings($dry),
             self::drops($dry),
             self::people($dry),
-            CommerceKitImport::run($dry)
+            CommerceKitImport::run($dry),
+            self::custom_css($dry)
         );
         if (!$dry) {
             Shop\Store::bump();
@@ -336,6 +337,34 @@ final class Migration
             update_option(Settings::OPTION, $merged);
         }
         return [sprintf('%s le impostazioni: %s', $dry ? 'Porterebbe' : 'Portate', implode(', ', $diff))];
+    }
+
+    /**
+     * Additional CSS (the Customizer's, the Site Editor's) aimed at
+     * golden-hive-blocks' classes: Hive's markup has its own, so those rules
+     * find nothing any more. Said in the dry run; a person rewrites them.
+     *
+     * @return list<string>
+     */
+    private static function custom_css(bool $dry): array
+    {
+        if (!$dry) {
+            return [];
+        }
+        $lines = [];
+        foreach (get_posts(['post_type' => ['custom_css', 'wp_global_styles'], 'post_status' => 'any', 'numberposts' => -1]) as $post) {
+            preg_match_all('/\.(ghb?-[a-z0-9_-]+)/i', (string) $post->post_content, $found);
+            $classes = array_values(array_unique($found[1]));
+            if ($classes) {
+                $lines[] = sprintf(
+                    'CSS aggiuntivo (%s): %d classi di golden-hive-blocks (%s), che con Hive non trovano più nulla: da riscrivere sulle classi hive-',
+                    'custom_css' === $post->post_type ? 'Personalizza, tema ' . $post->post_title : 'Editor del sito',
+                    count($classes),
+                    implode(', ', array_slice($classes, 0, 6)) . (count($classes) > 6 ? '…' : '')
+                );
+            }
+        }
+        return $lines;
     }
 
     /** @return list<string> */
