@@ -167,9 +167,31 @@ test('rail arrows: shown when there is more, a page at a time, off at the ends',
     await expect(next).toBeVisible();
     await expect(prev).toBeDisabled();
 
+    const track = rail.locator('.hive-rail__track');
     await next.click();
-    await expect.poll(() => rail.locator('.hive-rail__track').evaluate((track) => track.scrollLeft)).toBeGreaterThan(300);
+    expect(await settled(track)).toBeGreaterThan(300);
     await expect(prev).toBeEnabled();
-    await next.click();
+    // A page at a time to the end: each click once the scroll before it is over.
+    for (let i = 0; i < 10 && (await next.isEnabled()); i++) {
+        await next.click();
+        await settled(track);
+    }
     await expect(next).toBeDisabled();
 });
+
+/** Waits until a smooth scroll is over (the same position twice, 150 ms apart); its position. */
+async function settled(track) {
+    let last = -1;
+    await expect
+        .poll(
+            async () => {
+                const now = await track.evaluate((node) => node.scrollLeft);
+                const still = now === last;
+                last = now;
+                return still;
+            },
+            { intervals: [150] }
+        )
+        .toBe(true);
+    return last;
+}
