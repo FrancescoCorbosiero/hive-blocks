@@ -58,7 +58,7 @@ final class Catalog
         $classes = 'hive-block hive-catalog' . ($canvas ? ' hive-catalog--canvas' : '') . ($drawer ? ' hive-catalog--drawer' : '');
         $html   .= $canvas ? '<main id="hive-main" class="hive-catalog-main">' : '';
         $html   .= sprintf('<div class="%s" data-hive-catalog>', esc_attr($classes));
-        $html   .= self::breadcrumb();
+        $html   .= Breadcrumb::render('hive-catalog__crumbs');
         $html   .= self::hero($scope, $filters);
 
         ob_start();
@@ -92,21 +92,6 @@ final class Catalog
     {
         $encode = static fn(string $value): string => str_replace('%2C', ',', rawurlencode($value));
         return $params ? add_query_arg(array_map($encode, $params), $base) : $base;
-    }
-
-    private static function breadcrumb(): string
-    {
-        ob_start();
-        woocommerce_breadcrumb(
-            [
-                'wrap_before' => '<nav class="hive-catalog__crumbs" aria-label="Percorso"><ol>',
-                'wrap_after'  => '</ol></nav>',
-                'before'      => '<li>',
-                'after'       => '</li>',
-                'delimiter'   => '',
-            ]
-        );
-        return (string) ob_get_clean();
     }
 
     private static function hero(?array $scope, array $filters): string

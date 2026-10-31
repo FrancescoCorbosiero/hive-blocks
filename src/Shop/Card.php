@@ -53,6 +53,10 @@ final class Card
         $heading = in_array($heading, ['h2', 'h3', 'h4'], true) ? $heading : 'h3';
         $eager   = $options['eager'] ?? false;
         $matches = $product->is_type('variable') ? Sizes::matching($product, $options['size_filter'] ?? null) : [];
+        // Found through one size: its page opens with that size picked (WooCommerce's own ?attribute_pa_taglia=42).
+        if (1 === count($matches) && '' !== $matches[0]['value']) {
+            $url = add_query_arg('attribute_' . sanitize_title(Store::size_attribute()), rawurlencode($matches[0]['value']), $url);
+        }
         $brand   = Store::brand($product);
         // The brand line only when the name doesn't already start with it ("Nike" over "Nike Dunk Low").
         if ('' !== $brand && 0 === stripos($name, $brand)) {
@@ -149,8 +153,29 @@ final class Card
         return '' !== $image ? $image : wc_placeholder_img('woocommerce_thumbnail', $attributes);
     }
 
-    /** The sale badge, "Esaurito", and whatever hive_card_badges adds ([class => text]). */
+    /** The card's badges, drawn. */
     private static function badges(\WC_Product $product, array $state): string
+    {
+        $badges = self::badge_list($product, $state);
+        if (!$badges) {
+            return '';
+        }
+        $html = '<p class="hive-card__badges">';
+        foreach ($badges as $class => $text) {
+            $html .= sprintf('<span class="hive-card__badge %s">%s</span>', esc_attr((string) $class), esc_html((string) $text));
+        }
+        return $html . '</p>';
+    }
+
+    /**
+     * The sale badge ("-20%", "Fino a -30%"), "Esaurito", and whatever the
+     * hive_card_badges filter adds: [class => text]. The product page shows
+     * the same ones on its gallery.
+     *
+     * @param array{kind: string, label: string} $state self::state()
+     * @return array<string, string>
+     */
+    public static function badge_list(\WC_Product $product, array $state): array
     {
         $badges = [];
         if ('sold-out' === $state['kind']) {
@@ -161,15 +186,7 @@ final class Card
                 $badges['is-sale'] = $sale;
             }
         }
-        $badges = (array) apply_filters('hive_card_badges', $badges, $product, $state);
-        if (!$badges) {
-            return '';
-        }
-        $html = '<p class="hive-card__badges">';
-        foreach ($badges as $class => $text) {
-            $html .= sprintf('<span class="hive-card__badge %s">%s</span>', esc_attr((string) $class), esc_html((string) $text));
-        }
-        return $html . '</p>';
+        return array_map('strval', (array) apply_filters('hive_card_badges', $badges, $product, $state));
     }
 
     /**

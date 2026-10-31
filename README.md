@@ -43,12 +43,20 @@ Features that hook into WooCommerce; each can be switched off in **Hive → Modu
 | Anteprima rapida | The eye button on a card opens photos, sizes, price and add to cart in a dialog. |
 | Aggiunta rapida | On a product with sizes, "Aggiungi al carrello" opens the size choice instead of the product page. |
 | Pagine del negozio | The shop and its category, brand, tag and attribute pages are Hive's: hero, filters (sizes matched on stock, price, categories, every attribute, in stock only), sort order, grid and pages, inside the theme's header and footer. Filters are plain URLs, swapped in place without reloading. |
+| Pagina prodotto | The product page is Hive's, inside the theme's header and footer, with what the store used CommerceKit for: photos that swipe, with thumbnails or in a grid, full screen with zoom; size buttons with their price and a sale mark (sold-out sizes still a choice); "Solo 2 disponibili" with a bar; size guides; a sticky add-to-cart bar; add to cart without leaving the page. Details as an accordion, then upsells and related products as rails. WooCommerce's variation script and product hooks keep working underneath, for payment buttons and other plugins. |
 
 ## Settings
 
 **Hive** in the admin menu: the accent and button colours, rounded or sharp
 corners, the size attribute, the WhatsApp number, sold-out products last,
-the filters as a sidebar or a panel on desktop, and the modules on or off.
+the filters as a sidebar or a panel on desktop, the product photos one at a
+time or in a grid, the sticky bar, from how many pieces "Solo N disponibili"
+shows, and the modules on or off.
+
+**Hive → Guide alle taglie**: size guides written in the block editor (a
+table, a picture, notes), each for some categories (their subcategories
+too) and brands, or the default one. A product can pick its own guide, or
+none, in Product data → General.
 
 ## Caching and the CDN
 
@@ -58,6 +66,10 @@ can serve them. Product data for Quick View and Quick Add comes from
 long `s-maxage`: add a CDN rule that caches `/wp-json/hive/v1/` GET requests
 and they never reach PHP twice. `v` changes whenever products do, so a
 cached answer is never stale for long.
+
+The product page is the same for every visitor too: the stock line and
+each size's price come with it, and adding to the cart is a POST to
+WooCommerce (`?wc-ajax=hive_add_to_cart`), which caches pass through.
 
 Every filtered shop page is a plain URL (`?filter_taglia=42`,
 `?orderby=price`), the same for every visitor: the page cache and the CDN

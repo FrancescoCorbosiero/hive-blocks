@@ -10,6 +10,9 @@ $defaults = [
     'whatsapp'       => '',
     'sold_out_last'  => true,
     'filters_layout' => 'sidebar',
+    'gallery'        => 'slider',
+    'sticky_bar'     => true,
+    'stock_low'      => 5,
     'modules'        => [],
 ];
 
@@ -34,6 +37,13 @@ check(SettingsSchema::sanitize(['sold_out_last' => '0'])['sold_out_last'], false
 check(SettingsSchema::sanitize(['sold_out_last' => '1'])['sold_out_last'], true, 'a switch turned on');
 check(SettingsSchema::sanitize([])['sold_out_last'], true, 'a switch never saved: its default');
 check(SettingsSchema::sanitize(['filters_layout' => 'drawer'])['filters_layout'], 'drawer', 'the filters as a panel');
+
+check(SettingsSchema::sanitize(['stock_low' => '3'])['stock_low'], 3, 'a number from the form');
+check(SettingsSchema::sanitize(['stock_low' => '0'])['stock_low'], 0, 'zero turns "few left" off');
+check(SettingsSchema::sanitize(['stock_low' => '500'])['stock_low'], 50, 'a number over the maximum is capped');
+check(SettingsSchema::sanitize(['stock_low' => '-2'])['stock_low'], 5, 'not a whole number: the default');
+check(SettingsSchema::sanitize(['stock_low' => 'tre'])['stock_low'], 5, 'not a number: the default');
+check(SettingsSchema::sanitize(['gallery' => 'grid'])['gallery'], 'grid', 'the gallery as a grid');
 
 check(
     SettingsSchema::sanitize(['modules' => ['quick-add' => '1', 'gallery' => '0', 'Bad Key' => '1', 3 => '1']])['modules'],

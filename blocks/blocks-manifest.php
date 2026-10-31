@@ -25,6 +25,30 @@ return array(
 		'viewScriptModule' => '@hive/catalog',
 		'render' => 'file:./render.php',
 	),
+	'product' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'hive/product',
+		'title' => 'Pagina prodotto',
+		'category' => 'hive',
+		'icon' => 'products',
+		'description' => 'La pagina del prodotto: foto, taglie, prezzo, carrello, dettagli e prodotti correlati. Per il modello del prodotto dei temi a blocchi.',
+		'textdomain' => 'hive-blocks',
+		'attributes' => array(
+			'canvas' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+		),
+		'supports' => array(
+			'html' => false,
+			'inserter' => false,
+			'reusable' => false,
+		),
+		'viewStyle' => 'hive-product',
+		'viewScriptModule' => '@hive/product',
+		'render' => 'file:./render.php',
+	),
 	'product-rail' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

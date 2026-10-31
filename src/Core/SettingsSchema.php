@@ -22,6 +22,7 @@ final class SettingsSchema
      *   key     a taxonomy or attribute name: a-z, 0-9, _ and -, up to 32
      *   phone   digits only, 6 to 15 (international format without +), or ''
      *   bool    on or off
+     *   int     a whole number between 'min' and 'max'
      *   flags   [key => bool], e.g. which modules are on
      */
     public const FIELDS = [
@@ -32,6 +33,9 @@ final class SettingsSchema
         'whatsapp'       => ['type' => 'phone', 'default' => ''],
         'sold_out_last'  => ['type' => 'bool', 'default' => true],
         'filters_layout' => ['type' => 'choice', 'default' => 'sidebar', 'choices' => ['sidebar', 'drawer']],
+        'gallery'        => ['type' => 'choice', 'default' => 'slider', 'choices' => ['slider', 'grid']],
+        'sticky_bar'     => ['type' => 'bool', 'default' => true],
+        'stock_low'      => ['type' => 'int', 'default' => 5, 'min' => 0, 'max' => 50],
         'modules'        => ['type' => 'flags', 'default' => []],
     ];
 
@@ -72,6 +76,12 @@ final class SettingsSchema
             case 'phone':
                 $digits = is_string($value) ? (string) preg_replace('/\D/', '', $value) : '';
                 return 1 === preg_match('/^\d{6,15}$/', $digits) ? $digits : $field['default'];
+
+            case 'int':
+                if (is_int($value) || (is_string($value) && 1 === preg_match('/^\d{1,6}$/', trim($value)))) {
+                    return max($field['min'], min($field['max'], (int) $value));
+                }
+                return $field['default'];
 
             case 'bool':
                 if (null === $value) {

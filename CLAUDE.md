@@ -50,6 +50,13 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   block themes. Filters are WooCommerce's own URL parameters (`Core\Filters`),
   every option a link; `@hive/catalog` swaps the results in place. Product
   order on these pages is `Shop\Ordering` (sold-out last, rail pins).
+- **The product page** (`Shop\ProductPage`, module Pagina prodotto) is
+  Hive's own template the same way. The buying part (`Shop\BuyForm`) is
+  WooCommerce's variations form underneath (its classes, data and
+  `wc-add-to-cart-variation`), so payment plugins keep working: Hive's
+  buttons set its selects and listen to its jQuery events. WooCommerce's
+  product hooks are fired through `Shop\Hooks` (without the callbacks Hive
+  replaces and without the theme's).
 - **Interactive UI** that opens on demand (dialogs, sheets) loads on demand:
   a dynamic `import()` from the module that handles the click, and
   `@hive/dialog` brings `dialog.css` the first time a dialog opens.

@@ -26,6 +26,7 @@ final class Plugin
             Shop\ProductData::register();
             Shop\Rail::register();
             Shop\Ordering::register();
+            Shop\SizeGuides::register();
             Modules::register();
         }
     }

@@ -34,6 +34,8 @@ test('a size keeps only the products with it in stock, swapped in place', async 
     await expect(results(page)).toHaveCount(1);
     await expect(results(page).first()).toContainText('Nike Dunk Low Panda');
     await expect(results(page).first().locator('.hive-card__match')).toHaveText(/^Taglia 42 · 180,00/);
+    // Its page opens with the size picked.
+    await expect(results(page).first().locator('.hive-card__link')).toHaveAttribute('href', /attribute_pa_taglia=42/);
     await expect(page.locator('.hive-filters__chip')).toContainText('42');
     expect(await page.evaluate(() => window.hiveSamePage)).toBe(true);
 

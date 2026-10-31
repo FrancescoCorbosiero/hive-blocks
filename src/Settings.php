@@ -23,7 +23,8 @@ final class Settings
 
     public static function register(): void
     {
-        add_action('admin_menu', [self::class, 'menu']);
+        // Before WordPress adds post types' menus (the size guides go under Hive).
+        add_action('admin_menu', [self::class, 'menu'], 9);
         add_action('admin_init', [self::class, 'fields']);
         add_filter('plugin_action_links_' . plugin_basename(FILE), [self::class, 'action_link']);
         foreach (['add_option_', 'update_option_', 'delete_option_'] as $hook) {
@@ -51,6 +52,8 @@ final class Settings
     public static function menu(): void
     {
         add_menu_page('Hive', 'Hive', 'manage_options', self::PAGE, [self::class, 'page'], self::icon(), 59);
+        // The menu's first entry is the settings (the size guides come after it).
+        add_submenu_page(self::PAGE, 'Hive', 'Impostazioni', 'manage_options', self::PAGE, [self::class, 'page']);
     }
 
     public static function fields(): void
@@ -76,6 +79,11 @@ final class Settings
         add_settings_field('hive-whatsapp', 'Numero WhatsApp', [self::class, 'whatsapp_field'], self::PAGE, 'store', ['label_for' => 'hive-whatsapp']);
         add_settings_field('hive-sold-out-last', 'Prodotti esauriti', [self::class, 'sold_out_last_field'], self::PAGE, 'store', ['label_for' => 'hive-sold-out-last']);
         add_settings_field('hive-filters-layout', 'Filtri su desktop', [self::class, 'filters_layout_field'], self::PAGE, 'store');
+
+        add_settings_section('product', 'Pagina prodotto', [self::class, 'product_intro'], self::PAGE);
+        add_settings_field('hive-gallery', 'Galleria su desktop', [self::class, 'gallery_field'], self::PAGE, 'product');
+        add_settings_field('hive-sticky-bar', 'Barra di acquisto fissa', [self::class, 'sticky_bar_field'], self::PAGE, 'product', ['label_for' => 'hive-sticky-bar']);
+        add_settings_field('hive-stock-low', 'Poche scorte', [self::class, 'stock_low_field'], self::PAGE, 'product', ['label_for' => 'hive-stock-low']);
 
         $modules = Modules::all();
         if ($modules) {
@@ -190,6 +198,50 @@ final class Settings
             );
         }
         echo '<p class="description">Sul telefono i filtri si aprono sempre dal pulsante.</p></fieldset>';
+    }
+
+    public static function product_intro(): void
+    {
+        echo '<p>La pagina del prodotto che Hive disegna (modulo «Pagina prodotto»). Le guide alle taglie sono in <a href="' . esc_url(admin_url('edit.php?post_type=hive_size_guide')) . '">Hive → Guide alle taglie</a>.</p>';
+    }
+
+    public static function gallery_field(): void
+    {
+        $choices = [
+            'slider' => 'Una foto alla volta, con le miniature',
+            'grid'   => 'Tutte le foto in griglia, una sotto l’altra',
+        ];
+        echo '<fieldset><legend class="screen-reader-text">Galleria su desktop</legend>';
+        foreach ($choices as $value => $label) {
+            printf(
+                '<label><input type="radio" name="%s[gallery]" value="%s"%s> %s</label><br>',
+                esc_attr(self::OPTION),
+                esc_attr($value),
+                checked(self::get('gallery'), $value, false),
+                esc_html($label)
+            );
+        }
+        echo '<p class="description">Sul telefono le foto scorrono sempre di lato.</p></fieldset>';
+    }
+
+    public static function sticky_bar_field(): void
+    {
+        printf(
+            '<input type="hidden" name="%1$s[sticky_bar]" value="0"><label><input type="checkbox" id="hive-sticky-bar" name="%1$s[sticky_bar]" value="1"%2$s> %3$s</label>',
+            esc_attr(self::OPTION),
+            checked((bool) self::get('sticky_bar'), true, false),
+            'Quando il pulsante «Aggiungi al carrello» esce dallo schermo, una barra in basso con prezzo e pulsante.'
+        );
+    }
+
+    public static function stock_low_field(): void
+    {
+        printf(
+            '<input type="number" id="hive-stock-low" name="%s[stock_low]" value="%d" min="0" max="50" step="1" class="small-text"><p class="description">%s</p>',
+            esc_attr(self::OPTION),
+            (int) self::get('stock_low'),
+            'Da quanti pezzi in giù la pagina dice «Solo 3 disponibili», con una barra. 0 non lo dice mai. Vale per i prodotti e le taglie di cui WooCommerce gestisce le scorte.'
+        );
     }
 
     public static function shape_field(): void
