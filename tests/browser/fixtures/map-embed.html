@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mappa — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": {"@hive/map": "/assets/build/modules/map.js"} }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/assets/build/map.css">
+    <!-- A theme that styles content elements, as most do (.entry-content X outranks a single class). -->
+    <style>
+        body { margin: 0; padding: 0 1rem; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; text-transform: uppercase; }
+        .entry-content h3 { margin: 1.5em 0 0.5em; font-size: 2rem; letter-spacing: 0.2em; text-transform: lowercase; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content ul, .entry-content ol { margin: 0 0 1.5em 3em; padding: 0; list-style: square; }
+        .entry-content li { margin: 0 0 0.5em; padding: 0 0 0 0.5em; }
+        .entry-content dl, .entry-content dd { margin: 0 0 1.5em 2.5em; }
+        .entry-content dt { font-weight: 400; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content address { margin: 0 0 1.5em; font-style: italic; }
+        .entry-content strong { color: #c00; }
+        .entry-content button { padding: 1em 2em; border: 2px outset #999; border-radius: 0; background: #e0e0e0; color: #333; font-family: Arial, sans-serif; text-transform: uppercase; }
+        .entry-content iframe { width: 300px; height: 150px; margin: 0 0 1.5em; border: 3px solid #c00; }
+        .entry-content img { margin: 1em; border: 5px solid gray; }
+        .entry-content details { margin: 0 0 1em; padding: 1em; border: 1px solid #c00; }
+        .entry-content summary { display: list-item; font-size: 1rem; font-weight: 400; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output for the default attributes, then with an address and 300 px. -->
+    <div style="--hive-map-min:450px;--hive-map-radius:calc(12px * var(--hive-round))" class="hive-block hive-map-embed wp-block-hive-map-embed">
+        <div class="hive-map" data-hive-map><template data-hive-map-frame><iframe class="hive-map__frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2819.1!2d9.6884327!3d45.0482437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4780dd3b7d8a913b%3A0x26e569f7b44a6448!2sResellpiacenza!5e0!3m2!1sit!2sit!4v1" title="Mappa" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe></template><div class="hive-map__cover" data-hive-map-cover><div class="hive-map__card"><span class="hive-map__pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><button type="button" class="hive-button hive-map__load" data-hive-map-load>Mostra la mappa</button><a class="hive-map__open" href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2819.1!2d9.6884327!3d45.0482437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4780dd3b7d8a913b%3A0x26e569f7b44a6448!2sResellpiacenza!5e0!3m2!1sit!2sit!4v1" target="_blank" rel="noopener noreferrer">Apri in Google Maps</a><p class="hive-map__note">La mappa è di Google: caricandola accetti i suoi cookie.</p></div></div></div></div>
+    <div style="--hive-map-min:300px;--hive-map-radius:calc(0px * var(--hive-round))" class="hive-block hive-map-embed wp-block-hive-map-embed">
+        <div class="hive-map" data-hive-map><template data-hive-map-frame><iframe class="hive-map__frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2819.1!2d9.6884327!3d45.0482437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4780dd3b7d8a913b%3A0x26e569f7b44a6448!2sResellpiacenza!5e0!3m2!1sit!2sit!4v1" title="Mappa: Stradone Farnese 3 - 29121 - Piacenza (PC)" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe></template><div class="hive-map__cover" data-hive-map-cover><div class="hive-map__card"><span class="hive-map__pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><p class="hive-map__address">Stradone Farnese 3 - 29121 - Piacenza (PC)</p><button type="button" class="hive-button hive-map__load" data-hive-map-load>Mostra la mappa</button><a class="hive-map__open" href="https://www.google.com/maps/search/?api=1&#038;query=Stradone%20Farnese%203%20-%2029121%20-%20Piacenza%20%28PC%29" target="_blank" rel="noopener noreferrer">Apri in Google Maps</a><p class="hive-map__note">La mappa è di Google: caricandola accetti i suoi cookie.</p></div></div></div></div>
+</main>
+<script type="module" src="/assets/build/modules/map.js"></script>
+</body>
+</html>

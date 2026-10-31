@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cerca e newsletter — fixture</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "@hive/dialog": "/assets/build/modules/dialog.js",
+            "@hive/dom": "/assets/build/modules/dom.js",
+            "@hive/search": "/assets/build/modules/search.js"
+        }
+    }
+    </script>
+    <script type="application/json" id="wp-script-module-data-@hive/dialog">{"style":"/assets/build/dialog.css"}</script>
+    <script type="application/json" id="wp-script-module-data-@hive/search">{"api":"/api/","v":7,"home":"/","selector":"","popular":[]}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/search/build/style.css">
+    <link rel="stylesheet" href="/blocks/newsletter/build/style.css">
+    <style>body { margin: 0 auto; max-width: 900px; padding: 16px; font-family: Georgia, serif; } h2 { font-size: 40px; margin: 3em 0; } input[type=email] { border: 4px solid lime; }</style>
+</head>
+<body>
+<header><div class="hive-block hive-search-block is-field"><a class="hive-search-block__open" href="/?s=&amp;post_type=product" data-hive-search data-placeholder="Cerca sneakers, marchi, modelli…" data-popular="Jordan 4|Dunk Low" role="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/></svg><span class="hive-search-block__label">Cerca sneakers, marchi, modelli…</span></a></div></header>
+<section class="hive-block hive-newsletter"><h2 class="hive-newsletter__title">Resta connesso</h2><p class="hive-newsletter__text">Iscriviti per drop esclusivi.</p><form class="hive-newsletter__form" method="post" action="/?wc-ajax=hive_newsletter" data-hive-newsletter novalidate><div class="hive-newsletter__row"><label class="hive-visually-hidden" for="nl">Il tuo indirizzo email</label><input class="hive-newsletter__email" id="nl" type="email" name="email" placeholder="La tua email" autocomplete="email" required><button type="submit" class="hive-button hive-newsletter__submit">Iscriviti</button></div><input class="hive-newsletter__trap" type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true"><details class="hive-newsletter__alerts"><summary class="hive-newsletter__alerts-title">Avvisami quando arriva la mia taglia <span>(facoltativo)</span></summary><div class="hive-newsletter__chips" role="group" aria-label="Taglie per gli avvisi" data-hive-newsletter-sizes><label class="hive-newsletter__chip"><input type="checkbox" name="sizes[]" value="40"><span>40</span></label><label class="hive-newsletter__chip"><input type="checkbox" name="sizes[]" value="41"><span>41</span></label><label class="hive-newsletter__chip"><input type="checkbox" name="sizes[]" value="42"><span>42</span></label><label class="hive-newsletter__chip"><input type="checkbox" name="sizes[]" value="43"><span>43</span></label></div></details><p class="hive-newsletter__status" role="status" data-hive-newsletter-status></p></form></section>
+<script type="module">import '@hive/search'; import '/blocks/newsletter/build/view.js';</script>
+</body>
+</html>

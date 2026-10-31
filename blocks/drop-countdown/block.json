@@ -1,0 +1,38 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/drop-countdown",
+    "title": "Conto alla rovescia del drop",
+    "category": "hive",
+    "icon": "clock",
+    "description": "Il conto alla rovescia di un’uscita: segue il drop di un prodotto (data, foto, prezzo, link) o una data scritta qui, con «Ricordamelo» e «Acquista ora» all’uscita. Senza scelta, il prossimo drop del negozio.",
+    "keywords": ["drop", "countdown", "uscita", "release", "conto alla rovescia"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "productId": { "type": "number", "default": 0 },
+        "productName": { "type": "string", "default": "" },
+        "productImageId": { "type": "number", "default": 0 },
+        "releaseDate": { "type": "string", "default": "" },
+        "eyebrow": { "type": "string", "default": "Prossimo drop" },
+        "buttonText": { "type": "string", "default": "Scopri di più" },
+        "buttonUrl": { "type": "string", "default": "" }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "@hive/drop",
+    "render": "file:./render.php"
+}

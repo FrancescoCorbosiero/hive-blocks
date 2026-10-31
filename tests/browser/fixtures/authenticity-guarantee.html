@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Garanzia di autenticità — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": {} }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/authenticity-guarantee/build/style.css">
+    <!-- A theme that styles content elements, as most do (.entry-content X outranks a single class). -->
+    <style>
+        body { margin: 0; padding: 0 1rem; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; text-transform: uppercase; }
+        .entry-content h3 { margin: 1.5em 0 0.5em; font-size: 2rem; letter-spacing: 0.2em; text-transform: lowercase; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content ul, .entry-content ol { margin: 0 0 1.5em 3em; padding: 0; list-style: square; }
+        .entry-content li { margin: 0 0 0.5em; padding: 0 0 0 0.5em; }
+        .entry-content dl, .entry-content dd { margin: 0 0 1.5em 2.5em; }
+        .entry-content dt { font-weight: 400; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content address { margin: 0 0 1.5em; font-style: italic; }
+        .entry-content strong { color: #c00; }
+        .entry-content button { padding: 1em 2em; border: 2px outset #999; border-radius: 0; background: #e0e0e0; color: #333; font-family: Arial, sans-serif; text-transform: uppercase; }
+        .entry-content iframe { width: 300px; height: 150px; margin: 0 0 1.5em; border: 3px solid #c00; }
+        .entry-content img { margin: 1em; border: 5px solid gray; }
+        .entry-content details { margin: 0 0 1em; padding: 1em; border: 1px solid #c00; }
+        .entry-content summary { display: list-item; font-size: 1rem; font-weight: 400; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output for the default attributes and a button link. -->
+    <section class="hive-block hive-authenticity wp-block-hive-authenticity-guarantee">
+        <div class="hive-authenticity__inner">
+            <div class="hive-authenticity__seal">
+                <span class="hive-authenticity__shield">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </span>
+                                <span class="hive-authenticity__badge">Autenticità certificata</span>
+                                            <span class="hive-authenticity__signature">ResellPiacenza</span>
+                        </div>
+            <div class="hive-authenticity__content">
+                                <p class="hive-authenticity__eyebrow">La Nostra Promessa</p>
+                            <h2 class="hive-authenticity__title">100% Autenticità Garantita</h2>
+                                <p class="hive-authenticity__description">Ogni articolo viene meticolosamente ispezionato e verificato dal nostro team di esperti prima di raggiungerti.</p>
+                                <ol class="hive-authenticity__steps" role="list">
+                                                <li class="hive-authenticity__step">
+                                <span class="hive-authenticity__number" aria-hidden="true">1</span>
+                                <div class="hive-authenticity__step-body">
+                                                                        <h3 class="hive-authenticity__step-title">Ispezione Visiva</h3>
+                                                                                                        <p class="hive-authenticity__step-text">Ogni dettaglio viene esaminato dai nostri esperti certificati.</p>
+                                                                </div>
+                            </li>
+                                                <li class="hive-authenticity__step">
+                                <span class="hive-authenticity__number" aria-hidden="true">2</span>
+                                <div class="hive-authenticity__step-body">
+                                                                        <h3 class="hive-authenticity__step-title">Verifica Materiali</h3>
+                                                                                                        <p class="hive-authenticity__step-text">Controlliamo qualità dei materiali, cuciture e finiture.</p>
+                                                                </div>
+                            </li>
+                                                <li class="hive-authenticity__step">
+                                <span class="hive-authenticity__number" aria-hidden="true">3</span>
+                                <div class="hive-authenticity__step-body">
+                                                                        <h3 class="hive-authenticity__step-title">Certificazione</h3>
+                                                                                                        <p class="hive-authenticity__step-text">Solo i prodotti che superano tutti i controlli ricevono il nostro sigillo.</p>
+                                                                </div>
+                            </li>
+                                        </ol>
+                                <a class="hive-button hive-authenticity__button" href="/autenticita">Scopri di Più</a>
+                        </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

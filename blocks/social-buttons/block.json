@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/social-buttons",
+    "title": "Pulsanti social",
+    "category": "hive",
+    "icon": "share",
+    "description": "I profili social del negozio (Instagram, Facebook, TikTok, YouTube, X) in una colonna di pulsanti fissa sul lato dello schermo.",
+    "keywords": ["social", "instagram", "facebook", "tiktok", "youtube"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "instagram": {
+            "type": "string",
+            "default": ""
+        },
+        "facebook": {
+            "type": "string",
+            "default": ""
+        },
+        "tiktok": {
+            "type": "string",
+            "default": ""
+        },
+        "youtube": {
+            "type": "string",
+            "default": ""
+        },
+        "twitter": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "multiple": false
+    },
+    "example": {
+        "attributes": {
+            "instagram": "https://www.instagram.com/resellpiacenza/",
+            "tiktok": "https://www.tiktok.com/@resellpiacenza"
+        }
+    },
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "render": "file:./render.php"
+}

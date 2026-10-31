@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/search",
+    "title": "Cerca",
+    "category": "hive",
+    "icon": "search",
+    "description": "Apre la ricerca istantanea dei prodotti: i risultati mentre scrivi, le ricerche popolari e le ultime fatte. Per l’intestazione del sito.",
+    "keywords": ["ricerca", "search", "cerca", "prodotti"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "look": { "type": "string", "enum": ["field", "button", "icon"], "default": "field" },
+        "label": { "type": "string", "default": "Cerca" },
+        "placeholder": { "type": "string", "default": "Cerca sneakers, marchi, modelli…" },
+        "popular": { "type": "string", "default": "" }
+    },
+    "supports": {
+        "html": false,
+        "align": false,
+        "spacing": { "margin": true }
+    },
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "@hive/search",
+    "render": "file:./render.php"
+}

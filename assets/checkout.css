@@ -1,0 +1,118 @@
+/**
+ * Hive — the checkout's Hive parts (handle hive-checkout): the order bump
+ * (Hive\Shop\OrderBumps) and the bank details button
+ * (Hive\Shop\BankDetails). The bank details' dialog is dialog.css.
+ */
+
+.hive-block.hive-bump {
+    margin: 0 0 var(--hive-space-5);
+    padding: var(--hive-space-4);
+    border: 2px dashed color-mix(in srgb, var(--hive-accent) 55%, transparent);
+    border-radius: var(--hive-radius-lg);
+    background: var(--hive-accent-tint);
+}
+
+.hive-bump .hive-bump__eyebrow {
+    margin: 0 0 var(--hive-space-3);
+    color: var(--hive-accent-ink);
+    font-size: var(--hive-text-xs);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.hive-bump .hive-bump__body {
+    display: flex;
+    align-items: center;
+    gap: var(--hive-space-3);
+}
+
+.hive-bump .hive-bump__image {
+    flex: none;
+    width: 4rem;
+    height: 4rem;
+    max-width: none;
+    margin: 0;
+    border-radius: var(--hive-radius-md);
+    background: var(--hive-media);
+    object-fit: contain;
+}
+
+.hive-bump .hive-bump__text {
+    min-width: 0;
+}
+
+.hive-bump .hive-bump__name {
+    margin: 0;
+    font-size: var(--hive-text-md);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.hive-bump .hive-bump__note {
+    margin: 0.25rem 0 0;
+    color: var(--hive-muted);
+    font-size: var(--hive-text-sm);
+}
+
+.hive-bump .hive-bump__price {
+    margin: 0.25rem 0 0;
+    font-size: var(--hive-text-sm);
+    font-weight: 600;
+}
+
+.hive-bump .hive-bump__price ins {
+    background: none;
+    color: var(--hive-accent-ink);
+    text-decoration: none;
+}
+
+.hive-bump .hive-bump__add {
+    width: 100%;
+    margin-top: var(--hive-space-3);
+}
+
+.hive-bump .hive-bump__status {
+    margin: var(--hive-space-2) 0 0;
+    font-size: var(--hive-text-sm);
+    font-weight: 600;
+}
+
+.hive-bump .hive-bump__status:empty {
+    display: none;
+}
+
+.hive-block.hive-bank {
+    margin: var(--hive-space-4) 0;
+}
+
+.hive-bank .hive-bank__open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.5rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: var(--hive-text-sm);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.hive-bank .hive-bank__open:hover {
+    background: none;
+    color: var(--hive-accent-ink);
+}
+
+.hive-bank .hive-bank__open svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}

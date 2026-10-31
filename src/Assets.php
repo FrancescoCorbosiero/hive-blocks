@@ -19,12 +19,19 @@
  * Shared assets, all versioned by content hash (see Assets::build_info()):
  *
  *   hive-base       assets/build/base.css: design tokens and shared rules,
- *                   a dependency of every block stylesheet; the settings
- *                   follow it inline (Core\DesignTokens)
- *   @hive/<name>    assets/build/modules/<name>.js: script modules the blocks'
- *                   view modules import
+ *                   a dependency of every other Hive stylesheet; the
+ *                   settings follow it inline (Core\DesignTokens)
+ *   hive-<name>     assets/build/<name>.css: shop.css (product cards, grid,
+ *                   rails), dialog.css (dialogs, loaded by @hive/dialog on
+ *                   first use)
+ *   @hive/<name>    assets/build/modules/<name>.js: script modules
  *   hive-editor     assets/build/editor.js: shared editor components
  *                   (window.hive.editor, imported as '@hive/editor')
+ *
+ * Markup rendered outside a block's own render (a product card in
+ * WooCommerce's lists) asks for its stylesheet with use_style(), which
+ * works the same way: <head> when there's still time, right before the
+ * markup otherwise.
  *
  * @package Hive
  */
@@ -43,6 +50,45 @@ final class Assets
         add_action('init', [self::class, 'register_shared'], 5);
         add_action('wp_enqueue_scripts', [self::class, 'enqueue_for_content'], 5);
         add_filter('render_block', [self::class, 'print_late_styles'], 10, 3);
+        add_filter('script_module_data_@hive/dialog', [self::class, 'dialog_data']);
+    }
+
+    /**
+     * A stylesheet some markup needs: enqueued while <head> is still to be
+     * printed, otherwise returned as a tag to print right before the markup
+     * (once per page). Print what it returns.
+     */
+    public static function use_style(string $handle): string
+    {
+        if (!did_action('wp_head') || doing_action('wp_head') || is_admin() || wp_doing_ajax() || wp_is_serving_rest_request()) {
+            wp_enqueue_style($handle);
+            return '';
+        }
+        if (wp_style_is($handle, 'done')) {
+            return '';
+        }
+        ob_start();
+        wp_styles()->do_items([$handle]);
+        return (string) ob_get_clean();
+    }
+
+    /** A script module some markup needs (modules load deferred, wherever they're printed). */
+    public static function use_module(string $id): void
+    {
+        wp_enqueue_script_module($id);
+    }
+
+    /** A registered stylesheet's URL with its version, for a script to load later. */
+    public static function style_url(string $handle): string
+    {
+        $style = wp_styles()->registered[$handle] ?? null;
+        return $style instanceof \_WP_Dependency && is_string($style->src) ? add_query_arg('ver', $style->ver, $style->src) : '';
+    }
+
+    /** @hive/dialog loads dialog.css itself, the first time a dialog opens. */
+    public static function dialog_data(array $data): array
+    {
+        return ['style' => self::style_url('hive-dialog')] + $data;
     }
 
     /**
@@ -64,10 +110,13 @@ final class Assets
 
     public static function register_shared(): void
     {
-        $base = Plugin::path('assets/build/base.css');
-        wp_register_style('hive-base', Plugin::url('assets/build/base.css'), [], self::build_info($base)['version']);
-        // With a path, WordPress may inline the file in <head> instead of linking it.
-        wp_style_add_data('hive-base', 'path', $base);
+        foreach (glob(Plugin::path('assets/build/*.css')) ?: [] as $file) {
+            $name   = basename($file, '.css');
+            $handle = 'hive-' . $name;
+            wp_register_style($handle, Plugin::url('assets/build/' . $name . '.css'), 'base' === $name ? [] : ['hive-base'], self::build_info($file)['version']);
+            // With a path, WordPress may inline the file in <head> instead of linking it.
+            wp_style_add_data($handle, 'path', $file);
+        }
         wp_add_inline_style('hive-base', DesignTokens::css(Settings::all()));
 
         foreach (glob(Plugin::path('assets/build/modules/*.js')) ?: [] as $file) {

@@ -33,9 +33,56 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   module `@hive/<name>`. Editor: `assets/editor/` is `@hive/editor`
   (`window.hive.editor`). Pure PHP logic goes in `src/Core/` (no WordPress
   calls), pure JS next to its block (e.g. `blocks/store-hours/hours.js`);
-  both get tests.
+  both get tests. Server helpers several blocks share sit in `src/Blocks/`
+  (the click-to-load map, contact links, the FAQ's structured data) and
+  `src/Content/` (a picture by id, with its URL as fallback).
+- **Nothing heavy before it's needed.** Maps wait for "Mostra la mappa"
+  (Google's iframe sits in a `<template>`), a hero's video for the page's
+  `load`, dialogs for their opening; no third-party script comes with a
+  page. Motion is CSS, off with `prefers-reduced-motion`.
 - **Modules** are features that can be switched off in Hive → Moduli: a
   class implementing `Hive\Module`, listed in `Modules::BUILT_IN`.
+- **Products.** Every list of products uses `Hive\Shop\Card` (one card,
+  Hive's markup, none of WooCommerce's loop hooks); rails go through
+  `Hive\Shop\Rail` and `RailQuery`, whose ordering rules (`Core\RailOrder`)
+  the Store Hub app mirrors: change them only together with the app.
+- **Public reads** are REST GETs under `hive/v1` (see `Shop\ProductData`):
+  `Cache-Control` set, and the catalog generation (`Shop\Store::generation()`,
+  bumped when products change) in the URL as `?v=`, so caches can keep the
+  answer long. Cart writes use WooCommerce's own `wc-ajax=add_to_cart`.
+- **The shop's pages** (`Shop\Catalog`, module Pagine del negozio) are
+  Hive's own template: `templates/catalog.php` on classic themes, the
+  `hive/catalog` block between the theme's header and footer parts on
+  block themes. Filters are WooCommerce's own URL parameters (`Core\Filters`),
+  every option a link; `@hive/catalog` swaps the results in place. Product
+  order on these pages is `Shop\Ordering` (sold-out last, rail pins).
+- **The product page** (`Shop\ProductPage`, module Pagina prodotto) is
+  Hive's own template the same way. The buying part (`Shop\BuyForm`) is
+  WooCommerce's variations form underneath (its classes, data and
+  `wc-add-to-cart-variation`), so payment plugins keep working: Hive's
+  buttons set its selects and listen to its jQuery events. WooCommerce's
+  product hooks are fired through `Shop\Hooks` (without the callbacks Hive
+  replaces and without the theme's).
+- **People who asked to hear from the store** (waitlist, size alerts, the
+  newsletter) are `hive_subscriber` posts (`Shop\Alerts`):
+  double opt-in, the email links act only on a POST, every email has the
+  one-click way out. What's time-dependent on a cached page (drop
+  countdown, delivery estimate, "2 ore fa") is worked out in the browser;
+  a drop's release empties the page caches.
+- **The Store Hub contract.** `wc-gh/v1` (`src/Hub`, rules in `Core\Hub*`)
+  answers exactly as golden-hive-blocks' did: the app reads
+  `golden-hive/*` names and `[gh_product_rail]`, which `Core\HubNames`
+  translates both ways. Routes, fields and error codes change only together
+  with the app (`tests/php/HubTest.php` pins them).
+- **The migration** (`Hive\Migration`, Hive → Migrazione, `wp hive
+  migrate`) rewrites golden-hive-blocks' blocks and shortcodes with the
+  maps in `Migration::block_map()` / `shortcode_map()` and the rules in
+  `Core\Migrate`; CommerceKit's data is read by `CommerceKitImport`. It
+  must stay safe to run twice. A block whose attributes change gets its
+  entry in the map, and a test in `tests/php/MigrateBlocksTest.php`.
+- **Interactive UI** that opens on demand (dialogs, sheets) loads on demand:
+  a dynamic `import()` from the module that handles the click, and
+  `@hive/dialog` brings `dialog.css` the first time a dialog opens.
 - **Build.** `npm ci && npm run build` (esbuild, `tools/build.mjs`). Commit
   the output: the plugin runs from the repository as is, and CI fails when
   the build doesn't match the sources. Versions are content hashes in the

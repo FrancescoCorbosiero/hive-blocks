@@ -2,7 +2,8 @@
 // npm run test:browser
 import { defineConfig, devices } from '@playwright/test';
 
-const port = 9401;
+// HIVE_BROWSER_PORT: another port, to run two copies of the tests at once.
+const port = Number(process.env.HIVE_BROWSER_PORT || 9401);
 
 export default defineConfig({
     testDir: '.',

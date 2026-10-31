@@ -30,6 +30,9 @@ mkdirSync(path.join(artifacts, 'screenshots'), { recursive: true });
 
 const blueprint = {
     $schema: 'https://playground.wordpress.net/blueprint-schema.json',
+    // In the blueprint as well as on the command line: without it, Playground
+    // runs its newest PHP whatever --php says (tests/e2e/env.spec.mjs checks).
+    preferredVersions: { php, wp },
     steps: [
         // Records PHP issues raised through Hive (tests/e2e/mu-plugin.php).
         {
@@ -38,7 +41,15 @@ const blueprint = {
         },
         {
             step: 'defineWpConfigConsts',
-            consts: { WP_DEBUG: true, WP_DEBUG_DISPLAY: false, WP_DEBUG_LOG: `${plugin}/tests/e2e/artifacts/debug.log` },
+            // Nothing runs by itself: with one PHP worker, WP-Cron's loopback request and its
+            // update checks would hold the worker while a test waits. Tests run what they need.
+            consts: {
+                WP_DEBUG: true,
+                WP_DEBUG_DISPLAY: false,
+                WP_DEBUG_LOG: `${plugin}/tests/e2e/artifacts/debug.log`,
+                DISABLE_WP_CRON: true,
+                AUTOMATIC_UPDATER_DISABLED: true,
+            },
         },
         {
             step: 'installPlugin',
@@ -70,7 +81,9 @@ console.log(`WordPress ${wp}, WooCommerce ${wc}, PHP ${php}, theme ${theme}`);
 
 const child = spawn(
     'npx',
-    ['--yes', PLAYGROUND, 'server', '--port=9400', `--wp=${wp}`, `--php=${php}`, `--mount=${root}:${plugin}`, `--blueprint=${file}`],
+    // One PHP worker: requests run one at a time, as on a small host. With several, they
+    // share the SQLite file and the slower PHP builds fail now and then on its locks.
+    ['--yes', PLAYGROUND, 'server', '--port=9400', '--workers=1', `--wp=${wp}`, `--php=${php}`, `--mount=${root}:${plugin}`, `--blueprint=${file}`],
     { stdio: 'inherit' }
 );
 for (const signal of ['SIGINT', 'SIGTERM']) {

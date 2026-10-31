@@ -15,7 +15,19 @@ defined('ABSPATH') || exit;
 final class Modules
 {
     /** @var list<class-string<Module>> Built-in modules, in the order the admin lists them. */
-    private const BUILT_IN = [];
+    private const BUILT_IN = [
+        Modules\Cards::class,
+        Modules\QuickView::class,
+        Modules\QuickAdd::class,
+        Modules\Catalog::class,
+        Modules\ProductPage::class,
+        Modules\Drops::class,
+        Modules\Alerts::class,
+        Modules\OrderBump::class,
+        Modules\BankDetails::class,
+        Modules\Search::class,
+        Modules\StoreHub::class,
+    ];
 
     /** @return array<string, class-string<Module>> id → class */
     public static function all(): array

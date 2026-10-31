@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hero — fixture</title>
+    <!-- What WordPress prints for the block: base.css with the tokens, the block's CSS. -->
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/hero/build/style.css">
+    <!-- A theme that styles content elements, as most do, loaded after the block's CSS. -->
+    <style>
+        body { margin: 0; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h1, .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; font-weight: 400; text-align: left; text-transform: none; color: #333; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content ul { margin: 0 0 1.5em 2.5em; padding-left: 1em; list-style: disc; }
+        .entry-content li::before { content: "•"; margin-right: 0.5em; }
+        .entry-content img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 2px 8px #0003; }
+        .entry-content a { color: #1d4ed8; text-decoration: underline; }
+        .entry-content button { background: #eee; color: #333; border-radius: 0; padding: 4px; }
+    </style>
+</head>
+<body>
+<header class="site-header"><a href="#main">Salta al contenuto</a></header>
+<main id="main" class="entry-content">
+    <!-- render.php for a cover with a video, its poster known only by URL, a foreground picture, an accent in the title, both buttons and the scroll hint. -->
+    <section class="hive-block hive-hero hive-hero--cover hive-hero--h-full has-media has-scroll wp-block-hive-hero alignfull" style="--hive-hero-overlay:0.45;">
+        <div class="hive-hero__media">
+            <img src="/tests/browser/fixtures/sneaker.svg" class="hive-hero__image" alt="" loading="eager" decoding="async" fetchpriority="high" style="object-position:center center">
+            <video class="hive-hero__video" data-hive-hero-video data-src="/tests/browser/fixtures/hero.webm" style="object-position:center center" muted loop playsinline preload="none" aria-hidden="true"></video>
+        </div>
+        <div class="hive-hero__layer"><img width="600" height="600" src="/tests/browser/fixtures/hero-cutout.svg" class="hive-hero__foreground" alt="Jordan 4" decoding="async" loading="eager" sizes="(min-width: 768px) 60vw, 90vw" /></div>
+        <div class="hive-hero__body">
+            <div class="hive-hero__inner">
+                <p class="hive-hero__badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stradone Farnese 3 · Piacenza</p>
+                <h1 class="hive-hero__title">BORN in <span class="hive-hero__accent">PIACENZA</span></h1>
+                <p class="hive-hero__subtitle">Scopri la nostra boutique nel cuore di Piacenza, il punto di riferimento per sneakers e streetwear autentici.</p>
+                <div class="hive-hero__actions">
+                    <a class="hive-button hive-hero__button" href="#contatti">Vieni a trovarci</a>
+                    <a class="hive-button hive-hero__button hive-hero__button--outline" href="#chi-siamo">Chi siamo</a>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="hive-hero__toggle" data-hive-hero-toggle aria-label="Riproduci il video" hidden>
+            <svg class="hive-hero__play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="hive-hero__pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+        </button>
+        <div class="hive-hero__scroll" aria-hidden="true">
+            <span>Scorri</span>
+            <svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </div>
+    </section>
+
+    <!-- render.php for "Diviso": the image on the left, the main button outlined. -->
+    <section class="hive-block hive-hero hive-hero--split hive-hero--h-tall has-media wp-block-hive-hero alignfull">
+        <div class="hive-hero__media">
+            <img width="600" height="600" src="/tests/browser/fixtures/sneaker-2.svg" class="hive-hero__image" alt="Dunk Low" decoding="async" sizes="(min-width: 768px) 50vw, 100vw" style="object-position:center center" loading="eager" fetchpriority="high" />
+        </div>
+        <div class="hive-hero__body">
+            <div class="hive-hero__inner">
+                <p class="hive-hero__eyebrow">Nuova collezione</p>
+                <h2 class="hive-hero__title">Il drop della settimana</h2>
+                <p class="hive-hero__subtitle">Pezzi selezionati e autenticati dal nostro team. Disponibilità limitata.</p>
+                <div class="hive-hero__actions">
+                    <a class="hive-button hive-hero__button hive-hero__button--outline" href="/negozio/">Scopri ora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- render.php for "Chi siamo": the text first, the image on the right, the values. -->
+    <section class="hive-block hive-hero hive-hero--about hive-hero--h-auto hive-hero--media-right has-media wp-block-hive-hero alignwide">
+        <div class="hive-hero__media">
+            <img width="600" height="600" src="/tests/browser/fixtures/sneaker.svg" class="hive-hero__image" alt="La boutique" decoding="async" sizes="auto, (min-width: 768px) 50vw, 100vw" style="object-position:center center" loading="lazy" />
+        </div>
+        <div class="hive-hero__body">
+            <div class="hive-hero__inner">
+                <p class="hive-hero__eyebrow">Chi siamo</p>
+                <h2 class="hive-hero__title">Nati a Piacenza</h2>
+                <p class="hive-hero__subtitle">Nasciamo dalla passione per le sneakers e lo streetwear.</p>
+                <ul class="hive-hero__values" role="list">
+                    <li class="hive-hero__value">
+                        <span class="hive-hero__value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>
+                        <span class="hive-hero__value-body">
+                            <strong class="hive-hero__value-title">Autenticità</strong>
+                            <span class="hive-hero__value-text">Ogni prodotto è verificato dal nostro team di esperti.</span>
+                        </span>
+                    </li>
+                    <li class="hive-hero__value">
+                        <span class="hive-hero__value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>
+                        <span class="hive-hero__value-body">
+                            <strong class="hive-hero__value-title">Passione</strong>
+                            <span class="hive-hero__value-text">Viviamo e respiriamo la cultura streetwear ogni giorno.</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <p id="contatti">Il resto della pagina.</p>
+    <div style="height: 150vh"></div>
+</main>
+<script type="module" src="/blocks/hero/build/view.js"></script>
+</body>
+</html>

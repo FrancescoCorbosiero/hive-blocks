@@ -1,0 +1,1 @@
+function o(e,n){return Object.entries(n).every(([t,r])=>!e.attributes?.[t]||e.attributes[t]===r)}function c(e,n,t,r){let s={...n,[t]:r};return e.some(u=>u.in_stock&&o(u,s))}function i(e,n,t){return n.some(r=>!t[r.name])?null:e.find(r=>o(r,t))||null}function f(e,n){let t={...e};return delete t[n],t}export{c as available,i as find,o as matches,f as without};

@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hive/product-spotlight",
+    "title": "Prodotto in evidenza",
+    "category": "hive",
+    "icon": "star-filled",
+    "description": "Un prodotto in primo piano: foto, marca, nome, prezzo e il pulsante per comprarlo. Senza scelta, l’ultimo prodotto in evidenza.",
+    "keywords": ["prodotto", "evidenza", "vetrina", "spotlight", "featured"],
+    "textdomain": "hive-blocks",
+    "attributes": {
+        "productId": { "type": "number", "default": 0 },
+        "eyebrow": { "type": "string", "default": "In evidenza" },
+        "title": { "type": "string", "default": "" },
+        "description": { "type": "string", "default": "" },
+        "condition": { "type": "string", "default": "" },
+        "size": { "type": "string", "default": "" },
+        "authenticity": { "type": "string", "default": "" },
+        "imageUrlId": { "type": "number", "default": 0 },
+        "buttonText": { "type": "string", "default": "" }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "example": {},
+    "editorScript": "file:./build/edit.js",
+    "editorStyle": "file:./build/style.css",
+    "viewStyle": "file:./build/style.css",
+    "viewScriptModule": "@hive/cards",
+    "render": "file:./render.php"
+}

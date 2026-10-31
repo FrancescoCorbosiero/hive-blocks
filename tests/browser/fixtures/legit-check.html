@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Legit check — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": {} }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/legit-check/build/style.css">
+    <!-- A theme that styles content elements, as most do (.entry-content X outranks a single class). -->
+    <style>
+        body { margin: 0; padding: 0 1rem; font-family: Georgia, serif; color: #222; background: #fff; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 3rem; text-align: left; text-transform: uppercase; }
+        .entry-content h3 { margin: 1.5em 0 0.5em; font-size: 2rem; letter-spacing: 0.2em; text-transform: lowercase; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content ul, .entry-content ol { margin: 0 0 1.5em 3em; padding: 0; list-style: square; }
+        .entry-content li { margin: 0 0 0.5em; padding: 0 0 0 0.5em; }
+        .entry-content dl, .entry-content dd { margin: 0 0 1.5em 2.5em; }
+        .entry-content dt { font-weight: 400; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content address { margin: 0 0 1.5em; font-style: italic; }
+        .entry-content strong { color: #c00; }
+        .entry-content button { padding: 1em 2em; border: 2px outset #999; border-radius: 0; background: #e0e0e0; color: #333; font-family: Arial, sans-serif; text-transform: uppercase; }
+        .entry-content iframe { width: 300px; height: 150px; margin: 0 0 1.5em; border: 3px solid #c00; }
+        .entry-content img { margin: 1em; border: 5px solid gray; }
+        .entry-content details { margin: 0 0 1em; padding: 1em; border: 1px solid #c00; }
+        .entry-content summary { display: list-item; font-size: 1rem; font-weight: 400; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output for the default attributes and a button link. -->
+    <section class="hive-block hive-legit wp-block-hive-legit-check">
+        <div class="hive-legit__inner">
+            <div class="hive-legit__header">
+                                <p class="hive-legit__eyebrow">Legit Check</p>
+                            <h2 class="hive-legit__title">Autentico o Falso?</h2>
+                                <p class="hive-legit__subtitle">Il nostro team verifica ogni dettaglio per garantire l’autenticità di ogni prodotto.</p>
+                        </div>
+                        <ul class="hive-legit__grid" role="list">
+                                        <li class="hive-legit__card">
+                                                        <h3 class="hive-legit__area">Cuciture</h3>
+                                                    <dl class="hive-legit__sides">
+                                <div class="hive-legit__side is-real">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>Autentico</dt>
+                                    <dd class="hive-legit__text">Cuciture uniformi e precise, spaziatura regolare</dd>
+                                </div>
+                                <div class="hive-legit__side is-fake">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg></span>Falso</dt>
+                                    <dd class="hive-legit__text">Cuciture irregolari, filo sporgente, spaziatura non uniforme</dd>
+                                </div>
+                            </dl>
+                        </li>
+                                        <li class="hive-legit__card">
+                                                        <h3 class="hive-legit__area">Etichetta Interna</h3>
+                                                    <dl class="hive-legit__sides">
+                                <div class="hive-legit__side is-real">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>Autentico</dt>
+                                    <dd class="hive-legit__text">Font nitido, allineamento corretto, codice SKU verificabile</dd>
+                                </div>
+                                <div class="hive-legit__side is-fake">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg></span>Falso</dt>
+                                    <dd class="hive-legit__text">Font sfocato, testo disallineato, codici non corrispondenti</dd>
+                                </div>
+                            </dl>
+                        </li>
+                                        <li class="hive-legit__card">
+                                                        <h3 class="hive-legit__area">Suola</h3>
+                                                    <dl class="hive-legit__sides">
+                                <div class="hive-legit__side is-real">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>Autentico</dt>
+                                    <dd class="hive-legit__text">Pattern coerente, materiale morbido, logo in rilievo definito</dd>
+                                </div>
+                                <div class="hive-legit__side is-fake">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg></span>Falso</dt>
+                                    <dd class="hive-legit__text">Pattern approssimativo, materiale rigido, logo schiacciato</dd>
+                                </div>
+                            </dl>
+                        </li>
+                                        <li class="hive-legit__card">
+                                                        <h3 class="hive-legit__area">Scatola</h3>
+                                                    <dl class="hive-legit__sides">
+                                <div class="hive-legit__side is-real">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>Autentico</dt>
+                                    <dd class="hive-legit__text">Cartone di qualità, stampa nitida, etichetta con codici a barre verificabili</dd>
+                                </div>
+                                <div class="hive-legit__side is-fake">
+                                    <dt class="hive-legit__label"><span class="hive-legit__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg></span>Falso</dt>
+                                    <dd class="hive-legit__text">Cartone leggero, colori sbiaditi, etichetta con informazioni errate</dd>
+                                </div>
+                            </dl>
+                        </li>
+                                </ul>
+                        <p class="hive-legit__cta"><a class="hive-button" href="/legit-check">Scopri il Processo</a></p>
+                </div>
+    </section>
+</main>
+</body>
+</html>

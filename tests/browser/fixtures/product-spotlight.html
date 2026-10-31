@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prodotto in evidenza — fixture</title>
+    <!-- What WordPress prints for the block: the import map, the modules' data, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@hive/buy": "/assets/build/modules/buy.js",
+            "@hive/cards": "/assets/build/modules/cards.js",
+            "@hive/dialog": "/assets/build/modules/dialog.js",
+            "@hive/dom": "/assets/build/modules/dom.js",
+            "@hive/picker": "/assets/build/modules/picker.js",
+            "@hive/quick-add": "/assets/build/modules/quick-add.js",
+            "@hive/quick-view": "/assets/build/modules/quick-view.js",
+            "@hive/shop": "/assets/build/modules/shop.js",
+            "@hive/variations": "/assets/build/modules/variations.js"
+        }
+    }
+    </script>
+    <script type="application/json" id="wp-script-module-data-@hive/shop">{"api":"/api/","v":7,"cart":"/cart-endpoint","cartUrl":"/carrello/","whatsapp":""}</script>
+    <script type="application/json" id="wp-script-module-data-@hive/dialog">{"style":"/assets/build/dialog.css"}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/product-spotlight/build/style.css">
+    <!-- A theme that styles content elements, as most do. -->
+    <style>
+        body { margin: 0 auto; max-width: 1100px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 1.4rem; text-align: center; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content img { border-radius: 24px; height: auto; max-width: 100%; }
+        .entry-content dl, .entry-content dd { margin: 0 0 1.5em 2.5em; }
+        button { background: #eee; color: #333; border-radius: 0; padding: 4px; }
+    </style>
+</head>
+<body>
+<header><span class="cart-count">0</span></header>
+<main class="entry-content">
+    <!-- render.php's output: a simple product on sale, with the typed details and the badge. -->
+    <section class="hive-block hive-product-spotlight is-simple wp-block-hive-product-spotlight" id="simple" data-product-id="102">
+        <div class="hive-product-spotlight__inner">
+            <div class="hive-product-spotlight__media">
+                <a class="hive-product-spotlight__photo" href="/prodotto/calzini/" tabindex="-1" aria-hidden="true"><img width="600" height="600" src="/tests/browser/fixtures/sneaker.svg" class="hive-product-spotlight__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 100vw, 50vw"></a>
+                <p class="hive-product-spotlight__badges">
+                    <span class="hive-product-spotlight__badge is-sale">-25%</span>
+                    <span class="hive-product-spotlight__badge is-verified"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>Autenticità verificata</span>
+                </p>
+            </div>
+            <div class="hive-product-spotlight__body">
+                <p class="hive-product-spotlight__eyebrow">In evidenza</p>
+                <p class="hive-product-spotlight__brand">Hive</p>
+                <h2 class="hive-product-spotlight__title"><a class="hive-product-spotlight__link" href="/prodotto/calzini/">Calzini Hive</a></h2>
+                <p class="hive-product-spotlight__text">Cotone pettinato, tallone rinforzato: il paio giusto per le tue sneakers.</p>
+                <dl class="hive-product-spotlight__details">
+                    <div class="hive-product-spotlight__detail">
+                        <dt class="hive-product-spotlight__label">Condizione</dt>
+                        <dd class="hive-product-spotlight__value">Nuovo</dd>
+                    </div>
+                </dl>
+                <div class="hive-product-spotlight__price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi>20,00&nbsp;<span class="woocommerce-Price-currencySymbol">&euro;</span></bdi></span></del> <span class="screen-reader-text">Il prezzo originale era: 20,00&nbsp;&euro;.</span><ins aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi>15,00&nbsp;<span class="woocommerce-Price-currencySymbol">&euro;</span></bdi></span></ins><span class="screen-reader-text">Il prezzo attuale è: 15,00&nbsp;&euro;.</span></div>
+                <div class="hive-product-spotlight__actions">
+                    <button type="button" class="hive-button hive-product-spotlight__add" data-hive-add="102">Aggiungi al carrello</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The same block on a product with sizes: its button opens Quick Add. -->
+    <section class="hive-block hive-product-spotlight is-variable wp-block-hive-product-spotlight" id="variable" data-product-id="101">
+        <div class="hive-product-spotlight__inner">
+            <div class="hive-product-spotlight__media">
+                <a class="hive-product-spotlight__photo" href="/prodotto/nike-dunk/" tabindex="-1" aria-hidden="true"><img width="600" height="600" src="/tests/browser/fixtures/sneaker-2.svg" class="hive-product-spotlight__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 100vw, 50vw"></a>
+            </div>
+            <div class="hive-product-spotlight__body">
+                <p class="hive-product-spotlight__eyebrow">In evidenza</p>
+                <h2 class="hive-product-spotlight__title"><a class="hive-product-spotlight__link" href="/prodotto/nike-dunk/">Nike Dunk Low Panda</a></h2>
+                <div class="hive-product-spotlight__price"><span class="woocommerce-Price-amount amount"><bdi>150,00&nbsp;<span class="woocommerce-Price-currencySymbol">&euro;</span></bdi></span> &ndash; <span class="woocommerce-Price-amount amount"><bdi>180,00&nbsp;<span class="woocommerce-Price-currencySymbol">&euro;</span></bdi></span></div>
+                <div class="hive-product-spotlight__actions">
+                    <button type="button" class="hive-button hive-product-spotlight__add" data-hive-add="101" data-hive-pick>Scegli la tua taglia</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script type="module" src="/assets/build/modules/cards.js"></script>
+</body>
+</html>

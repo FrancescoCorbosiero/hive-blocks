@@ -19,12 +19,39 @@ final class SettingsSchema
      *
      *   color   '#rrggbb'
      *   choice  one of 'choices'
+     *   key     a taxonomy or attribute name: a-z, 0-9, _ and -, up to 32
+     *   phone   digits only, 6 to 15 (international format without +), or ''
+     *   bool    on or off
+     *   int     a whole number between 'min' and 'max'
+     *   time    'HH:MM', 24 hours
+     *   urls    one link per line (http(s) or from the site's root, "|type" allowed), 30 at most
      *   flags   [key => bool], e.g. which modules are on
      */
     public const FIELDS = [
-        'accent'  => ['type' => 'color', 'default' => '#721124'],
-        'shape'   => ['type' => 'choice', 'default' => 'round', 'choices' => ['round', 'sharp']],
-        'modules' => ['type' => 'flags', 'default' => []],
+        'accent'         => ['type' => 'color', 'default' => '#721124'],
+        'button'         => ['type' => 'color', 'default' => '#0a0a0a'],
+        'shape'          => ['type' => 'choice', 'default' => 'round', 'choices' => ['round', 'sharp']],
+        'size_attribute' => ['type' => 'key', 'default' => 'pa_taglia'],
+        'whatsapp'       => ['type' => 'phone', 'default' => ''],
+        'sold_out_last'  => ['type' => 'bool', 'default' => true],
+        'filters_layout' => ['type' => 'choice', 'default' => 'sidebar', 'choices' => ['sidebar', 'drawer']],
+        'gallery'        => ['type' => 'choice', 'default' => 'slider', 'choices' => ['slider', 'grid']],
+        'sticky_bar'     => ['type' => 'bool', 'default' => true],
+        'stock_low'      => ['type' => 'int', 'default' => 5, 'min' => 0, 'max' => 50],
+        'sold_count'     => ['type' => 'bool', 'default' => true],
+        'delivery'       => ['type' => 'bool', 'default' => false],
+        'delivery_cutoff' => ['type' => 'time', 'default' => '13:00'],
+        'delivery_min'   => ['type' => 'int', 'default' => 2, 'min' => 0, 'max' => 30],
+        'delivery_max'   => ['type' => 'int', 'default' => 5, 'min' => 0, 'max' => 30],
+        'band'           => ['type' => 'bool', 'default' => true],
+        'colorways'      => ['type' => 'bool', 'default' => true],
+        'recent'         => ['type' => 'bool', 'default' => true],
+        'speculation'    => ['type' => 'choice', 'default' => 'wordpress', 'choices' => ['wordpress', 'prefetch', 'prerender', 'off']],
+        'preload'        => ['type' => 'urls', 'default' => ''],
+        'preload_home'   => ['type' => 'bool', 'default' => true],
+        'prerender'      => ['type' => 'urls', 'default' => ''],
+        'prefetch'       => ['type' => 'urls', 'default' => ''],
+        'modules'        => ['type' => 'flags', 'default' => []],
     ];
 
     /** @return array<string, mixed> */
@@ -57,6 +84,38 @@ final class SettingsSchema
 
             case 'choice':
                 return is_string($value) && in_array($value, $field['choices'], true) ? $value : $field['default'];
+
+            case 'key':
+                return is_string($value) && 1 === preg_match('/^[a-z0-9_-]{1,32}$/', $value) ? $value : $field['default'];
+
+            case 'phone':
+                $digits = is_string($value) ? (string) preg_replace('/\D/', '', $value) : '';
+                return 1 === preg_match('/^\d{6,15}$/', $digits) ? $digits : $field['default'];
+
+            case 'int':
+                if (is_int($value) || (is_string($value) && 1 === preg_match('/^\d{1,6}$/', trim($value)))) {
+                    return max($field['min'], min($field['max'], (int) $value));
+                }
+                return $field['default'];
+
+            case 'urls':
+                $lines = [];
+                foreach (preg_split('/\r\n|\r|\n/', is_string($value) ? $value : '') ?: [] as $line) {
+                    $line = trim($line);
+                    if (1 === preg_match('~^(https?://|/)[^\s<>"\'`]+(\|[a-z]+)?$~i', $line)) {
+                        $lines[] = $line;
+                    }
+                }
+                return implode("\n", array_slice($lines, 0, 30));
+
+            case 'time':
+                return is_string($value) && 1 === preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', trim($value)) ? trim($value) : $field['default'];
+
+            case 'bool':
+                if (null === $value) {
+                    return $field['default'];
+                }
+                return true === $value || in_array($value, ['1', 1, 'true', 'yes', 'on'], true);
 
             case 'flags':
                 $flags = [];
