@@ -23,6 +23,7 @@
 namespace Hive\Shop;
 
 use Hive\Core\ArchivePins;
+use Hive\Core\HubRail;
 use Hive\Settings;
 
 defined('ABSPATH') || exit;
@@ -115,10 +116,15 @@ final class Ordering
         return in_array($term->taxonomy, Store::brand_taxonomies(), true) ? ($map['brand:' . $term->slug] ?? null) : null;
     }
 
-    /** The front page's rails, as Core\ArchivePins::map(). Cached until the front page changes. */
+    /**
+     * The front page's rails, as Core\ArchivePins::map(): its Rail di prodotti
+     * blocks and its sections ([hive_product_rail] in a hive/shortcode-wrapper,
+     * the ones the Store Hub edits). Cached until the front page changes.
+     */
     private static function rail_map(): array
     {
-        $page = get_post((int) get_option('page_on_front'));
+        $page_id = (int) get_option('page_on_front');
+        $page    = $page_id > 0 ? get_post($page_id) : null;
         if (!$page instanceof \WP_Post) {
             return [];
         }
@@ -132,6 +138,10 @@ final class Ordering
             foreach ($blocks as $block) {
                 if ('hive/product-rail' === ($block['blockName'] ?? null)) {
                     $rails[] = RailQuery::normalize((array) ($block['attrs'] ?? []));
+                }
+                $section = is_array($block) ? HubRail::from_block($block) : null;
+                if (null !== $section) {
+                    $rails[] = RailQuery::normalize($section['atts']);
                 }
                 if (!empty($block['innerBlocks'])) {
                     $walk($block['innerBlocks']);
