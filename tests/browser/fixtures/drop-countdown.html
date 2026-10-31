@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Conto alla rovescia del drop — fixture</title>
+    <!-- What WordPress prints for the block: the import map, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": { "@hive/drop": "/assets/build/modules/drop.js" } }</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/drop-countdown/build/style.css">
+    <!-- A theme that styles content elements, as most do. -->
+    <style>
+        body { margin: 0 auto; max-width: 1100px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        .entry-content h2 { margin: 2em 0 1em; font-size: 1.4rem; text-align: center; }
+        .entry-content p { margin: 0 0 1.6em; }
+        .entry-content a { color: #0645ad; text-decoration: underline; }
+        .entry-content img { border-radius: 24px; height: auto; max-width: 100%; }
+        .entry-content b { font-weight: 400; }
+        .entry-content summary { display: list-item; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <!-- render.php's output for a product's drop: 2026-11-07 09:00 UTC (10:00 in Italy), before it. -->
+    <section class="hive-block hive-drop-countdown wp-block-hive-drop-countdown" id="product" data-hive-drop="1794042000">
+        <div class="hive-drop-countdown__inner has-image">
+            <div class="hive-drop-countdown__media"><img width="600" height="600" src="/tests/browser/fixtures/sneaker.svg" class="hive-drop-countdown__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 100vw, 40vw"></div>
+            <div class="hive-drop-countdown__body">
+                <p class="hive-drop-countdown__eyebrow">Prossimo drop</p>
+                <h2 class="hive-drop-countdown__title">
+                    <a class="hive-drop-countdown__link" href="/prodotto/jordan-4/">Jordan 4 in arrivo</a>
+                </h2>
+                <p class="hive-drop-countdown__meta">
+                    <span class="hive-drop-countdown__date">sabato 7 novembre · ore 10:00</span>
+                    <span class="hive-drop-countdown__price"><span class="woocommerce-Price-amount amount"><bdi>250,00&nbsp;<span class="woocommerce-Price-currencySymbol">&euro;</span></bdi></span></span>
+                </p>
+                <div class="hive-drop-countdown__timer" role="timer" aria-label="Tempo all’uscita" data-hive-drop-before>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="d">00</b><small class="hive-drop-countdown__unit">giorni</small></span>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="h">00</b><small class="hive-drop-countdown__unit">ore</small></span>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="m">00</b><small class="hive-drop-countdown__unit">min</small></span>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="s">00</b><small class="hive-drop-countdown__unit">sec</small></span>
+                </div>
+                <div class="hive-drop-countdown__actions" data-hive-drop-before>
+                    <details class="hive-remind"><summary class="hive-remind__button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Ricordamelo</span></summary><div class="hive-remind__menu"><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&#038;text=Drop%3A%20Jordan%204%20in%20arrivo&#038;dates=20261107T090000Z%2F20261107T093000Z&#038;details=https%3A%2F%2Fshop.test%2Fprodotto%2Fjordan-4%2F" target="_blank" rel="noopener noreferrer">Google Calendar</a><a href="/?hive_drop_ics=12&#038;ts=1794042000">Apple, Outlook, altro (.ics)</a></div></details><a class="hive-drop-countdown__more" href="/prodotto/jordan-4/">Vedi il prodotto</a>
+                </div>
+                <div class="hive-drop-countdown__actions" data-hive-drop-after hidden>
+                    <p class="hive-drop-countdown__out">Disponibile ora</p>
+                    <a class="hive-button hive-drop-countdown__buy" href="/prodotto/jordan-4/">Acquista ora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- A date typed in the block (2026-10-30 09:00 UTC) with a name and a link, as cached before it came. -->
+    <section class="hive-block hive-drop-countdown wp-block-hive-drop-countdown" id="typed" data-hive-drop="1793350800">
+        <div class="hive-drop-countdown__inner">
+            <div class="hive-drop-countdown__body">
+                <p class="hive-drop-countdown__eyebrow">Prossimo drop</p>
+                <h2 class="hive-drop-countdown__title">
+                    <a class="hive-drop-countdown__link" href="/drop/collab/">Collab misteriosa</a>
+                </h2>
+                <p class="hive-drop-countdown__meta">
+                    <span class="hive-drop-countdown__date">venerdì 30 ottobre · ore 10:00</span>
+                </p>
+                <div class="hive-drop-countdown__timer" role="timer" aria-label="Tempo all’uscita" data-hive-drop-before>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="d">00</b><small class="hive-drop-countdown__unit">giorni</small></span>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="h">00</b><small class="hive-drop-countdown__unit">ore</small></span>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="m">00</b><small class="hive-drop-countdown__unit">min</small></span>
+                    <span class="hive-drop-countdown__cell"><b class="hive-drop-countdown__value" data-unit="s">00</b><small class="hive-drop-countdown__unit">sec</small></span>
+                </div>
+                <div class="hive-drop-countdown__actions" data-hive-drop-before>
+                    <details class="hive-remind"><summary class="hive-remind__button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Ricordamelo</span></summary><div class="hive-remind__menu"><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&#038;text=Drop%3A%20Collab%20misteriosa&#038;dates=20261030T090000Z%2F20261030T093000Z&#038;details=https%3A%2F%2Fshop.test%2Fdrop%2Fcollab%2F" target="_blank" rel="noopener noreferrer">Google Calendar</a><a href="/?hive_drop_ics=0&#038;ts=1793350800&#038;title=Drop%3A%20Collab%20misteriosa&#038;url=https%3A%2F%2Fshop.test%2Fdrop%2Fcollab%2F&#038;sig=3f1c9a0b7d2e4c55">Apple, Outlook, altro (.ics)</a></div></details><a class="hive-drop-countdown__more" href="/drop/collab/">Scopri di più</a>
+                </div>
+                <div class="hive-drop-countdown__actions" data-hive-drop-after hidden>
+                    <p class="hive-drop-countdown__out">Disponibile ora</p>
+                    <a class="hive-button hive-drop-countdown__buy" href="/drop/collab/">Scopri di più</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script type="module" src="/assets/build/modules/drop.js"></script>
+</body>
+</html>

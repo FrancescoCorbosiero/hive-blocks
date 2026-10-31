@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Popup promozionale — fixture</title>
+    <!-- What WordPress prints for the block: the import map, the dialog module's data, base.css with the tokens, the block's CSS. -->
+    <script type="importmap">{ "imports": { "@hive/dialog": "/assets/build/modules/dialog.js", "@hive/dom": "/assets/build/modules/dom.js" } }</script>
+    <script type="application/json" id="wp-script-module-data-@hive/dialog">{"style":"/assets/build/dialog.css"}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/blocks/promo-modal/build/style.css">
+    <!-- A theme that styles elements wherever they are, as many do (the dialog sits outside the content). -->
+    <style>
+        body { margin: 0 auto; max-width: 1100px; padding: 24px; font-family: Georgia, serif; color: #222; }
+        h2 { margin: 2em 0 1em; font-size: 1.2rem; text-align: left; }
+        p { margin: 0 0 1.6em; }
+        a { color: #0645ad; text-decoration: underline; }
+        code { padding: 2px 6px; background: #f4f4f4; font-size: 0.8em; }
+        img { border-radius: 24px; }
+        button { background: #eee; color: #333; border-radius: 0; padding: 4px; }
+    </style>
+</head>
+<body>
+<main class="entry-content">
+    <p>Una pagina del negozio. <a href="#promo-popup">Vedi l’offerta</a></p>
+    <!-- render.php's output: the offer in a template, opening by itself 3 s after the page, once per visitor. -->
+    <div class="hive-block hive-promo-modal wp-block-hive-promo-modal" data-hive-promo-modal="{&quot;id&quot;:&quot;promo-popup&quot;,&quot;label&quot;:&quot;10% di sconto&quot;,&quot;image&quot;:true,&quot;auto&quot;:true,&quot;trigger&quot;:&quot;delay&quot;,&quot;delay&quot;:3000,&quot;once&quot;:true}">
+        <template data-hive-promo-template><div class="hive-promo has-image">
+            <div class="hive-promo__media"><img width="1024" height="1024" src="/tests/browser/fixtures/sneaker-3.svg" class="hive-promo__image" alt="" loading="lazy" decoding="async" sizes="(max-width: 767px) 100vw, 28rem"></div>
+            <div class="hive-promo__body">
+                <p class="hive-promo__badge">Offerta esclusiva</p>
+                <h2 class="hive-promo__title">10% di sconto</h2>
+                <p class="hive-promo__text">Iscriviti alla newsletter e ricevi subito il 10% di sconto sul tuo primo ordine!</p>
+                <p class="hive-promo__code">
+                    <span class="hive-promo__code-label">Codice</span>
+                    <code class="hive-promo__code-value">WELCOME10</code>
+                    <button type="button" class="hive-promo__copy" data-hive-promo-copy="WELCOME10">Copia</button>
+                </p>
+                <a class="hive-button hive-promo__button" href="/newsletter/">Ottieni lo sconto</a>
+                <p class="hive-promo__disclaimer">Valido solo per nuovi clienti. Non cumulabile.</p>
+            </div>
+        </div></template>
+    </div>
+</main>
+<script>
+    // The same block set to open on exit intent (?exit), for the spec.
+    if (new URLSearchParams(location.search).has('exit')) {
+        const block = document.querySelector('[data-hive-promo-modal]');
+        block.dataset.hivePromoModal = JSON.stringify({ ...JSON.parse(block.dataset.hivePromoModal), trigger: 'exit' });
+    }
+</script>
+<script type="module" src="/blocks/promo-modal/build/view.js"></script>
+</body>
+</html>
