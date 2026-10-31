@@ -98,7 +98,8 @@ final class ProductPage implements Module
         if (!self::applies()) {
             return;
         }
-        foreach (['zoom', 'flexslider', 'photoswipe-ui-default', 'photoswipe'] as $handle) {
+        // WooCommerce 10 renamed them (wc-zoom…); the old names stay for older versions.
+        foreach (['zoom', 'flexslider', 'photoswipe-ui-default', 'photoswipe', 'wc-zoom', 'wc-flexslider', 'wc-photoswipe-ui-default', 'wc-photoswipe'] as $handle) {
             wp_dequeue_script($handle);
         }
         foreach (['photoswipe-default-skin', 'photoswipe'] as $handle) {
