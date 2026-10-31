@@ -3,6 +3,7 @@
 // The migration's block and shortcode rewrite.
 
 use Hive\Core\Migrate\Blocks;
+use Hive\Core\Migrate\Heroes;
 use Hive\Core\Migrate\Shortcodes;
 
 $hive_shortcodes = ['gh_product_rail' => 'hive_product_rail', 'gh_bank_details' => 'hive_bank_details', 'bfl_filters' => ''];
@@ -56,3 +57,32 @@ check(
     ['title' => 'Vieni', 'mapImageId' => 42],
     'resolve: what needs WordPress, from the old attributes, after the mapping'
 );
+
+// A merged block: the old defaults written out (the editor never saved them), then mapped.
+$about = [
+    'name'  => 'hive/hero',
+    'fill'  => ['eyebrow' => 'Chi Siamo', 'title' => 'Born in Piacenza', 'text' => 'Golden Hive nasce…', 'reverse' => false],
+    'attrs' => ['text' => 'subtitle', 'reverse' => 'mediaSide'],
+    'map'   => ['reverse' => ['' => 'right', '1' => 'left']],
+    'set'   => ['layout' => 'about', 'buttonText' => ''],
+];
+check(
+    Blocks::rewrite([['blockName' => 'golden-hive/about-hero', 'attrs' => ['title' => 'Nati a Piacenza'], 'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []]], ['golden-hive/about-hero' => $about], [])[0]['attrs'],
+    ['eyebrow' => 'Chi Siamo', 'title' => 'Nati a Piacenza', 'subtitle' => 'Golden Hive nasce…', 'mediaSide' => 'right', 'layout' => 'about', 'buttonText' => ''],
+    'fill: what wasn’t saved shows as before; what was saved wins'
+);
+check(
+    Blocks::rewrite([['blockName' => 'golden-hive/about-hero', 'attrs' => ['reverse' => true], 'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []]], ['golden-hive/about-hero' => $about], [])[0]['attrs']['mediaSide'],
+    'left',
+    'a boolean mapped to a value'
+);
+
+check(Heroes::video(['videoUrl' => '/v.mp4', 'imageUrl' => '/a.jpg'], ['mediaType' => 'image', 'videoUrl' => '/v.mp4']), ['imageUrl' => '/a.jpg'], 'a hero set to an image: its leftover video goes');
+check(
+    Heroes::video(['videoUrl' => '/v.mp4', 'imageUrl' => '/a.jpg', 'imageId' => 3], ['mediaType' => 'video', 'videoUrl' => '/v.mp4', 'posterUrl' => '/p.jpg', 'posterUrlId' => 9]),
+    ['videoUrl' => '/v.mp4', 'imageUrl' => '/p.jpg', 'imageId' => 9],
+    'a video: its poster is the picture'
+);
+check(Heroes::video(['videoUrl' => '/v.mp4', 'imageUrl' => '/a.jpg'], ['mediaType' => 'video', 'videoUrl' => '/v.mp4']), ['videoUrl' => '/v.mp4', 'imageUrl' => '/a.jpg'], 'a video without a poster keeps the picture');
+check(Heroes::video([], ['mediaType' => 'video', 'videoUrl' => '']), [], 'set to video, without one: a picture hero');
+

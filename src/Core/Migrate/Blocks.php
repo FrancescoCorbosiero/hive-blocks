@@ -6,6 +6,9 @@
  * A map entry for an old block name says what it becomes:
  *
  *   'name'   the Hive block
+ *   'fill'   the old block's defaults: the editor doesn't save an attribute
+ *            left at its default, and a merged block's defaults differ, so
+ *            what the page showed is written out (before the mapping)
  *   'attrs'  old attribute => new attribute (left out: the name stays)
  *   'drop'   attributes Hive doesn't have
  *   'set'    attributes to add (a layout or a variation, say)
@@ -70,8 +73,9 @@ final class Blocks
     /** One block, renamed and its attributes mapped. */
     private static function block(array $block, array $spec): array
     {
+        $old   = array_merge((array) ($spec['fill'] ?? []), (array) ($block['attrs'] ?? []));
         $attrs = [];
-        foreach ((array) ($block['attrs'] ?? []) as $key => $value) {
+        foreach ($old as $key => $value) {
             if (in_array($key, (array) ($spec['drop'] ?? []), true)) {
                 continue;
             }
@@ -82,7 +86,7 @@ final class Blocks
         }
         $attrs = array_merge($attrs, (array) ($spec['set'] ?? []));
         if (isset($spec['resolve']) && is_callable($spec['resolve'])) {
-            $attrs = (array) ($spec['resolve'])($attrs, (array) ($block['attrs'] ?? []));
+            $attrs = (array) ($spec['resolve'])($attrs, $old);
         }
         $block['blockName'] = (string) $spec['name'];
         $block['attrs']     = $attrs;

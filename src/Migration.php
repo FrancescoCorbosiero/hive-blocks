@@ -25,6 +25,7 @@
 namespace Hive;
 
 use Hive\Core\Migrate\Blocks as BlockRules;
+use Hive\Core\Migrate\Heroes;
 use Hive\Core\Migrate\Settings as SettingsRules;
 use Hive\Core\Migrate\Shortcodes;
 use Hive\Shop\Drops;
@@ -97,17 +98,48 @@ final class Migration
             $map['golden-hive/' . $name] = ['name' => 'hive/' . $name];
         }
         $map = array_merge($map, self::CHANGED, self::MERGED);
-        // A map picture given by its URL alone: its id in the media library, if it's there.
+        // Pictures given by their URL alone get their id in the media library, if they're there:
+        // Hive draws them with their sizes (srcset) from it.
         $map['golden-hive/store-visit']['resolve'] = static function (array $attrs, array $old): array {
-            if (empty($attrs['mapImageId']) && !empty($old['mapImage']) && is_string($old['mapImage'])) {
-                $id = attachment_url_to_postid($old['mapImage']);
-                if ($id) {
-                    $attrs['mapImageId'] = $id;
+            return self::media_ids($attrs, [['mapImage', 'mapImageId']], $old);
+        };
+        $map['golden-hive/hero-video']['resolve'] = static fn(array $attrs, array $old): array => self::media_ids(Heroes::video($attrs, $old));
+        foreach (['parallax-section', 'hero-split', 'about-hero', 'cta-banner', 'cta-image'] as $name) {
+            $map['golden-hive/' . $name]['resolve'] = static fn(array $attrs): array => self::media_ids($attrs);
+        }
+        $map['golden-hive/hero-carousel']['resolve'] = static function (array $attrs): array {
+            if (isset($attrs['slides']) && is_array($attrs['slides'])) {
+                foreach ($attrs['slides'] as $i => $slide) {
+                    if (is_array($slide)) {
+                        $attrs['slides'][$i] = self::media_ids($slide, [['image', 'imageId']]);
+                    }
                 }
             }
             return $attrs;
         };
         return (array) apply_filters('hive_migration_block_map', $map);
+    }
+
+    /**
+     * Ids for pictures known only by URL, from the media library.
+     *
+     * @param array<string, mixed>             $attrs
+     * @param list<array{0: string, 1: string}> $pairs URL attribute, id attribute.
+     * @param array<string, mixed>|null        $from  Where the URLs are, when not in $attrs (the old attributes).
+     * @return array<string, mixed>
+     */
+    private static function media_ids(array $attrs, array $pairs = [['imageUrl', 'imageId'], ['foregroundUrl', 'foregroundId']], ?array $from = null): array
+    {
+        foreach ($pairs as [$url, $id]) {
+            $link = ($from ?? $attrs)[$url] ?? '';
+            if (is_string($link) && '' !== $link && empty($attrs[$id])) {
+                $found = attachment_url_to_postid($link);
+                if ($found) {
+                    $attrs[$id] = $found;
+                }
+            }
+        }
+        return $attrs;
     }
 
     /** Blocks ported one to one: same name under hive/, same attributes. */
@@ -127,8 +159,93 @@ final class Migration
         'golden-hive/store-visit'  => ['name' => 'hive/store-visit', 'drop' => ['mapImage']],
     ];
 
-    /** Blocks merged into one Hive block: renamed, attributes mapped, a layout set. */
-    private const MERGED = [];
+    /**
+     * Blocks merged into one Hive block (Hero, Invito all'azione): renamed,
+     * attributes mapped, a layout set. 'fill' holds each old block's
+     * defaults, from its block.json: what a page showed without saving them.
+     */
+    private const MERGED = [
+        'golden-hive/hero-video'       => [
+            'name'  => 'hive/hero',
+            'fill'  => [
+                'mediaType'           => 'image',
+                'badge'               => '100% Authentic',
+                'title'               => 'Sneakers Premium',
+                'headingLevel'        => 'h1',
+                'subtitle'            => 'La tua destinazione per sneakers autentiche e verified',
+                'primaryButtonText'   => 'Shop Now',
+                'secondaryButtonText' => 'Scopri di più',
+                'showScrollIndicator' => true,
+            ],
+            'attrs' => ['imageUrlId' => 'imageId', 'primaryButtonText' => 'buttonText', 'primaryButtonUrl' => 'buttonUrl'],
+            'drop'  => ['mediaType', 'posterUrl', 'posterUrlId'],
+            'set'   => ['layout' => 'cover', 'height' => 'full', 'overlay' => 45, 'align' => 'full'],
+        ],
+        'golden-hive/parallax-section' => [
+            'name'  => 'hive/hero',
+            'fill'  => [
+                'title'      => 'Il Tuo Stile, La Nostra Passione',
+                'text'       => 'Scopri una selezione curata di sneakers e streetwear premium, verificati e garantiti.',
+                'buttonText' => 'Esplora la Collezione',
+            ],
+            'attrs' => ['backgroundImage' => 'imageUrl', 'backgroundImageId' => 'imageId', 'foregroundImage' => 'foregroundUrl', 'foregroundImageId' => 'foregroundId', 'text' => 'subtitle'],
+            'drop'  => ['enableMouseParallax'],
+            'set'   => ['layout' => 'cover', 'height' => 'full', 'overlay' => 60, 'aboveFold' => false, 'badge' => '', 'secondaryButtonText' => '', 'align' => 'full'],
+        ],
+        'golden-hive/hero-split'       => [
+            'name'  => 'hive/hero',
+            'fill'  => [
+                'eyebrow'    => 'Nuova Collezione',
+                'title'      => 'Il Drop Della Settimana',
+                'subtitle'   => 'Pezzi selezionati e autenticati dal nostro team. Disponibilità limitata.',
+                'theme'      => 'light',
+                'buttonText' => 'Scopri Ora',
+            ],
+            'attrs' => ['imageUrlId' => 'imageId', 'theme' => 'tone'],
+            'map'   => ['theme' => ['light' => 'auto', 'dark' => 'dark']],
+            'set'   => ['layout' => 'split', 'badge' => '', 'secondaryButtonText' => '', 'align' => 'full'],
+        ],
+        'golden-hive/about-hero'       => [
+            'name'  => 'hive/hero',
+            'fill'  => [
+                'eyebrow' => 'Chi Siamo',
+                'title'   => 'Born in Piacenza',
+                'text'    => 'Golden Hive nasce dalla passione per le sneakers e lo streetwear. La nostra boutique in Stradone Farnese 3 è il punto di riferimento a Piacenza per chi cerca calzature e abbigliamento autentici, selezionati e verificati.',
+                'values'  => [
+                    ['title' => 'Autenticità', 'text' => 'Ogni prodotto è verificato dal nostro team di esperti.'],
+                    ['title' => 'Passione', 'text' => 'Viviamo e respiriamo la cultura streetwear ogni giorno.'],
+                    ['title' => 'Comunità', 'text' => 'Siamo più di un negozio: siamo una famiglia di appassionati.'],
+                ],
+                'reverse' => false,
+            ],
+            'attrs' => ['imageUrlId' => 'imageId', 'text' => 'subtitle', 'reverse' => 'mediaSide'],
+            // The picture on the right, or on the left when reversed (booleans as the parser gives them).
+            'map'   => ['reverse' => ['' => 'right', '1' => 'left']],
+            'set'   => ['layout' => 'about', 'height' => 'auto', 'align' => 'wide', 'aboveFold' => false, 'badge' => '', 'buttonText' => '', 'secondaryButtonText' => ''],
+        ],
+        'golden-hive/cta-banner'       => [
+            'name'  => 'hive/cta',
+            'fill'  => [
+                'eyebrow'    => 'Offerta Speciale',
+                'title'      => 'Spedizione Gratuita su Tutti gli Ordini',
+                'text'       => 'Approfitta della spedizione gratuita su tutti gli ordini superiori a €99. Solo per tempo limitato.',
+                'buttonText' => 'Shop Now',
+            ],
+            'attrs' => ['backgroundImage' => 'imageUrl', 'backgroundImageId' => 'imageId'],
+            'set'   => ['layout' => 'banner'],
+        ],
+        'golden-hive/cta-image'        => [
+            'name'  => 'hive/cta',
+            'fill'  => [
+                'eyebrow'    => 'Nuovi Arrivi',
+                'title'      => 'Streetwear Selezionato per Te',
+                'text'       => 'Ogni capo è scelto con cura per garantirti stile, qualità e autenticità.',
+                'buttonText' => 'Shop Now',
+            ],
+            'attrs' => ['imageUrlId' => 'imageId'],
+            'set'   => ['layout' => 'split'],
+        ],
+    ];
 
     /** golden-hive-blocks' shortcodes and Hive's ('' removes: the shop's pages have their own filters). */
     public static function shortcode_map(): array
