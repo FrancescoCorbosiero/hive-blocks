@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Checkout — fixture</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "@hive/checkout": "/assets/build/modules/checkout.js",
+            "@hive/dialog": "/assets/build/modules/dialog.js",
+            "@hive/dom": "/assets/build/modules/dom.js",
+            "@hive/shop": "/assets/build/modules/shop.js"
+        }
+    }
+    </script>
+    <script type="application/json" id="wp-script-module-data-@hive/shop">{"api":"/api/","v":7,"cart":"/cart-endpoint","cartUrl":"/carrello/","whatsapp":""}</script>
+    <script type="application/json" id="wp-script-module-data-@hive/dialog">{"style":"/assets/build/dialog.css"}</script>
+    <link rel="stylesheet" href="/assets/build/base.css">
+    <style>:root{--hive-accent:#721124;--hive-on-accent:#ffffff;--hive-button:#0a0a0a;--hive-on-button:#ffffff;--hive-round:1}</style>
+    <link rel="stylesheet" href="/assets/build/checkout.css">
+    <style>body { margin: 0 auto; max-width: 560px; padding: 16px; font-family: Georgia, serif; }</style>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<form class="checkout woocommerce-checkout">
+<div id="order_review" class="woocommerce-checkout-review-order">
+<table class="woocommerce-checkout-review-order-table"><tr><td>Nike Dunk Low Panda × 1</td><td>180,00 €</td></tr></table>
+<div class="hive-block hive-bump" data-hive-bump="50"><p class="hive-bump__eyebrow">Aggiungi anche</p><div class="hive-bump__body"><img class="hive-bump__image" src="/tests/browser/fixtures/sneaker-2.svg" alt="" width="100" height="100"><div class="hive-bump__text"><p class="hive-bump__name">Calzini Hive</p><p class="hive-bump__note">Il paio giusto per le tue sneakers.</p><p class="hive-bump__price"><span class="woocommerce-Price-amount amount">15,00&nbsp;€</span></p></div></div><button type="button" class="hive-button hive-bump__add" data-hive-bump-add="50">Aggiungi all’ordine</button><p class="hive-bump__status" role="status" data-hive-bump-status></p></div>
+<div id="payment" class="woocommerce-checkout-payment"><ul class="payment_methods"><li>Bonifico bancario</li></ul></div>
+<div class="hive-block hive-bank"><button type="button" class="hive-bank__open" data-hive-bank aria-haspopup="dialog"><span>Mostra coordinate bancarie per il bonifico</span></button><template data-hive-bank-details data-title="Coordinate bancarie"><p class="hive-bank__intro">Fai il bonifico con il numero dell’ordine come causale.</p><dl class="hive-bank__rows"><div class="hive-bank__row"><dt>Intestatario del conto</dt><dd><span class="hive-bank__value">ResellPiacenza</span></dd></div><div class="hive-bank__row"><dt>IBAN</dt><dd><span class="hive-bank__value">IT60X0542811101000000123456</span><button type="button" class="hive-bank__copy" data-hive-copy="IT60X0542811101000000123456" data-label="IBAN">Copia</button></dd></div></dl><p class="hive-visually-hidden" role="status" data-hive-copy-status></p></template></div>
+</div>
+</form>
+<script>
+    window.hiveEvents = [];
+    jQuery(document.body).on('update_checkout added_to_cart', function (event) { window.hiveEvents.push(event.type); });
+</script>
+<script type="module">import '@hive/checkout';</script>
+</body>
+</html>

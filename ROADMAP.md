@@ -50,7 +50,11 @@ switch-over (step 9).
    (module Drop); "Venduto N volte" and the social proof feed from real
    orders; WhatsApp, share, delivery estimate; the band under the product;
    colorways and recently viewed rails.
-6. **Cart and checkout:** order bump (Order Bump), the bank details drawer.
+6. **Cart and checkout** (0.6.0, done): order bumps (Order Bump) above the
+   payment methods, refreshed with WooCommerce's own order review; the bank
+   details in a dialog with one-tap copy. Classic checkout first (as on the
+   store); on the Checkout block the bump sits above it and adds through
+   WooCommerce's cart store.
 7. **Content blocks:** the other 28 blocks, merged where they overlap (the
    hero blocks into one Hero with variations, the two CTAs into one).
 8. **Store Hub bridge, search, newsletter, preload:** the `wc-gh/v1` API
@@ -81,6 +85,6 @@ number.
   `golden-hive/*` names or the app learns the `hive/*` ones.
 - **CommerceKit's data.** Where it keeps waitlist entries, size guides and
   order bump offers, to import them in step 9.
-- **Checkout.** golden-hive-blocks hooks into the classic checkout. Confirm
-  the store still uses it before step 6 (the Checkout block needs a
-  different integration).
+- **Checkout.** Hive's checkout parts are built for the classic checkout,
+  as golden-hive-blocks', with a lighter path for the Checkout block.
+  Confirm which one the store uses before the switch-over.

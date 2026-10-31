@@ -46,6 +46,8 @@ Features that hook into WooCommerce; each can be switched off in **Hive → Modu
 | Pagina prodotto | The product page is Hive's, inside the theme's header and footer, with what the store used CommerceKit for: photos that swipe, with thumbnails or in a grid, full screen with zoom; size buttons with their price and a sale mark (sold-out sizes still a choice); "Solo 2 disponibili" with a bar; size guides; a sticky add-to-cart bar; add to cart without leaving the page. Details as an accordion, then upsells and related products as rails. WooCommerce's variation script and product hooks keep working underneath, for payment buttons and other plugins. |
 | Drop | A release date on a product (Product data → General): "In arrivo · 24 ott" on its card, a countdown and "Ricordamelo" (Google Calendar or an .ics file) on its page, not for sale until then. At the release the cached pages are emptied and an open page reloads itself. |
 | Avvisi e lista d'attesa | "Avvisami" on a sold-out size or product, and the size alerts ("a pair in my size arrived"): one list of people (Hive → Iscritti), double opt-in, one email per person with everything that arrived, at most one every 12 hours for size alerts, at once for what someone waited for. |
+| Offerta al checkout | An extra product offered at the checkout, above the payment methods ("Aggiungi anche…"), for any cart or for carts with products of some categories (Hive → Offerte al checkout). One click adds it; the next offer that fits takes its place. |
+| Coordinate bancarie | "Mostra coordinate bancarie per il bonifico" at the checkout: WooCommerce's own bank account in a dialog, IBAN and BIC one tap from the clipboard. Also `[hive_bank_details]`. |
 
 ## Settings
 

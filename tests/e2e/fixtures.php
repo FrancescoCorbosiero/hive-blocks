@@ -139,6 +139,7 @@ $hive_drop->save();
 update_option('hive_settings', array_merge((array) get_option('hive_settings', []), ['whatsapp' => '393331234567', 'delivery' => true]));
 
 // A simple product, and a sold-out one.
+$hive_simple_ids = [];
 foreach ([['Calzini Hive', 'calzini-hive', '15', 'instock'], ['Felpa esaurita', 'felpa-esaurita', '89', 'outofstock']] as [$hive_name, $hive_slug, $hive_price, $hive_stock]) {
     $hive_simple = new WC_Product_Simple();
     $hive_simple->set_name($hive_name);
@@ -147,8 +148,28 @@ foreach ([['Calzini Hive', 'calzini-hive', '15', 'instock'], ['Felpa esaurita', 
     $hive_simple->set_category_ids([$hive_category]);
     $hive_simple->set_regular_price($hive_price);
     $hive_simple->set_stock_status($hive_stock);
-    $hive_simple->save();
+    $hive_simple_ids[$hive_slug] = $hive_simple->save();
 }
+
+// The checkout: the classic one (as on the store), bank transfer with an account, an order bump
+// offering the socks to carts with sneakers.
+wp_update_post(['ID' => wc_get_page_id('checkout'), 'post_content' => '<!-- wp:shortcode -->[woocommerce_checkout]<!-- /wp:shortcode -->']);
+update_option('woocommerce_bacs_settings', ['enabled' => 'yes', 'title' => 'Bonifico bancario', 'description' => 'Paga con un bonifico.', 'instructions' => '']);
+update_option('woocommerce_bacs_accounts', [['account_name' => 'ResellPiacenza', 'account_number' => '', 'bank_name' => 'Banca di Piacenza', 'sort_code' => '', 'iban' => 'IT60X0542811101000000123456', 'bic' => 'BCITITMM']]);
+wp_insert_post(
+    [
+        'post_type'   => 'hive_bump',
+        'post_status' => 'publish',
+        'post_title'  => 'Calzini con le sneakers',
+        'meta_input'  => [
+            '_hive_bump_product'  => $hive_simple_ids['calzini-hive'],
+            '_hive_bump_cats'     => [$hive_category],
+            '_hive_bump_headline' => 'Aggiungi anche',
+            '_hive_bump_text'     => 'Il paio giusto per le tue sneakers.',
+        ],
+    ]
+);
+delete_transient('hive_bumps');
 
 // slug => [title, content, page template on classic themes ('' for the default, with the sidebar)]
 $hive_pages = [

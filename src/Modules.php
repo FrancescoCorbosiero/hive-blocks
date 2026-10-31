@@ -23,6 +23,8 @@ final class Modules
         Modules\ProductPage::class,
         Modules\Drops::class,
         Modules\Alerts::class,
+        Modules\OrderBump::class,
+        Modules\BankDetails::class,
     ];
 
     /** @return array<string, class-string<Module>> id → class */
