@@ -21,7 +21,8 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   `editorStyle` in block.json, never `style` (classic themes load every
   registered `style` on every page). Its JS is a `viewScriptModule`.
   `src/Assets.php` gets block CSS into `<head>` on classic themes, or right
-  before a block rendered after `<head>`.
+  before a block rendered after `<head>`. A block hidden in the editor
+  isn't rendered at all (`Blocks::skip_hidden()`), nor its CSS loaded.
 - **Blocks** live in `blocks/<name>/`: `block.json`, `render.php`,
   `edit.js` (JSX), `view.js` (module), `style.css`; `build/` is generated.
   Nest every selector under the block's root class (`.hive-hours
@@ -74,12 +75,9 @@ CommerceKit the store uses. `ROADMAP.md` has the steps and the decisions.
   `golden-hive/*` names and `[gh_product_rail]`, which `Core\HubNames`
   translates both ways. Routes, fields and error codes change only together
   with the app (`tests/php/HubTest.php` pins them).
-- **The migration** (`Hive\Migration`, Hive → Migrazione, `wp hive
-  migrate`) rewrites golden-hive-blocks' blocks and shortcodes with the
-  maps in `Migration::block_map()` / `shortcode_map()` and the rules in
-  `Core\Migrate`; CommerceKit's data is read by `CommerceKitImport`. It
-  must stay safe to run twice. A block whose attributes change gets its
-  entry in the map, and a test in `tests/php/MigrateBlocksTest.php`.
+- **The store's pages** (`pages/*.html`) are block markup to paste into the
+  editor at the switch-over (`SWITCH-OVER.md`); `tests/e2e/store-pages.spec.mjs`
+  renders them. A block change that would break them changes them too.
 - **Interactive UI** that opens on demand (dialogs, sheets) loads on demand:
   a dynamic `import()` from the module that handles the click, and
   `@hive/dialog` brings `dialog.css` the first time a dialog opens.

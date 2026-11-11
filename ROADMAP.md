@@ -7,7 +7,7 @@ switch-over (step 9, [SWITCH-OVER.md](SWITCH-OVER.md)).
 ## Decisions
 
 - **Block names:** `hive/*`. The store's pages keep their `golden-hive/*`
-  blocks until the migration in step 9 rewrites them.
+  blocks until the switch-over, when the pages in `pages/` replace them.
 - **One store:** Italian strings in the code, no translation layer.
 - **Floors:** PHP 8.1, WordPress 6.8, WooCommerce 9.9.
 - **CommerceKit goes, feature by feature.** Hive replaces the parts the
@@ -69,14 +69,12 @@ switch-over (step 9, [SWITCH-OVER.md](SWITCH-OVER.md)).
    Search add-on); the Newsletter block writing to the same list of people
    as the alerts; "Nella tua taglia"; preload and speculation rules
    (Hive → Velocità).
-9. **Migration and switch-over** (0.9.0, done): Hive → Migrazione and
-   `wp hive migrate`, dry run first, safe to run twice. It rewrites the
-   `golden-hive/*` blocks and golden-hive-blocks' shortcodes in pages,
-   posts, templates, patterns and widgets (each page keeps a revision),
-   moves the `ghb_*` options, the drops and the `ghb_subscriber` people
-   (old email links keep working), and imports what it finds of
-   CommerceKit: waitlist, size guides and order bumps. The steps for the
-   store are in [SWITCH-OVER.md](SWITCH-OVER.md).
+9. **Switch-over** (0.9.0, done): the store's pages (homepage, Chi siamo,
+   Contatti) made for Hive in `pages/`, to paste into the editor, each
+   golden-hive block as its Hive block with the same texts, links and
+   pictures; [SWITCH-OVER.md](SWITCH-OVER.md) has the rest, by hand
+   (settings, size guides, the order bump, drops, the store's other
+   plugins, WP Super Cache with a real cron).
 
 ## Public reads move off admin-ajax.php
 
@@ -94,10 +92,6 @@ number.
   `[gh_product_rail]` shortcode and golden-hive-blocks as the plugin, so
   the app works as it is. When the app learns the `hive/*` names, the
   translation (`Core\HubNames`) can go.
-- **CommerceKit's data.** Its storage isn't documented, so the migration
-  reads what's in the database and the dry run says what it found. Run it
-  on a staging copy of the store first: anything it couldn't read is
-  listed, to import by hand or to teach the importer.
 - **Hustle.** Which of its parts the store uses (pop-ups, slide-ins,
   embedded forms, sharing) and whether its forms collect emails, and for
   which service. Hive's Popup promozionale and Newsletter cover a popup

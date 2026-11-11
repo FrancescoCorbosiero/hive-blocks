@@ -7,8 +7,8 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { Button, Card, CardBody, CardHeader, Flex, PanelBody, Placeholder, RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
-import { ImageField } from '../../assets/editor/image-field.js';
 import { TermsField } from '../../assets/editor/terms-field.js';
+import { MediaControl } from '../hero/media-control.js';
 import { name } from './block.json';
 
 const field = { __next40pxDefaultSize: true, __nextHasNoMarginBottom: true };
@@ -41,7 +41,13 @@ function BrandList({ items, onChange }) {
                         <div style={{ display: 'grid', gap: 12 }}>
                             <TextControl {...field} label="Nome" value={item.name || ''} onChange={(value) => update(index, { name: value })} />
                             <TextControl {...field} label="Link" value={item.url || ''} onChange={(value) => update(index, { url: value })} />
-                            <ImageField label="Logo" help="Senza logo si vede il nome." value={item.logoId || 0} onChange={(value) => update(index, { logoId: value })} />
+                            <MediaControl
+                                label="Logo"
+                                help="Senza logo si vede il nome."
+                                url={item.logo || ''}
+                                id={item.logoId || 0}
+                                onChange={({ id, url }) => update(index, { logoId: id, logo: url })}
+                            />
                             <Flex justify="flex-start" gap={2}>
                                 <Button size="small" variant="secondary" disabled={index === 0} onClick={() => move(index, -1)}>
                                     Su
@@ -57,7 +63,7 @@ function BrandList({ items, onChange }) {
                     </CardBody>
                 </Card>
             ))}
-            <Button variant="secondary" onClick={() => onChange([...list, { name: '', url: '', logoId: 0 }])}>
+            <Button variant="secondary" onClick={() => onChange([...list, { name: '', url: '', logo: '', logoId: 0 }])}>
                 Aggiungi un brand
             </Button>
         </div>

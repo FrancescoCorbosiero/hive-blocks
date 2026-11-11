@@ -94,3 +94,17 @@ test("the spotlight's button puts the product in the cart", async ({ page }) => 
     expect(cart.items.map((item) => [item.name, item.quantity])).toEqual([['Calzini Hive', 1]]);
     expect(errors).toEqual([]);
 });
+
+test('Slider categorie with its own tiles, Brand in scorrimento with logos by URL', async ({ page }) => {
+    const errors = hiveErrors(page);
+    await page.goto('/?pagename=blocchi-c-riquadri');
+    const slider = page.locator('.hive-category-slider');
+    await expect(slider.locator('.hive-category-slider__name')).toHaveText(['Asics', 'Nocta']);
+    await expect(slider.locator('.hive-category-slider__link').first()).toHaveAttribute('href', /\/marchio\/asics$/);
+    await expect(slider.locator('img.hive-category-slider__image').first()).toHaveAttribute('src', /sneaker\.svg$/);
+    const marquee = page.locator('.hive-brand-marquee');
+    await expect(marquee.locator('img.hive-brand-marquee__logo').first()).toHaveAttribute('src', /sneaker\.svg$/);
+    await expect(marquee.locator('.hive-brand-marquee__name').first()).toHaveText('Jordan');
+    expect(errors).toEqual([]);
+});
+

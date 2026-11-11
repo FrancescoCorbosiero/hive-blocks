@@ -193,7 +193,7 @@ return array(
 		'title' => 'Slider categorie',
 		'category' => 'hive',
 		'icon' => 'category',
-		'description' => 'Le categorie del negozio con le loro foto, in una fila che scorre di lato.',
+		'description' => 'Le categorie del negozio con le loro foto, oppure dei riquadri scelti qui (un marchio, una collezione: foto, nome e link), in una fila che scorre di lato.',
 		'keywords' => array(
 			'categorie',
 			'collezioni',
@@ -210,6 +210,10 @@ return array(
 			'category' => array(
 				'type' => 'string',
 				'default' => '',
+			),
+			'items' => array(
+				'type' => 'array',
+				'default' => array(),
 			),
 			'showNav' => array(
 				'type' => 'boolean',
